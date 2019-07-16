@@ -28,10 +28,10 @@
           <td width="30%"> 
             <div align="left" class="heading">&nbsp;<strong>Lecture</strong></b></div>
           </td>
-            <td width="22%"> 
-            <div align="center" class="heading"><strong>Assignment out</strong></div>
+            <td width="30%"> 
+            <div align="center" class="heading"><strong>Readings</strong></div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="heading"><strong>Assignment due</strong></div>
           </td>
         </tr>
@@ -45,11 +45,11 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</a>
 	    </div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -64,10 +64,10 @@
             <div align="left" class="body">&nbsp;</div> 
           </td>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -81,10 +81,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -98,10 +98,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -115,10 +115,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp</div>
           </td>
         </tr>
@@ -132,10 +132,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -149,10 +149,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -166,10 +166,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -183,10 +183,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -200,10 +200,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -217,10 +217,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -234,10 +234,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp</div>
           </td>
         </tr>
@@ -252,10 +252,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -269,10 +269,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         <tr> 
@@ -285,10 +285,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -302,10 +302,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -319,10 +319,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -337,10 +337,10 @@
             <div align="left" class="body">&nbsp;</div>
           </td>  
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -354,10 +354,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -371,10 +371,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>	
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -388,10 +388,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -405,10 +405,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -422,10 +422,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -439,10 +439,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -456,10 +456,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -473,10 +473,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -490,10 +490,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -507,10 +507,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -525,10 +525,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;<strong>Final Review</strong></div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>
@@ -543,10 +543,10 @@
           <td width="30%"> 
             <div align="left" class="body">&nbsp;<strong>Final Exam</strong></div>
           </td>
-          <td width="22%"> 
+          <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
-          <td width="22%"> 
+          <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
           </td>
         </tr>

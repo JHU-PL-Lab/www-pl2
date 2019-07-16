@@ -12,37 +12,35 @@
             </header>
 <p>
 
-<h3>Overview</h3>
 
-<p>This course is designed as a follow-on to Principles of Programming languages. It will cover a wide array of fundamental topics in programming languages. It will meet for three days a week for an hour. The MW meetings will be lecture on classic topics in the syllabus below and the F meeting will be paper reading and will share a time slot with the PL reading group.</p>
+<h3>Lecture Outline</h3>
 
-<h3>Lecture Topics</h3>
-
+	    <p> This is the preliminary list of lecture topics and readings.  See the <a href="dateline.shtml">dateline</a> for what we actually end up doing.
+	      
 <h4>Advanced Operational semantics</h4>
 
 <ul>
 <li>Small-step</li>
 <li>Small-step environment/closure-based</li>
 <li>Big-step </li>
-<li>The lambda-calculus and reduction</li>
+<li>Church's lambda-calculus and reduction</li>
 </ul>
 
 <h4>Transformations</h4>
 
 <ul>
 <li>A-translation</li>
-<li>CPS transformation</li>
-<li>State threading</li>
-<li>Monadic view</li>
+<li>CPS transformation and exceptions encodings</li>
+<li>State and I/O threading</li>
+<li>Monads</li>
 </ul>
 
 <h4>Advanced Functional Programming</h4>
 
 <ul>
-<li>Let over lambda and other functional design patterns </li>
-<li>Open recursion</li>
-<li>Catamorphisms etc</li>
-<li>Continuations, delimited continuations, CPS</li>
+<li>Let over lambda aka objects as closures</li>
+<li>Open recursion and Catamorphisms etc</li>
+<li>CPS</li>
 </ul>
 
 <h4>Haskell</h4>

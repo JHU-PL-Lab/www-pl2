@@ -17,13 +17,15 @@
             <section class="container">
                      <h3>Course Summary</h3>
                      <p><ul class="default">
-<ul>  <li>This course is a an advanced study of important modern topics in the <em>principles</em> of programming languages.  It builds on the material of 601.426/626, Principles of Programming Languages.</li>
-  <li> Topics covered include operational semantics, type systems, program analysis, program logics, and program verification.
-  <li>Programming in the course will be in OCaml, we will assume students are familiar with OCaml or canb pick it up on their own.</li>
-  <li>This course is recommended for students that already have background in programming language principles, e.g. by taking 601.426/626.  If you have this background email the professor to obtain permission to add the class.</li>
+<ul>  <li>This course is an advanced study of important modern topics in the <em>principles</em> of programming languages.  It builds on the material of 601.426/626, Principles of Programming Languages.</li>
+  <li> Topics covered include operational semantics, type systems, program analysis, program logics, and program verification.  See the <a href="syllabus.shtml">sylllabus</a> for more details.
+  <li>Programming in the course will be in OCaml, we will assume students are familiar with OCaml or can pick it up on their own.</li>
+  <li>It will meet for three days a week for an hour. The MW meetings will be lecture and the F meeting will be paper readings and will share a time slot with the PL reading group.</li>
+  <li>This course is recommended for students that already have background in programming language principles, e.g. by taking 601.426/626.  If you have the background but did not take 601.426/626, email the professor to obtain permission to add.</li>
 		       </ul>
 		       
             </section>
          </div>
 
 <!--#include virtual="/pl2/footer.html" -->	 
+
