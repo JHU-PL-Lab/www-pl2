@@ -1,0 +1,46 @@
+<!--#include virtual="/pl2/header.html" -->	 
+	 </div>
+
+<!-- Main -->
+<div id="main" class="wrapper style4">
+
+<!-- Content -->
+<div id="content" class="container">
+<section>
+<header class="major">
+<h2>Contact Information</h2>
+</header>
+
+<p>
+<strong>For quickest response, post to Piazza</strong>.
+Please Send private questions for instructors as a private post to "Instructors" under Piazza.  To contact an individual below please use the individual messaging feature in Piazza.
+</p>
+
+<p>
+<strong>Professor</strong>&nbsp; Scott Smith<br/>
+<strong>email</strong>&nbsp; <a href="mailto:scott@cs.jhu.edu">scott@cs.jhu.edu</a><br>
+<strong>phone</strong>&nbsp; 410-516-5299 <br>
+<strong>office</strong>&nbsp; Malone 219 <br>
+&nbsp;<br/>
+
+<strong>Teaching Assistant</strong> TBA <br/>
+<strong>email</strong>&nbsp; TBA --at-- jhu.edu<br/>
+&nbsp;<br/>
+
+
+<h3>Office Hours</h3>
+
+<ul>
+<li>TBA
+ </ul>
+</section>
+</div>
+</div>
+
+<!--#include virtual="footer.html" -->
+
+
+
+
+
+
