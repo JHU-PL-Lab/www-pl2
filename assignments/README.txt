@@ -1,1 +1,2 @@
-Assignments will be in this directory.
+This directory contains the assignments for PL II..
+
