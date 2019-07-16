@@ -1,0 +1,559 @@
+<!--#include virtual="header.html" -->
+
+</div>
+
+    <!-- Main -->
+      <div id="main" class="wrapper style4">
+
+        <!-- Content -->
+        <div id="content" class="container">
+          <section>
+            <header class="major">
+              <h2>Dateline</h2>
+            </header>
+<p>
+  We will fill in this dateline as we go based on the topics covered on the indicated day.  The <a href="syllabus.shtml">Syllabus</a> contains the general plan we are following.
+  <p>
+  Lecture material and assigment are under the indicated links.</p>
+
+<p>
+<table class="date" width="100%" border="1" cellspacing="0" cellpadding="0" bordercolor="#CCCCCC">
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="heading"><strong>Day</strong></div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="heading"><strong>Date</strong></div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="heading">&nbsp;<strong>Lecture</strong></b></div>
+          </td>
+            <td width="22%"> 
+            <div align="center" class="heading"><strong>Assignment out</strong></div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="heading"><strong>Assignment due</strong></div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Aug 30</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">"Mon"</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</a>
+	    </div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Sep 4</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Wed</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div> 
+          </td>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Sep 9</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Mon</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Sep 11</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Wed</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Sep 16</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Mon</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Sep 18</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Wed</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Sep 23</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Mon</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Sep 25</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Wed</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Sep 30</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Mon</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Oct 2</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Wed</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Oct 7</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Mon</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Oct 9</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Wed</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp</div>
+          </td>
+        </tr>
+	
+       <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Oct 14</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Mon</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Oct 16</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Wed</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Oct 21</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Mon</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Oct 23</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Wed</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Oct 28</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Mon</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Oct 30</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Wed</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>  
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Nov 4</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Mon</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Nov 6</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Wed</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>	
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Nov 11</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Mon</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Nov 13</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Wed</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Nov 18</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Mon</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Nov 20</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Wed</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Nov 25</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Mon</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Nov 27</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Wed</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Dec 2</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Mon</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Dec 4</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">Wed</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+	<tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Dec TBA,
+        5:00-5:50PM</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">TBA</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;<strong>Final Review</strong></div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+	<tr> 
+          <td width="8%"> 
+            <div align="center" class="body">Dec TBA,
+        TBA PM</div>
+          </td>
+          <td width="8%"> 
+            <div align="center" class="body">TBA</div>
+          </td>
+          <td width="30%"> 
+            <div align="left" class="body">&nbsp;<strong>Final Exam</strong></div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+          <td width="22%"> 
+            <div align="center" class="body">&nbsp;</div>
+          </td>
+        </tr>
+  </table>
+
+          </section>
+        </div>
+      </div>
+    
+<!--#include virtual="footer.html" -->

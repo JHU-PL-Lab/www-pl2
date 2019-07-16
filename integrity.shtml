@@ -1,0 +1,45 @@
+<!--#include virtual="/pl2/header.html" -->	 
+</div>
+
+<!-- Main -->
+<div id="main" class="wrapper style4">
+
+<!-- Content -->
+<div id="content" class="container">
+<section>
+<header class="major">
+<h2>Course Academic Integrity Policy</h2>
+</header>
+
+
+
+<p>
+As with all your coursework and your life in general for that matter, you are expected
+to act ethically.  See the <a href="http://e-catalog.jhu.edu/undergrad-students/student-life-policies/#Violations_of_acad">The undergraduate ethics policy</a> for more details,
+and also read the <a href="http://www.cs.jhu.edu/integrity-code/">CS
+Department's academic integrity code</a>.</p>
+
+
+<ul>
+  <li>For the homeworks, you are <em>encouraged</em> to work on assignments with a team of other students in the class; however, you must not simply copy/paste (or, copy/paste/minor edit) from another person's answer.  In other words, while you can work closely together on a problem you each must produce your <em>own</em> answers with your <em>own</em> hands/fingers.  A good place to draw the line here is to never email or otherwise electronically share any files, or photocopy any papers, for other students.  Eyeball sharing on the other hand is encouraged.</li>
+  <li>For the homeworks, you <em>must</em> list both (1) the team of at most four people that you worked closely with on the homework, and (2) any other non-Prof/TA/CA people that you had a substantive discussion about any of the problems on the homework, at the top of your submitted solutions.  This is equivalent to how a good researcher gives citatations for any articles they used in writing their own paper.  You may consult with any people in the universe, including friends that took the course in the past, relatives, fellow students taking the course with you, etc, as long as you <em>list their names on the top of your homework</em>.  While there is a limit of four people on a team, there is (at least for now) no limit on the number of non-team members you may list.</li>
+  <li>Some of the programming assignments will be auto-graded.  There are ways to subvert the auto-grader but any such action is unethical. Please do not attempt to circumvent or otherwise hack it.</li>
+  <li>Cheating is immoral. Cheaters that are caught will be punished as
+    is required under University policy.  Please report all instances
+    of cheating you see to the professor.</li>
+  <li>Clear-cut cases of cheating will be reported to the Undergraduate
+    Academic Ethics Board, or to the WSE Dean if the student is a
+    graduate student.  If a student is found guilty, this information is
+    placed on their permanent academic record and suspension or expulsion may result. </li>
+<li>If some action seems a grey area to you, <em>please ask first</em>
+  before proceeding!</li>
+</ul>
+
+
+	
+</section>
+</div>
+</div>
+
+
+<!--#include virtual="/pl2/footer.html" -->	 

@@ -1,0 +1,93 @@
+<!--#include virtual="header.html" -->
+</div>
+
+    <!-- Main -->
+      <div id="main" class="wrapper style4">
+
+        <!-- Content -->
+        <div id="content" class="container">
+          <section>
+            <header class="major">
+              <h2>Syllabus</h2>
+            </header>
+<p>
+
+<h3>Overview</h3>
+
+<p>This course is designed as a follow-on to Principles of Programming languages. It will cover a wide array of fundamental topics in programming languages. It will meet for three days a week for an hour. The MW meetings will be lecture on classic topics in the syllabus below and the F meeting will be paper reading and will share a time slot with the PL reading group.</p>
+
+<h3>Lecture Topics</h3>
+
+<h4>Advanced Operational semantics</h4>
+
+<ul>
+<li>Small-step</li>
+<li>Small-step environment/closure-based</li>
+<li>Big-step </li>
+<li>The lambda-calculus and reduction</li>
+</ul>
+
+<h4>Transformations</h4>
+
+<ul>
+<li>A-translation</li>
+<li>CPS transformation</li>
+<li>State threading</li>
+<li>Monadic view</li>
+</ul>
+
+<h4>Advanced Functional Programming</h4>
+
+<ul>
+<li>Let over lambda and other functional design patterns </li>
+<li>Open recursion</li>
+<li>Catamorphisms etc</li>
+<li>Continuations, delimited continuations, CPS</li>
+</ul>
+
+<h4>Haskell</h4>
+
+<ul>
+<li>Type classes</li>
+<li>Programming with Monads </li>
+</ul>
+
+<h4>Inductive definitions</h4>
+
+<h4>Advanced typed systems</h4>
+
+<ul>
+<li>Dependent types</li>
+<li>Recursive types</li>
+<li>Effect types</li>
+<li>Ownership types</li>
+<li>Gradual types</li>
+</ul>
+
+<h4>Program Analysis</h4>
+
+<ul>
+<li>Elementary abstract interpretation</li>
+<li>Higher-order abstract interpretation</li>
+</ul>
+
+<h4>Program verification</h4>
+
+<ul>
+<li>Symbolic Execution</li>
+<li>Program logics</li>
+<li>The Coq Theorem prover </li>
+<li>Model checking</li>
+</ul>
+
+
+
+
+<p>
+
+          </section>
+        </div>
+      </div>
+
+
+<!--#include virtual="footer.html" -->
