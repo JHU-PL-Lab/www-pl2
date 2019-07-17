@@ -74,6 +74,7 @@ Jan's notes below cover closures.
 
      <!-- 
 
+
 https://www.cs.cornell.edu/courses/cs3110/2016fa/l/23-monads/rec.html - recitation notes on monads from Cornell, includes some questions.
 
 Jan's notes below cover CPS, ANF.
@@ -150,12 +151,14 @@ It requires going through several lectures worth as the "interprocedural" does n
 <p>
   <h3>Assignments Outline</h3>
 
-<p>Here is an initial outline for what assignments will be offered in the class.
+<p>Here is an initial outline for what assignments will be offered in the class.  See the dateline for the  assignments we settle on, and the due dates.
   <ol>
     <li>An environment-based Fb interpreter in OCaml</li>
     <li>Transforming Fb programs in OCaml: closure conversion, A-Translation, defunctionalization, CPS.</li>
     <li>Programming with monads in OCaml</li>
-    <li>
+    <li>An Fb abstract interpreter in OCaml</li>
+    <li>An Fb symbolic evaluator in OCaml using the Z3 SMT solver</li>
+    <li>Correctness proofs in Coq</li>
 </ol>
           </section>
         </div>
