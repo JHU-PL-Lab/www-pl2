@@ -17,42 +17,71 @@
 
 	    <p> This is the preliminary list of lecture topics and readings.  See the <a href="dateline.shtml">dateline</a> for what we actually end up doing.
 	      
+<h4>Advanced Functional Programming</h4>
+
+<ul>
+<li>Let over lambda aka objects as closures</li>
+<li>Open recursion</li>
+<li>Folds and generalized folds (catamorphisms, hylomorphisms, etc)</li>
+<li>Continuation-passing style</li>
+<li>Programming with monads and monad transformers</li>
+</ul>
+<b>Resources:</b>
+<ul>
+  <li>Doug Hoyte, <a href="https://letoverlambda.com/index.cl/guest/chap2.html">Let Over Lambda, Chapter 2</a>
+  <li>Cornell CS, <a href="https://www.cs.cornell.edu/courses/cs3110/2019sp/textbook/hop/intro.html">Functional Programming in OCaml: Folds</a>
+  <li>Cornell CS, <a href="https://www.cs.cornell.edu/courses/cs3110/2019sp/textbook/ads/monads.html">Functional Programming in OCaml: Monads</a>
+<li>Florent Balestrieri, Michel Mauny, <a href="https://arxiv.org/pdf/1812.11665.pdf">Generic Programming in OCAML</a>
+</ul>
+
 <h4>Advanced Operational semantics</h4>
 
 <ul>
-<li>Small-step</li>
-<li>Small-step environment/closure-based</li>
-<li>Big-step </li>
+<li>Big-step operational semantics review</li>
+<li>Small-step </li>
+<li>Environment/closure-based</li>
 <li>Church's lambda-calculus and reduction</li>
+</ul>
+<p>
+<b>Resources:</b>
+<ul>
+<li>Xavier Leroy, <a href="https://xavierleroy.org/mpri/2-4/semantics.2up.pdf">Functional programming languages
+   Part I: interpreters and operational semantics</a></li> <!-- Great topic coverage, evaluation contexts and small step and environments/closures! Can mainly do these notes for this section.  -->
+<li>Peter Selinger, <a href="https://www.mathstat.dal.ca/~selinger/papers/lambdanotes.pdf">Lecture Notes on the Lambda Calculus</a>
+<!-- 
+
+Jan's notes below cover closures.
+
+-->
 </ul>
 
 <h4>Transformations</h4>
 
 <ul>
 <li>A-translation</li>
+<li>Closure Conversion</li>
+<li>Defunctionalization</li>
 <li>CPS transformation and exceptions encodings</li>
-<li>State and I/O threading</li>
-<li>Monads</li>
+<li>State-passing style and I/O threading</li>
+<li>Monads and monad transformers</li>
 </ul>
-
-<h4>Advanced Functional Programming</h4>
-
+<b>Resources:</b>
 <ul>
-<li>Let over lambda aka objects as closures</li>
-<li>Open recursion and Catamorphisms etc</li>
-<li>CPS</li>
-</ul>
+  <li>Xavier Leroy, <a href="https://xavierleroy.org/mpri/2-4/transformations.2up.pdf">Functional programming languages Part III: program transformations</a></li> <!-- Covers Closure conversion, Defunctionalization, Exception-returning style, State-passing style, Continuation-passing style -->
+  <li>Xavier Leroy, <a href="https://xavierleroy.org/mpri/2-4/monads.2up.pdf">Functional programming languages Part IV: monadic transformations, monadic programming</a>  (<a href="https://xavierleroy.org/mpri/2-4/monads.ml">code</a>)
+  </li>
+    </ul>
 
-<h4>Haskell</h4>
+     <!-- 
 
-<ul>
-<li>Type classes</li>
-<li>Programming with Monads </li>
-</ul>
+https://www.cs.cornell.edu/courses/cs3110/2016fa/l/23-monads/rec.html - recitation notes on monads from Cornell, includes some questions.
 
-<h4>Inductive definitions</h4>
+Jan's notes below cover CPS, ANF.
 
-<h4>Advanced typed systems</h4>
+       -->
+
+
+<h4>Advanced typed systems</h4> <!-- Not getting very excited about this topic and no good notes - cut? -->
 
 <ul>
 <li>Dependent types</li>
@@ -62,30 +91,83 @@
 <li>Gradual types</li>
 </ul>
 
+<b>Resources:</b>
+<ul>
+<li>MPI-SWS, <a href="https://plv.mpi-sws.org/semantics/2017/lecturenotes.pdf">Semantics of Type Systems Lecture Notes</a>: covers the basics, system F, recursive types.
+</ul>
+
+<!--
+  All the types classes seem to be Pierce-based -- too much classic dry stuff.  
+ https://www.doc.ic.ac.uk/~svb/TSfPL/notes.pdf Type Systems for Programming Languages Steffen van Bakel 
+  - rather tedious
+     https://www.cl.cam.ac.uk/teaching/1617/Types/types.notes.pdf Pitts 
+ http://ecee.colorado.edu/~siek/ecen5013/spring10/ Siek
+
+ Probably will need to read papers and just make my own notes for this.
+
+-->
+
 <h4>Program Analysis</h4>
 
 <ul>
-<li>Elementary abstract interpretation</li>
+<li>First-order abstract interpretation</li> <!-- Leave out?  Higher-order covers it all and is more concise -->
 <li>Higher-order abstract interpretation</li>
 </ul>
 
-<h4>Program verification</h4>
-
+<b>Resources:</b>
 <ul>
-<li>Symbolic Execution</li>
+  <li>Jan Mitgaard, <a href="http://janmidtgaard.dk/aiws15/">Abstract Interpretation Winter School 2015</a></li>
+  <li>Jonathn Aldrich, <a href="http://www.cs.cmu.edu/~aldrich/courses/17-355-17sp/notes/notes10-functional-cfa.pdf">Lecture Notes: Control Flow Analysis for Functional Languages</a>
+  <li>Facchinetti thesis
+</ul>
+<!-- Alrich course has a good presentation of first-order as well, and its more to the point than Jan's
+notes which wander over a lot of other topics.  See https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/ 
+It requires going through several lectures worth as the "interprocedural" does not show up until the end.  -->
+
+<h4>Program verification</h4>
+<ul>
 <li>Program logics</li>
+<li>Satisfiability Modulo Theories</li>
+<li>Symbolic Execution</li>
+<li>Inductive definitions</li>
 <li>The Coq Theorem prover </li>
-<li>Model checking</li>
+<li>Model Checking</li>
 </ul>
 
+<b>Resources:</b>
+<ul>
+  <li>Aldrich and Le Goues, <a href="https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/notes/notes11-hoare-logic.pdf">Lecture Notes: Axiomatic Semantics and Hoare-style Verification</a></li>
+  <li>Aldrich and Le Goues, <a href="https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/notes/notes12-dpll-smt.txt">Lecture Notes: Satisfiability Modulo Theories</a>
+  <li>Aldrich, <a href="https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/notes/notes14-symbolic-execution.pdf">Lecture Notes: Symbolic Execution</a>
+<li>Arnd Poetzsch-Heffter et al., <a href="https://softech.cs.uni-kl.de/homepage/teaching/SVHOL12/slides6a.pdf">Inductive Definitions and Fixed Points</a>
+<li>Cornell CS, <a href="https://www.cs.cornell.edu/courses/cs3110/2019sp/textbook/coq/coq.html">Coq Tutorial</a></li>
+  <li>Aldrich and Le Goues, <a href="https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/notes/slides16-model-checking.pdf">Model Checking and Linear Temporal Logic</a>
+</ul>
 
-
+<!--   https://softwarefoundations.cis.upenn.edu/lf-current/toc.html Software Foundations is a more extended version of the cornell Coq Notes above.
+-->
 
 <p>
+  <h3>Assignments Outline</h3>
 
+<p>Here is an initial outline for what assignments will be offered in the class.
+  <ol>
+    <li>An environment-based Fb interpreter in OCaml</li>
+    <li>Transforming Fb programs in OCaml: closure conversion, A-Translation, defunctionalization, CPS.</li>
+    <li>Programming with monads in OCaml</li>
+    <li>
+</ol>
           </section>
         </div>
       </div>
 
 
 <!--#include virtual="footer.html" -->
+
+      <!-- Additional stuff..
+
+https://www.informatik.uni-marburg.de/~kos/teaching/pl/ - an advanced PL class..
+
+	-->
+
+      
