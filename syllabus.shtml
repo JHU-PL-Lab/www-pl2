@@ -15,32 +15,76 @@
 
 <h3>Lecture Outline</h3>
 
-	    <p> This is the preliminary list of lecture topics and readings.  See the <a href="dateline.shtml">dateline</a> for what we actually end up doing.
-	      
-<h4>Advanced Functional Programming</h4>
+<p> This is the preliminary list of M/W lecture topics and readings.  See the <a href="dateline.shtml">dateline</a> for what we actually end up doing.
+<p>
+  The M/W topics are primarily focused on higher-order and functional programming, following the pattern of PoPL I.
+
+<p>
+  <a href="https://pl.cs.jhu.edu/seminars/fall-2019/">
+    Friday is a paper reading day</a> which will cover some recent papers as well as surveys of some topics we could not fit in the M/W days.
+ 	      
+<h4>Advanced Functional Programming in OCaml</h4>
+<p> To warm up let's cover some stuff that is more "PL I" but we didn't have the time to cover it there.
+<ul>
+<li>Folds and generalized folds (catamorphisms, hylomorphisms, etc)</li>
+<li>Pipelining</li>
+<li>OCaml functors
+</ul>
+<b>Resources:</b>
+<ul>
+  <li>Cornell CS, <a href="https://www.cs.cornell.edu/courses/cs3110/2019sp/textbook/hop/intro.html">Functional Programming in OCaml: Folds</a>
+</ul>
+
+
+<!--
+https://www.cl.cam.ac.uk/teaching/1718/L28/materials.html
+ - GADTs in OCaml plus lots of other advanced functional programming stuff.  Also 1415 for a different iteration.
+
+Removing the following topics, we basically covered them in PL I.  Should introduce these terms in the PL I presentation...
+  Let over lambda aka objects as closures
+  Open recursion
+
+  QQQli>Doug Hoyte, QQQa href="https://letoverlambda.com/index.cl/guest/chap2.html">Let Over Lambda, Chapter 2QQQ/a>
+  -->
+
+<h4>Transformations</h4>
 
 <ul>
-<li>Let over lambda aka objects as closures</li>
-<li>Open recursion</li>
-<li>Folds and generalized folds (catamorphisms, hylomorphisms, etc)</li>
-<li>Continuation-passing style</li>
+<li>A-translation</li>
+<li>Closure Conversion</li>
+<li>Defunctionalization</li>
+<li>Continuation-passing style, 
+CPS transformation, and exceptions encodings</li>
+<li>State-passing style and reader/writer threading</li>
+<li>Monad translations</li>
 <li>Programming with monads and monad transformers</li>
 </ul>
 <b>Resources:</b>
 <ul>
-  <li>Doug Hoyte, <a href="https://letoverlambda.com/index.cl/guest/chap2.html">Let Over Lambda, Chapter 2</a>
-  <li>Cornell CS, <a href="https://www.cs.cornell.edu/courses/cs3110/2019sp/textbook/hop/intro.html">Functional Programming in OCaml: Folds</a>
-  <li>Cornell CS, <a href="https://www.cs.cornell.edu/courses/cs3110/2019sp/textbook/ads/monads.html">Functional Programming in OCaml: Monads</a>
-<li>Florent Balestrieri, Michel Mauny, <a href="https://arxiv.org/pdf/1812.11665.pdf">Generic Programming in OCAML</a>
-</ul>
+  <li>Xavier Leroy, <a href="https://xavierleroy.org/mpri/2-4/transformations.2up.pdf">Functional programming languages Part III: program transformations</a></li> <!-- Covers Closure conversion, Defunctionalization, Exception-returning style, State-passing style, Continuation-passing style -->
+  <li>Xavier Leroy, <a href="https://xavierleroy.org/mpri/2-4/monads.2up.pdf">Functional programming languages Part IV: monadic transformations, monadic programming</a>  (<a href="https://xavierleroy.org/mpri/2-4/monads.ml">code</a>)
+      <li>Cornell CS, <a href="https://www.cs.cornell.edu/courses/cs3110/2019sp/textbook/ads/monads.html">Functional Programming in OCaml: Monads</a>
+  </li>
+    </ul>
 
-<h4>Advanced Operational semantics</h4>
+     <!-- 
+
+
+https://www.cs.cornell.edu/courses/cs3110/2016fa/l/23-monads/rec.html - recitation notes on monads from Cornell, includes some questions.
+
+Jan's notes below cover CPS, ANF.
+
+Current plan: 
+1) Do Leroy transformations notes, skipping his opsem tangents since we already did that.  He doesn't do A-trans but it covrers all the other ones (also no IO but it is enough like state).
+
+       -->
+
+<h4>Advanced Operational Semantics</h4>
 
 <ul>
 <li>Big-step operational semantics review</li>
-<li>Small-step </li>
-<li>Environment/closure-based</li>
-<li>Church's lambda-calculus and reduction</li>
+<li>Environment/closure-based operational semantics</li>
+<li>Church's lambda-calculus, reduction, and small-step operational semantics</li>
 </ul>
 <p>
 <b>Resources:</b>
@@ -55,41 +99,36 @@ Jan's notes below cover closures.
 -->
 </ul>
 
-<h4>Transformations</h4>
 
+<h4>Program Analysis</h4>
+<p> We will cover this topic in depth, implementing both abstract interpreters and symbolic evaluators.
 <ul>
-<li>A-translation</li>
-<li>Closure Conversion</li>
-<li>Defunctionalization</li>
-<li>CPS transformation and exceptions encodings</li>
-<li>State-passing style and I/O threading</li>
-<li>Monads and monad transformers</li>
+<li>Abstract interpretation</li>
+<li>Symbolic Execution</li>
 </ul>
+
 <b>Resources:</b>
 <ul>
-  <li>Xavier Leroy, <a href="https://xavierleroy.org/mpri/2-4/transformations.2up.pdf">Functional programming languages Part III: program transformations</a></li> <!-- Covers Closure conversion, Defunctionalization, Exception-returning style, State-passing style, Continuation-passing style -->
-  <li>Xavier Leroy, <a href="https://xavierleroy.org/mpri/2-4/monads.2up.pdf">Functional programming languages Part IV: monadic transformations, monadic programming</a>  (<a href="https://xavierleroy.org/mpri/2-4/monads.ml">code</a>)
-  </li>
-    </ul>
+  <li>Van Horn and Might, <a href="http://matt.might.net/papers/vanhorn2010abstract.pdf">Abstracting Abstract Machines</a></li>
+</ul>
+<!-- Alrich course has a good presentation of first-order as well, and its more to the point than Jan's
+notes which wander over a lot of other topics.  See https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/ 
+It requires going through several lectures worth as the "interprocedural" does not show up until the end.
+  QQQli>Jonathn Aldrich, QQQa href="http://www.cs.cmu.edu/~aldrich/courses/17-355-17sp/notes/notes10-functional-cfa.pdf">Lecture Notes: Control Flow Analysis for Functional LanguagesQQQ/a>
 
-     <!-- 
-
-
-https://www.cs.cornell.edu/courses/cs3110/2016fa/l/23-monads/rec.html - recitation notes on monads from Cornell, includes some questions.
-
-Jan's notes below cover CPS, ANF.
-
-       -->
+  -->
 
 
 <h4>Advanced typed systems</h4> <!-- Not getting very excited about this topic and no good notes - cut? -->
-
+<p> We are going to cover basic type theory in detail (forall, exists, kinds) and spend less time on the advanced topics since they constitute a whole course if done rigorously.</p>
 <ul>
-<li>Dependent types</li>
-<li>Recursive types</li>
-<li>Effect types</li>
-<li>Ownership types</li>
-<li>Gradual types</li>
+  <li>Forall, exists</li>
+  <li>Higher kinds and type functions</li>
+  <li>Dependent types</li>
+  <li>Recursive types</li>
+  <li>Effect types</li>
+  <li>Ownership types</li>
+  <li>Gradual types</li>
 </ul>
 
 <b>Resources:</b>
@@ -108,31 +147,12 @@ Jan's notes below cover CPS, ANF.
 
 -->
 
-<h4>Program Analysis</h4>
-
-<ul>
-<li>First-order abstract interpretation</li> <!-- Leave out?  Higher-order covers it all and is more concise -->
-<li>Higher-order abstract interpretation</li>
-</ul>
-
-<b>Resources:</b>
-<ul>
-  <li>Jan Mitgaard, <a href="http://janmidtgaard.dk/aiws15/">Abstract Interpretation Winter School 2015</a></li>
-  <li>Jonathn Aldrich, <a href="http://www.cs.cmu.edu/~aldrich/courses/17-355-17sp/notes/notes10-functional-cfa.pdf">Lecture Notes: Control Flow Analysis for Functional Languages</a>
-  <li>Facchinetti thesis
-</ul>
-<!-- Alrich course has a good presentation of first-order as well, and its more to the point than Jan's
-notes which wander over a lot of other topics.  See https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/ 
-It requires going through several lectures worth as the "interprocedural" does not show up until the end.  -->
-
 <h4>Program verification</h4>
 <ul>
 <li>Program logics</li>
 <li>Satisfiability Modulo Theories</li>
-<li>Symbolic Execution</li>
 <li>Inductive definitions</li>
 <li>The Coq Theorem prover </li>
-<li>Model Checking</li>
 </ul>
 
 <b>Resources:</b>
@@ -142,10 +162,12 @@ It requires going through several lectures worth as the "interprocedural" does n
   <li>Aldrich, <a href="https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/notes/notes14-symbolic-execution.pdf">Lecture Notes: Symbolic Execution</a>
 <li>Arnd Poetzsch-Heffter et al., <a href="https://softech.cs.uni-kl.de/homepage/teaching/SVHOL12/slides6a.pdf">Inductive Definitions and Fixed Points</a>
 <li>Cornell CS, <a href="https://www.cs.cornell.edu/courses/cs3110/2019sp/textbook/coq/coq.html">Coq Tutorial</a></li>
-  <li>Aldrich and Le Goues, <a href="https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/notes/slides16-model-checking.pdf">Model Checking and Linear Temporal Logic</a>
 </ul>
 
-<!--   https://softwarefoundations.cis.upenn.edu/lf-current/toc.html Software Foundations is a more extended version of the cornell Coq Notes above.
+<!--   https://softwarefoundations.cis.upenn.edu/lf-current/toc.html Software Foundations is a more extended version of the cornell Coq Notes above.\
+
+
+Removed model checking, can do on a Friday.
 -->
 
 <p>
@@ -156,21 +178,35 @@ It requires going through several lectures worth as the "interprocedural" does n
     <li>An environment-based Fb interpreter in OCaml</li>
     <li>Transforming Fb programs in OCaml: closure conversion, A-Translation, defunctionalization, CPS.</li>
     <li>Programming with monads in OCaml</li>
+    <li>An Fb environment/closure-based interpreter in OCaml</li>
     <li>An Fb abstract interpreter in OCaml</li>
     <li>An Fb symbolic evaluator in OCaml using the Z3 SMT solver</li>
     <li>Correctness proofs in Coq</li>
 </ol>
-          </section>
-        </div>
-      </div>
 
+      <h3>Potential Tutorial topics for paper reading Fridays</h3>
 
-<!--#include virtual="footer.html" -->
+      <ul>
+	<li>Florent Balestrieri, Michel Mauny, <a href="https://arxiv.org/pdf/1812.11665.pdf">Generic Programming in OCaml</a>; also see the OCaml manual chapter 8.</li>
+  <li>Aldrich and Le Goues, <a href="https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/notes/slides16-model-checking.pdf">Model Checking and Linear Temporal Logic</a>
+  <li>First-order program analysis.  Via e.g. <a href="https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/ ">Aldrich course</a>.</li>
+  <li>Some of the advanced types topics such as ownership types and gradual types.
+    <li><a href="https://arxiv.org/pdf/1610.00502.pdf">A Survey of Symbolic Execution Techniques</a> - the broader view of symbolic execution.
+      </ul>
+
 
       <!-- Additional stuff..
 
 https://www.informatik.uni-marburg.de/~kos/teaching/pl/ - an advanced PL class..
 
 	-->
+
+      
+          </section>
+        </div>
+      </div>
+
+<!--#include virtual="footer.html" -->
+
 
       
