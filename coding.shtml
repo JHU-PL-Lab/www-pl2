@@ -1,0 +1,43 @@
+<!--#include virtual="/pl2/header.html" -->
+</div>
+
+
+<!-- Main -->
+<div id="main" class="wrapper style4">
+
+  <!-- Content -->
+  <div id="content" class="container">
+    <section>
+      <header class="major">
+        <h2>Coding Information</h2>
+      </header>
+
+      <p>For basic OCaml information including installation, IDE's, etc, see the <a href="/pl/ocaml/">PL I OCaml page</a>.
+      
+      <h3>The OCaml Manual</h3>
+
+              <p>  The manual is <a href="http://caml.inria.fr/pub/docs/manual-ocaml/">here</a>.
+                Let us give a high-level overview of sections of the manual we will be using in the course.                <ul>
+                  <li>Part I is the tutorial introduction; we covered chapters 1 and most of 2 in PL I, we will also cover <a href="http://caml.inria.fr/pub/docs/manual-ocaml/moduleexamples.html#sec23">functors</a>
+		    of chapter 2 in this course.  Chapters 3-6 we will (still) be skipping.
+                  <li>Part II is the language reference where you can look up details if needed.  We will be covering a few topics in the <a href="http://caml.inria.fr/pub/docs/manual-ocaml/extn.html">langugage extensions</a> 
+		    chapter: <a href="http://caml.inria.fr/pub/docs/manual-ocaml/manual027.html">locally abstract types (8.5)</a>, <a href="http://caml.inria.fr/pub/docs/manual-ocaml/manual028.html">First-class modules (8.6)</a>, and <a href="http://caml.inria.fr/pub/docs/manual-ocaml/manual033.html">GADT's (8.11).</a>
+                  <li>Part III documents the tools which you should not need to look at. </li>
+                  <li>Part IV describes the libraries; we will be using more of the <a href="http://caml.inria.fr/pub/docs/manual-ocaml/stdlib.html">standard library modules</a>
+		    this time around, look at the manual for reference on them.
+                  </li>
+</ul>
+		  <h3>Other OCaml Resources</h3>
+<ul>
+  <li>The on-line book <a href="https://dev.realworldocaml.org/index.html">Real World OCaml</a> has recently been updated to a new edition and contains very nice tutorial descriptions of some of the newer features.  Highly recommended.
+    <li>A more extensive set of libraries is found in the <a href="https://github.com/ocaml-batteries-team/batteries-included">Batteries Included</a> extension to OCaml.  You need to download and install this extension to use the libraries.
+    </ul>
+<h3>The PL II FbDK</h3>
+<p> We have added some extensions to the FbDK for coding projects of PL II.  We will be putting up a dist link here when it is finished.
+
+    </section>
+  </div>
+</div>
+
+
+<!--#include virtual="/pl2/footer.html" -->

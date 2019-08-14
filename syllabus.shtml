@@ -28,15 +28,20 @@
 <ul>
 <li>Folds and generalized folds (catamorphisms, hylomorphisms, etc)</li>
 <li>Pipelining</li>
-<li>OCaml functors
+<li>OCaml modules and functors</li>
+<li>Generalized Abstract Data Types (GADTs) in OCaml</li>
 </ul>
 <b>Resources:</b>
-<ul>
-  <li>Cornell CS, <a href="https://www.cs.cornell.edu/courses/cs3110/2019sp/textbook/hop/intro.html">Functional Programming in OCaml: Folds</a>
+<ul>  <li>Folds and Pipelining: Cornell CS, <a href="https://www.cs.cornell.edu/courses/cs3110/2019sp/textbook/hop/intro.html">Functional Programming in OCaml: Folds</a></li>
+  <li>GADT's: the <a href="https://caml.inria.fr/pub/docs/manual-ocaml/manual033.html">
+    OCaml manual chapter 8.11</a>; <a href="https://mads-hartmann.com/ocaml/2015/01/05/gadt-ocaml.html">Detecting use-cases for GADTs in OCaml by Mads Hartmann</a>; 
+    </li>
+
 </ul>
 
-
 <!--
+Florent Balestrieri, Michel Mauny, QQQa href="https://arxiv.org/pdf/1812.11665.pdf">Generic Programming in OCamlQQQ/a>; 
+
 https://www.cl.cam.ac.uk/teaching/1718/L28/materials.html
  - GADTs in OCaml plus lots of other advanced functional programming stuff.  Also 1415 for a different iteration.
 
@@ -56,7 +61,7 @@ Removing the following topics, we basically covered them in PL I.  Should introd
 <li>Continuation-passing style, 
 CPS transformation, and exceptions encodings</li>
 <li>State-passing style and reader/writer threading</li>
-<li>Monad translations</li>
+<li>Unifying transformations with the monad template</li>
 <li>Programming with monads and monad transformers</li>
 </ul>
 <b>Resources:</b>
@@ -124,11 +129,11 @@ It requires going through several lectures worth as the "interprocedural" does n
 <ul>
   <li>Forall, exists</li>
   <li>Higher kinds and type functions</li>
-  <li>Dependent types</li>
   <li>Recursive types</li>
   <li>Effect types</li>
   <li>Ownership types</li>
   <li>Gradual types</li>
+  <li>Dependent types</li>
 </ul>
 
 <b>Resources:</b>
@@ -187,7 +192,6 @@ Removed model checking, can do on a Friday.
       <h3>Potential Tutorial topics for paper reading Fridays</h3>
 
       <ul>
-	<li>Florent Balestrieri, Michel Mauny, <a href="https://arxiv.org/pdf/1812.11665.pdf">Generic Programming in OCaml</a>; also see the OCaml manual chapter 8.</li>
   <li>Aldrich and Le Goues, <a href="https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/notes/slides16-model-checking.pdf">Model Checking and Linear Temporal Logic</a>
   <li>First-order program analysis.  Via e.g. <a href="https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/ ">Aldrich course</a>.</li>
   <li>Some of the advanced types topics such as ownership types and gradual types.
