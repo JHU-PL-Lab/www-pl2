@@ -11,7 +11,7 @@
       <header class="major">
         <h2>Coding Information</h2>
       </header>
-
+<h3>Basic OCaml</h3>
       <p>For basic OCaml information including installation, IDE's, etc, see the <a href="/pl/ocaml/">PL I OCaml page</a>.
       
       <h3>The OCaml Manual</h3>
@@ -32,9 +32,13 @@
   <li>The on-line book <a href="https://dev.realworldocaml.org/index.html">Real World OCaml</a> has recently been updated to a new edition and contains very nice tutorial descriptions of some of the newer features.  Highly recommended.
     <li>A more extensive set of libraries is found in the <a href="https://github.com/ocaml-batteries-team/batteries-included">Batteries Included</a> extension to OCaml.  You need to download and install this extension to use the libraries.
     </ul>
-<h3>The PL II FbDK</h3>
+<h3>The PL II FbDK for OCaml</h3>
 <p> We have added some extensions to the FbDK for coding projects of PL II.  We will be putting up a dist link here when it is finished.
 
+  <h3>Z3</h3>
+  When we get to using the Z3 SMT solver we will put some information here, stay tuned.
+  <h3>Coq</h3>
+  When we get to using the Coq theorem prover we will put some information here.
     </section>
   </div>
 </div>

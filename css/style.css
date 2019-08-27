@@ -1,5 +1,5 @@
 @import url("font-awesome.min.css");
-@import url("http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800");
+/* @import url("http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800"); */
 
 /*
 	Solarize by TEMPLATED
@@ -10,7 +10,7 @@
 /* Basic */
 
 	body {
-		background: #222222;
+		background: #f2f2f2;
 	}
 
 		body.loading * {
@@ -28,9 +28,9 @@
 
 	body, input, select, textarea {
 		color: #555555;
-		font-family: 'Open Sans', sans-serif;
+		font-family: 'Verdana', sans-serif;
 		font-size: 12pt;
-		font-weight: 300;
+		font-weight: 400;
 		line-height: 1.65em;
 	}
 
