@@ -23,11 +23,11 @@
   <a href="https://pl.cs.jhu.edu/seminars/fall-2019/">
     Friday is a paper reading day</a> which will cover some recent papers as well as surveys of some topics we could not fit in the M/W days.
  	      
-<h4>Advanced Functional Programming in OCaml</h4>
+<h4>More Functional Programming in OCaml</h4>
 <p> To warm up let's cover some stuff that is more "PL I" but we didn't have the time to cover it there.
 <ul>
-<li>Folds and generalized folds (catamorphisms, hylomorphisms, etc)</li>
 <li>Pipelining</li>
+<li>Folds and generalized folds</li>
 <li>OCaml modules and functors</li>
 <li>Generalized Abstract Data Types (GADTs) in OCaml</li>
 </ul>

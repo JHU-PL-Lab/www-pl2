@@ -1,39 +1,51 @@
 
 <link rel="stylesheet" href="/pl2/css/friendly.css" />
 
-<link rel="stylesheet" href="/pl2/css/style.css" />
+<link rel="stylesheet" href="/pl2/css/lecture-style.css" />
 
 <meta charset="utf-8" />
 
-<h2 id="lecture">Lecture</h2>
-
 <h3 id="more-functional-programming-in-ocaml">More Functional Programming in OCaml</h3>
+
+<ul>
+  <li>There are “nearly infinitely many” features we skipped in PL I and we are not going to cover all of them</li>
+  <li>But let us cover a few, as a warm-up if nothing else</li>
+</ul>
 
 <h4 id="pipelining">Pipelining</h4>
 
 <ul>
-  <li><code class="highlighter-rouge">data |&gt; function |&gt; function ..</code> just like shell
-    <ul>
-      <li>(input = function argument; output = function result); associates left like shell pipe</li>
-    </ul>
-  </li>
+  <li>In *nix shell, each command can be viewed as a function from stdin to stdout</li>
+  <li><code class="highlighter-rouge">blah | blahblah</code> takes the output of <code class="highlighter-rouge">blah</code> and feeds it as input to <code class="highlighter-rouge">blahblah</code></li>
+  <li>Reminder on how it is useful:</li>
 </ul>
 
-<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span> <span class="p">(</span><span class="o">|&gt;</span><span class="p">);;</span>
-<span class="o">-</span> <span class="o">:</span> <span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="o">=</span> <span class="k">fun</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat </span>blah.tar.gz | <span class="nb">gunzip</span> | <span class="nb">tar </span>tf - | <span class="nb">cat</span> | <span class="nb">grep</span> .md
 </code></pre></div></div>
 
 <ul>
-  <li>Related to messsage chaining in OO languages</li>
+  <li>OCaml version is <code class="highlighter-rouge">|&gt;</code></li>
 </ul>
 
-<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span> <span class="bp">[]</span> <span class="o">|&gt;</span> <span class="p">(</span><span class="nn">List</span><span class="p">.</span><span class="n">cons</span> <span class="mi">5</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="p">(</span><span class="nn">List</span><span class="p">.</span><span class="n">cons</span> <span class="mi">7</span><span class="p">);;</span>
-<span class="o">-</span> <span class="o">:</span> <span class="kt">int</span> <span class="kt">list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">;</span> <span class="mi">5</span><span class="p">]</span>
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span> <span class="p">(</span><span class="o">|&gt;</span><span class="p">);;</span>
+<span class="o">-</span> <span class="o">:</span> <span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="o">=</span> <span class="o">&lt;</span><span class="k">fun</span><span class="o">&gt;</span>
 </code></pre></div></div>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span> <span class="bp">[]</span> <span class="o">|&gt;</span> <span class="p">(</span><span class="nn">List</span><span class="p">.</span><span class="n">cons</span> <span class="mi">5</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="p">(</span><span class="nn">List</span><span class="p">.</span><span class="n">cons</span> <span class="mi">7</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="p">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">length</span><span class="p">;;</span>
+<span class="o">-</span> <span class="o">:</span> <span class="kt">int</span> <span class="o">=</span> <span class="mi">2</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="highlighter-rouge">cat</code> in *nix is like <code class="highlighter-rouge">fun x -&gt; x</code> in OCaml</li>
+  <li>Associates left like shell pipe</li>
+  <li>Related to messsage chaining in OO languages</li>
+</ul>
 
 <h4 id="folds-and-generalized-folds">Folds and generalized folds</h4>
 
 <p>We will roughly follow the <a href="https://www.cs.cornell.edu/courses/cs3110/2019sp/textbook/hop/intro.html">Cornell notes</a></p>
+
+<h5 id="fold-right">Fold right</h5>
 
 <ul>
   <li>The function <code class="highlighter-rouge">List.fold_right</code> in OCaml “folds” a list to a single element via an operation.</li>
@@ -45,7 +57,7 @@
 
 <p>is <code class="highlighter-rouge">2*(5*(7*(1)))</code>, i.e. <code class="highlighter-rouge">70</code>.  The “right” refers to the zero (<code class="highlighter-rouge">1</code> here) being on the right, not the left (it doesn’t matter in the case of multiplication as it is associative).</p>
 
-<p>Here is an implementation with a few examples; it is super-simple:</p>
+<p>Here is roughly how <code class="highlighter-rouge">List.fold_right</code> is implemented:</p>
 
 <div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="k">rec</span> <span class="n">fold_right</span> <span class="n">op</span> <span class="n">lst</span> <span class="n">init</span> <span class="o">=</span> <span class="k">match</span> <span class="n">lst</span> <span class="k">with</span>
   <span class="o">|</span> <span class="bp">[]</span> <span class="o">-&gt;</span> <span class="n">init</span>
@@ -56,8 +68,20 @@
 </code></pre></div></div>
 
 <ul>
-  <li>Folding left is the same idea but the “zero” is on the left..</li>
+  <li>Actually writing out <code class="highlighter-rouge">summate</code> as a recursive function isn’t going to save many lines, but it gets the code on a “higher level” so is often good practice.</li>
+  <li>It is similar in spirit to dot product in linear algebra: define things in terms of higher-level math operations, don’t re-define from scratch.</li>
 </ul>
+
+<h5 id="fold-left">Fold left</h5>
+
+<ul>
+  <li>Folding left is the same idea but the “zero” is on the left:</li>
+</ul>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">List</span><span class="p">.</span><span class="n">fold_left</span> <span class="p">(</span> <span class="o">*</span> <span class="p">)</span> <span class="mi">1</span> <span class="p">[</span><span class="mi">2</span><span class="p">;</span> <span class="mi">5</span><span class="p">;</span> <span class="mi">7</span><span class="p">]</span> <span class="c">(* note the zero and the list swapped in arg list vs folds_right *)</span>
+</code></pre></div></div>
+
+<p>is <code class="highlighter-rouge">(((1)*2)*5)*7</code>, i.e. <code class="highlighter-rouge">70</code>.</p>
 
 <div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="k">rec</span> <span class="n">fold_left</span> <span class="n">op</span> <span class="n">accum</span> <span class="n">lst</span> <span class="o">=</span> <span class="k">match</span> <span class="n">lst</span> <span class="k">with</span>
   <span class="o">|</span> <span class="bp">[]</span> <span class="o">-&gt;</span> <span class="n">accum</span>
@@ -71,20 +95,88 @@
   <li>Observe that since addition and concatenation are both associative that fold left and right give the same result in the above.</li>
   <li>But, use <code class="highlighter-rouge">List.fold_left</code> by default, it is more efficient</li>
   <li>Why is it more efficient?  Observe all recursive calls don’t need to return really, at the rec-call point the function is done</li>
-  <li>Such recursion can be turned into a loop by an optimizing compiler, so-called tail-call elimination.</li>
+  <li>Such recursion can be turned into a loop by an optimizing compiler, so-called <em>tail-call elimination</em>.</li>
 </ul>
 
-<h5 id="length-map-reverse-filter-is-just-a-fold">length, map, reverse, filter, is just a fold!</h5>
+<h5 id="length-map-reverse-and-filter-can-be-coded-just-with-a-fold">length, map, reverse, and filter can be coded just with a fold!</h5>
 
-<p>Here are some pleasant examples from the Cornell notes illustrating the power of fold.</p>
+<p>Here are some pleasant examples mostly from the Cornell notes illustrating the power of fold.</p>
 
 <div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">length</span> <span class="n">l</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">fold_left</span> <span class="p">(</span><span class="k">fun</span> <span class="n">a</span> <span class="n">_</span> <span class="o">-&gt;</span> <span class="n">a</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="mi">0</span> <span class="n">l</span>
-<span class="k">let</span> <span class="n">rev</span> <span class="n">l</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">fold_left</span> <span class="p">(</span><span class="k">fun</span> <span class="n">a</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">::</span><span class="n">a</span><span class="p">)</span> <span class="bp">[]</span> <span class="n">l</span>
+<span class="k">let</span> <span class="n">rev</span> <span class="n">l</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">fold_left</span> <span class="p">(</span><span class="k">fun</span> <span class="n">a</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">::</span><span class="n">a</span><span class="p">)</span> <span class="bp">[]</span> <span class="n">l</span> <span class="c">(* e.g. rev [1;2;3] = (3::(2::(1::[]))) *)</span>
 <span class="k">let</span> <span class="n">map</span> <span class="n">f</span> <span class="n">l</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">fold_right</span> <span class="p">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">f</span> <span class="n">x</span><span class="p">)</span><span class="o">::</span><span class="n">a</span><span class="p">)</span> <span class="n">l</span> <span class="bp">[]</span>
+<span class="k">let</span> <span class="n">map_rev</span> <span class="n">f</span> <span class="n">l</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">fold_left</span> <span class="p">(</span><span class="k">fun</span> <span class="n">a</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">f</span> <span class="n">x</span><span class="p">)</span><span class="o">::</span><span class="n">a</span><span class="p">)</span>  <span class="bp">[]</span> <span class="n">l</span>
 <span class="k">let</span> <span class="n">filter</span> <span class="n">f</span> <span class="n">l</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">fold_right</span> <span class="p">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="n">f</span> <span class="n">x</span> <span class="k">then</span> <span class="n">x</span><span class="o">::</span><span class="n">a</span> <span class="k">else</span> <span class="n">a</span><span class="p">)</span> <span class="n">l</span> <span class="bp">[]</span>
 </code></pre></div></div>
 
-<p>Folding is similar in spirit to dot product in linear algebra: define things in terms of higher-level math operations, don’t re-code from scratch.</p>
+<h5 id="fold-on-trees">Fold on trees</h5>
+
+<ul>
+  <li>What is fold on lists doing?  Visit all the elements applying an accumulating operator</li>
+  <li>Tree fold is to do the same thing on a tree structure</li>
+  <li>Here is a simple example from the Cornell notes.</li>
+</ul>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="k">'</span><span class="n">a</span> <span class="n">btree</span> <span class="o">=</span> 
+<span class="o">|</span> <span class="nc">Leaf</span> 
+<span class="o">|</span> <span class="nc">Node</span> <span class="k">of</span> <span class="k">'</span><span class="n">a</span> <span class="o">*</span> <span class="k">'</span><span class="n">a</span> <span class="n">btree</span> <span class="o">*</span> <span class="k">'</span><span class="n">a</span> <span class="n">btree</span>
+</code></pre></div></div>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="k">rec</span> <span class="n">treefold</span> <span class="n">init</span> <span class="n">op</span> <span class="o">=</span> <span class="k">function</span>
+  <span class="o">|</span> <span class="nc">Leaf</span> <span class="o">-&gt;</span> <span class="n">init</span>
+  <span class="o">|</span> <span class="nc">Node</span> <span class="p">(</span><span class="n">v</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">r</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">op</span> <span class="n">v</span> <span class="p">(</span><span class="n">treefold</span> <span class="n">init</span> <span class="n">op</span> <span class="n">l</span><span class="p">)</span> <span class="p">(</span><span class="n">treefold</span> <span class="n">init</span> <span class="n">op</span> <span class="n">r</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">size</span> <span class="n">t</span> <span class="o">=</span> <span class="n">treefold</span> <span class="mi">0</span> <span class="p">(</span><span class="k">fun</span> <span class="n">_</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="p">)</span> <span class="n">t</span>
+<span class="k">let</span> <span class="n">depth</span> <span class="n">t</span> <span class="o">=</span> <span class="n">treefold</span> <span class="mi">0</span> <span class="p">(</span><span class="k">fun</span> <span class="n">_</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">max</span> <span class="n">l</span> <span class="n">r</span><span class="p">)</span> <span class="n">t</span>
+<span class="k">let</span> <span class="n">preorder</span> <span class="n">t</span> <span class="o">=</span> <span class="n">treefold</span> <span class="bp">[]</span> <span class="p">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">@</span> <span class="n">l</span> <span class="o">@</span> <span class="n">r</span><span class="p">)</span> <span class="n">t</span>
+<span class="k">let</span> <span class="n">tex</span> <span class="o">=</span> <span class="nc">Node</span> <span class="p">(</span><span class="mi">4</span><span class="o">,</span> <span class="nc">Node</span> <span class="p">(</span><span class="mi">5</span><span class="o">,</span> <span class="nc">Node</span> <span class="p">(</span><span class="mi">6</span><span class="o">,</span> <span class="nc">Leaf</span><span class="o">,</span> <span class="nc">Leaf</span><span class="p">)</span><span class="o">,</span> <span class="nc">Leaf</span><span class="p">)</span><span class="o">,</span> <span class="nc">Node</span> <span class="p">(</span><span class="mi">4</span><span class="o">,</span> <span class="nc">Leaf</span><span class="o">,</span> <span class="nc">Leaf</span><span class="p">))</span>
+<span class="n">size</span> <span class="n">tex</span>
+</code></pre></div></div>
+
+<h5 id="catamorphisms">Catamorphisms</h5>
+
+<ul>
+  <li>This is a fancy word for a fold over any data type.</li>
+  <li>Well it is actually a little cooler than that, there is some elegant math behind it which we are skipping.</li>
+  <li>The general principle for any datatype is to accumulate results from the “rest” of the data type tree and “compose” with the current node.</li>
+</ul>
+
+<p>Treefold re-cast slightly more generically</p>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="k">rec</span> <span class="n">generic_treefold</span> <span class="p">(</span><span class="n">i</span><span class="o">,</span><span class="n">f</span><span class="p">)</span> <span class="o">=</span> <span class="k">function</span>
+  <span class="o">|</span> <span class="nc">Leaf</span> <span class="o">-&gt;</span> <span class="n">i</span>
+  <span class="o">|</span> <span class="nc">Node</span> <span class="p">(</span><span class="n">v</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">r</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">f</span> <span class="n">v</span> <span class="p">(</span><span class="n">generic_treefold</span> <span class="p">(</span><span class="n">i</span><span class="o">,</span><span class="n">f</span><span class="p">)</span> <span class="n">l</span><span class="p">)</span> <span class="p">(</span><span class="n">generic_treefold</span> <span class="p">(</span><span class="n">i</span><span class="o">,</span><span class="n">f</span><span class="p">)</span> <span class="n">r</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="n">size</span> <span class="n">t</span> <span class="o">=</span> <span class="n">generic_treefold</span> <span class="p">(</span><span class="mi">0</span><span class="o">,</span> <span class="p">(</span><span class="k">fun</span> <span class="n">_</span> <span class="n">l</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="p">))</span> <span class="n">t</span>
+</code></pre></div></div>
+
+<ul>
+  <li>In general, the tuple <code class="highlighter-rouge">(i,f)</code> can generalize to composers over all the cases of the datatype.</li>
+</ul>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">expr</span> <span class="o">=</span> 
+<span class="o">|</span> <span class="nc">Var</span> <span class="k">of</span> <span class="kt">string</span>
+<span class="o">|</span> <span class="nc">Func</span> <span class="k">of</span> <span class="kt">string</span> <span class="o">*</span> <span class="n">expr</span>
+<span class="o">|</span> <span class="nc">Appl</span> <span class="k">of</span> <span class="n">expr</span> <span class="o">*</span> <span class="n">expr</span>
+</code></pre></div></div>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="k">rec</span> <span class="n">exprfold</span> <span class="p">(</span><span class="n">va</span><span class="o">,</span><span class="n">fu</span><span class="o">,</span><span class="n">ap</span><span class="p">)</span> <span class="o">=</span> <span class="k">function</span>
+  <span class="o">|</span> <span class="nc">Var</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">va</span> <span class="n">s</span>
+  <span class="o">|</span> <span class="nc">Func</span><span class="p">(</span><span class="n">v</span><span class="o">,</span><span class="n">e</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">fu</span> <span class="n">v</span> <span class="p">(</span><span class="n">exprfold</span> <span class="p">(</span><span class="n">va</span><span class="o">,</span><span class="n">fu</span><span class="o">,</span><span class="n">ap</span><span class="p">)</span> <span class="n">e</span><span class="p">)</span>
+  <span class="o">|</span> <span class="nc">Appl</span><span class="p">(</span><span class="n">e</span><span class="o">,</span><span class="n">e'</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ap</span> <span class="p">(</span><span class="n">exprfold</span> <span class="p">(</span><span class="n">va</span><span class="o">,</span><span class="n">fu</span><span class="o">,</span><span class="n">ap</span><span class="p">)</span> <span class="n">e</span><span class="p">)</span> <span class="p">(</span><span class="n">exprfold</span> <span class="p">(</span><span class="n">va</span><span class="o">,</span><span class="n">fu</span><span class="o">,</span><span class="n">ap</span><span class="p">)</span> <span class="n">e'</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="n">allvaroccs</span> <span class="n">e</span> <span class="o">=</span> <span class="n">exprfold</span> <span class="p">((</span><span class="k">fun</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">s</span><span class="p">])</span><span class="o">,</span><span class="p">(</span><span class="k">fun</span> <span class="n">v</span> <span class="n">fo</span> <span class="o">-&gt;</span> <span class="n">v</span> <span class="o">::</span> <span class="n">fo</span><span class="p">)</span><span class="o">,</span> <span class="p">(</span><span class="k">fun</span> <span class="n">fo1</span> <span class="n">fo2</span> <span class="o">-&gt;</span> <span class="n">fo1</span> <span class="o">@</span> <span class="n">fo2</span><span class="p">))</span> <span class="n">e</span>
+
+<span class="k">let</span> <span class="n">testexpr</span> <span class="o">=</span> <span class="nc">Appl</span><span class="p">(</span><span class="nc">Func</span><span class="p">(</span><span class="s2">"x"</span><span class="o">,</span><span class="nc">Var</span> <span class="s2">"x"</span><span class="p">)</span><span class="o">,</span><span class="nc">Var</span> <span class="s2">"y"</span><span class="p">)</span>
+
+<span class="n">allvaroccs</span> <span class="n">testexpr</span>
+</code></pre></div></div>
+
+<ul>
+  <li>It is not worth getting <em>too</em> excited by this stuff as many functions on data structures are not just a simple fold.</li>
+  <li>Example: determining if an expression in the above language is closed is impossible with <code class="highlighter-rouge">exprfold</code></li>
+</ul>
 
 <h4 id="ocaml-functors">OCaml functors</h4>
 
@@ -217,24 +309,12 @@
 <p>Idea: Lift modules to be true first-class data; supported in more recent OCaml versions.</p>
 
 <ul>
-  <li>
-    <p>See <a href="http://caml.inria.fr/pub/docs/manual-ocaml/manual028.html">the manual</a> for documentation</p>
-  </li>
-  <li>
-    <p>Allows modules to be constructed and composed based on run-time data</p>
-  </li>
-  <li>
-    <p>Allows modules to be placed in data structures, e.g. a list of Set’s.</p>
-  </li>
-  <li>
-    <p>Allows functors to be written which are ordinary functions (not as powerful as actual functors though)</p>
-  </li>
-  <li>
-    <p><a href="http://caml.inria.fr/pub/docs/manual-ocaml/manual028.html">Example in OCaml manual</a> shows how to build a Set-making function</p>
-  </li>
-  <li>
-    <p>See <a href="https://dev.realworldocaml.org/first-class-modules.html">Real-World OCaml</a> for more info on first-class modules, the manual is pretty minimal</p>
-  </li>
+  <li>See <a href="http://caml.inria.fr/pub/docs/manual-ocaml/manual028.html">the manual</a> for documentation</li>
+  <li>Allows modules to be constructed and composed based on run-time data</li>
+  <li>Allows modules to be placed in data structures, e.g. a list of Set’s.</li>
+  <li>Allows functors to be written which are ordinary functions (not as powerful as actual functors though)</li>
+  <li><a href="http://caml.inria.fr/pub/docs/manual-ocaml/manual028.html">Example in OCaml manual</a> shows how to build a Set-making function</li>
+  <li>See <a href="https://dev.realworldocaml.org/first-class-modules.html">Real-World OCaml</a> for more info on first-class modules, the manual is pretty minimal</li>
 </ul>
 
 <h5 id="background-basic-type-theory">Background: Basic Type Theory</h5>
@@ -377,7 +457,7 @@ Error: This expression has type string but an expression was expected of type
 <span class="k">let</span> <span class="n">doit</span> <span class="o">=</span> <span class="n">run_it</span> <span class="n">suspended_value</span>
 </code></pre></div></div>
 
-<p>Observe that the type <code class="highlighter-rouge">'arg</code> is not an exposed parameter in the wait type like <code class="highlighter-rouge">'result</code> is, it is an <em>existential</em> type, there is <em>some</em> type that works there but it is from the <code class="highlighter-rouge">wait</code> type.  [etc]</p>
+<p>Observe that the type <code class="highlighter-rouge">'arg</code> is not an exposed parameter in the wait type like <code class="highlighter-rouge">'result</code> is, it is an <em>existential</em> type, there is <em>some</em> type that works there but it is from the <code class="highlighter-rouge">wait</code> type.</p>
 
 <p>A practical library example: <a href="https://github.com/hannesm/gmap">Gmap</a></p>
 

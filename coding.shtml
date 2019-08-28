@@ -29,7 +29,7 @@
 </ul>
 		  <h3>Other OCaml Resources</h3>
 <ul>
-  <li>The on-line book <a href="https://dev.realworldocaml.org/index.html">Real World OCaml</a> has recently been updated to a new edition and contains very nice tutorial descriptions of some of the newer features.  Highly recommended.
+  <li>The on-line book <a href="https://dev.realworldocaml.org/index.html">Real World OCaml</a> has recently been updated to a new edition and contains very nice tutorial descriptions of some of the newer features.  It uses some non-standard library extensions from <a href="https://opensource.janestreet.com">Jane Street</a> which is a bit of a disadvantage for us however as in class we will just stick to the built-in ones.
     <li>A more extensive set of libraries is found in the <a href="https://github.com/ocaml-batteries-team/batteries-included">Batteries Included</a> extension to OCaml.  You need to download and install this extension to use the libraries.
     </ul>
 <h3>The PL II FbDK for OCaml</h3>

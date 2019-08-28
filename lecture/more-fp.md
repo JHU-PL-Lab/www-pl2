@@ -1,34 +1,46 @@
 
 <link rel="stylesheet" href="/pl2/css/friendly.css" />
-<link rel="stylesheet" href="/pl2/css/style.css" />
+<link rel="stylesheet" href="/pl2/css/lecture-style.css" />
 <meta charset="utf-8" />
 
 
-
-## Lecture
-
 ### More Functional Programming in OCaml
 
+ * There are "nearly infinitely many" features we skipped in PL I and we are not going to cover all of them 
+ * But let us cover a few, as a warm-up if nothing else
+ 
 ####  Pipelining
 
-* ```data |> function |> function .. ``` just like shell 
-  * (input = function argument; output = function result); associates left like shell pipe
+* In \*nix shell, each command can be viewed as a function from stdin to stdout
+* ```blah | blahblah``` takes the output of ```blah``` and feeds it as input to ```blahblah```
+* Reminder on how it is useful:
+
+```bash
+cat blah.tar.gz | gunzip | tar tf - | cat | grep .md
+```
+
+* OCaml version is ```|>```
 
 ```ocaml
 # (|>);;
-- : 'a -> ('a -> 'b) -> 'b = fun
+- : 'a -> ('a -> 'b) -> 'b = <fun>
 ```
 
-* Related to messsage chaining in OO languages
 
 ```ocaml
-# [] |> (List.cons 5) |> (List.cons 7);;
-- : int list = [7; 5]
+# [] |> (List.cons 5) |> (List.cons 7) |> (fun x -> x) |> List.length;;
+- : int = 2
 ```
+
+ * ```cat``` in \*nix is like ```fun x -> x``` in OCaml
+ * Associates left like shell pipe
+ * Related to messsage chaining in OO languages
 
 ####  Folds and generalized folds
 
 We will roughly follow the [Cornell notes](https://www.cs.cornell.edu/courses/cs3110/2019sp/textbook/hop/intro.html)
+
+##### Fold right
 
 * The function ```List.fold_right``` in OCaml "folds" a list to a single element via an operation.
 * Example: 
@@ -38,7 +50,7 @@ List.fold_right ( * ) [2; 5; 7] 1
 
 is ```2*(5*(7*(1)))```, i.e. ```70```.  The "right" refers to the zero (```1``` here) being on the right, not the left (it doesn't matter in the case of multiplication as it is associative).
 
-Here is an implementation with a few examples; it is super-simple:
+Here is roughly how ```List.fold_right``` is implemented:
 
 ```ocaml
 let rec fold_right op lst init = match lst with
@@ -49,8 +61,18 @@ let summate lst = List.fold_right (+) lst 0
 let concatenate lst = List.fold_right (^) lst ""
 ```
 
+* Actually writing out ```summate``` as a recursive function isn't going to save many lines, but it gets the code on a "higher level" so is often good practice.
+* It is similar in spirit to dot product in linear algebra: define things in terms of higher-level math operations, don't re-define from scratch.
 
-* Folding left is the same idea but the "zero" is on the left..
+##### Fold left
+
+* Folding left is the same idea but the "zero" is on the left:
+
+```ocaml
+List.fold_left ( * ) 1 [2; 5; 7] (* note the zero and the list swapped in arg list vs folds_right *)
+```
+
+is ```(((1)*2)*5)*7```, i.e. ```70```.
 
 ```ocaml
 let rec fold_left op accum lst = match lst with
@@ -64,20 +86,88 @@ let concatenate lst = List.fold_left (^) "" lst
  * Observe that since addition and concatenation are both associative that fold left and right give the same result in the above. 
  * But, use ```List.fold_left``` by default, it is more efficient
  * Why is it more efficient?  Observe all recursive calls don't need to return really, at the rec-call point the function is done
- * Such recursion can be turned into a loop by an optimizing compiler, so-called tail-call elimination.
+ * Such recursion can be turned into a loop by an optimizing compiler, so-called *tail-call elimination*.
  
-##### length, map, reverse, filter, is just a fold!
+##### length, map, reverse, and filter can be coded just with a fold!
 
-Here are some pleasant examples from the Cornell notes illustrating the power of fold.
+Here are some pleasant examples mostly from the Cornell notes illustrating the power of fold.
 
 ```ocaml
 let length l = List.fold_left (fun a _ -> a+1) 0 l
-let rev l = List.fold_left (fun a x -> x::a) [] l
+let rev l = List.fold_left (fun a x -> x::a) [] l (* e.g. rev [1;2;3] = (3::(2::(1::[]))) *)
 let map f l = List.fold_right (fun x a -> (f x)::a) l []
+let map_rev f l = List.fold_left (fun a x -> (f x)::a)  [] l
 let filter f l = List.fold_right (fun x a -> if f x then x::a else a) l []
 ```
 
-Folding is similar in spirit to dot product in linear algebra: define things in terms of higher-level math operations, don't re-code from scratch.
+
+##### Fold on trees
+
+* What is fold on lists doing?  Visit all the elements applying an accumulating operator
+* The idea of Tree fold is to do the same thing on a tree structure
+* Here is a simple example derived from the Cornell notes.
+
+```ocaml
+type 'a btree = 
+| Leaf 
+| Node of 'a * 'a btree * 'a btree
+```
+
+```ocaml
+let rec treefold init op = function
+  | Leaf -> init
+  | Node (v,l,r) -> op v (treefold init op l) (treefold init op r)
+```
+
+
+```ocaml
+let size t = treefold 0 (fun _ l r -> 1 + l + r) t
+let depth t = treefold 0 (fun _ l r -> 1 + max l r) t
+let preorder t = treefold [] (fun x l r -> [x] @ l @ r) t
+let tex = Node (4, Node (5, Node (6, Leaf, Leaf), Leaf), Node (4, Leaf, Leaf))
+size tex
+```
+
+##### Catamorphism
+
+* This is a fancy word for a fold over any data type.
+* Well it is actually a little cooler than that, there is some elegant math behind it which we are skipping.
+* The general principle for any datatype is to accumulate results from the "rest" of the data type tree and "compose" with the current node.
+
+Treefold re-cast slightly more generically
+
+```ocaml
+let rec generic_treefold (i,f) = function
+  | Leaf -> i
+  | Node (v,l,r) -> f v (generic_treefold (i,f) l) (generic_treefold (i,f) r)
+
+let size t = generic_treefold (0, (fun _ l r -> 1 + l + r)) t
+```
+
+* In general, the tuple ```(i,f)``` can generalize to composers over all the cases of the datatype.
+
+```ocaml
+type expr = 
+| Var of string
+| Func of string * expr
+| Appl of expr * expr
+```
+
+```ocaml
+let rec exprfold (va,fu,ap) = function
+  | Var(s) -> va s
+  | Func(v,e) -> fu v (exprfold (va,fu,ap) e)
+  | Appl(e,e') -> ap (exprfold (va,fu,ap) e) (exprfold (va,fu,ap) e')
+
+let allvaroccs e = exprfold ((fun s -> [s]),(fun v fo -> v :: fo), (fun fo1 fo2 -> fo1 @ fo2)) e
+
+let testexpr = Appl(Func("x",Var "x"),Var "y")
+
+allvaroccs testexpr
+```
+
+* It is not worth getting *too* excited by this stuff as many functions on data structures are not just a simple fold.
+* Example: determining if an expression in the above language is closed is impossible with just ```exprfold```
 
 ####  OCaml functors
 
@@ -208,15 +298,10 @@ AbstractIntSet.add 5 AbstractIntSet.empty;;
 Idea: Lift modules to be true first-class data; supported in more recent OCaml versions.
 
  * See [the manual](http://caml.inria.fr/pub/docs/manual-ocaml/manual028.html) for documentation
-
  * Allows modules to be constructed and composed based on run-time data
-
  * Allows modules to be placed in data structures, e.g. a list of Set's.
-
  * Allows functors to be written which are ordinary functions (not as powerful as actual functors though)
-
  * [Example in OCaml manual](http://caml.inria.fr/pub/docs/manual-ocaml/manual028.html) shows how to build a Set-making function
-
  * See [Real-World OCaml](https://dev.realworldocaml.org/first-class-modules.html) for more info on first-class modules, the manual is pretty minimal
 
 ##### Background: Basic Type Theory
@@ -376,7 +461,7 @@ let run_it w = match w with Wait(arg,func) -> func arg
 let doit = run_it suspended_value
 ```
 
-Observe that the type ```'arg``` is not an exposed parameter in the wait type like ```'result``` is, it is an *existential* type, there is *some* type that works there but it is from the ```wait``` type.  [etc]
+Observe that the type ```'arg``` is not an exposed parameter in the wait type like ```'result``` is, it is an *existential* type, there is *some* type that works there but it is from the ```wait``` type.
 
 A practical library example: [Gmap](https://github.com/hannesm/gmap)
 
