@@ -6,7 +6,7 @@
 
 ### More Functional Programming in OCaml
 
- * There are "nearly infinitely many" features we skipped in PL I and we are not going to cover all of them 
+ * There are "nearly infinitely many" OCaml features we skipped in PL I and we are not going to cover all of them 
  * But let us cover a few, as a warm-up if nothing else
  
 ####  Pipelining
@@ -28,6 +28,8 @@ cat blah.tar.gz | gunzip | tar tf - | cat | grep .md
 
 
 ```ocaml
+# 5 |> (fun x -> x - 20);; (* it is really just new syntax for function application *)
+- : int = -15
 # [] |> (List.cons 5) |> (List.cons 7) |> (fun x -> x) |> List.length;;
 - : int = 2
 ```
@@ -96,7 +98,7 @@ Here are some pleasant examples mostly from the Cornell notes illustrating the p
 let length l = List.fold_left (fun a _ -> a+1) 0 l
 let rev l = List.fold_left (fun a x -> x::a) [] l (* e.g. rev [1;2;3] = (3::(2::(1::[]))) *)
 let map f l = List.fold_right (fun x a -> (f x)::a) l []
-let map_rev f l = List.fold_left (fun a x -> (f x)::a)  [] l
+let map_rev f l = List.fold_left (fun a x -> (f x)::a)  [] l (* contrasts left and right fold *)
 let filter f l = List.fold_right (fun x a -> if f x then x::a else a) l []
 ```
 

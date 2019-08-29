@@ -106,7 +106,7 @@ Jan's notes below cover closures.
 
 
 <h4>Program Analysis</h4>
-<p> We will cover this topic in depth, implementing both abstract interpreters and symbolic evaluators.
+<p> We will cover this topic in depth, implementing both abstract interpreters and symbolic evaluators for higher-order languages.
 <ul>
 <li>Abstract interpretation</li>
 <li>Symbolic Execution</li>
@@ -115,16 +115,18 @@ Jan's notes below cover closures.
 <b>Resources:</b>
 <ul>
   <li>Van Horn and Might, <a href="http://matt.might.net/papers/vanhorn2010abstract.pdf">Abstracting Abstract Machines</a></li>
+    <li>Aldrich and Le Goues, <a href="https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/notes/notes12-dpll-smt.txt">Lecture Notes: Satisfiability Modulo Theories</a>
 </ul>
 <!-- Alrich course has a good presentation of first-order as well, and its more to the point than Jan's
 notes which wander over a lot of other topics.  See https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/ 
 It requires going through several lectures worth as the "interprocedural" does not show up until the end.
   QQQli>Jonathn Aldrich, QQQa href="http://www.cs.cmu.edu/~aldrich/courses/17-355-17sp/notes/notes10-functional-cfa.pdf">Lecture Notes: Control Flow Analysis for Functional LanguagesQQQ/a>
+QQQli>Aldrich, QQQa href="https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/notes/notes14-symbolic-execution.pdf">Lecture Notes: Symbolic ExecutionQQQ/a>
 
   -->
 
 
-<h4>Advanced typed systems</h4> <!-- Not getting very excited about this topic and no good notes - cut? -->
+<h4>Advanced typed systems</h4>
 <p> We are going to cover basic type theory in detail (forall, exists, kinds) and spend less time on the advanced topics since they constitute a whole course if done rigorously.</p>
 <ul>
   <li>Forall, exists</li>
@@ -163,8 +165,6 @@ It requires going through several lectures worth as the "interprocedural" does n
 <b>Resources:</b>
 <ul>
   <li>Aldrich and Le Goues, <a href="https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/notes/notes11-hoare-logic.pdf">Lecture Notes: Axiomatic Semantics and Hoare-style Verification</a></li>
-  <li>Aldrich and Le Goues, <a href="https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/notes/notes12-dpll-smt.txt">Lecture Notes: Satisfiability Modulo Theories</a>
-  <li>Aldrich, <a href="https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/notes/notes14-symbolic-execution.pdf">Lecture Notes: Symbolic Execution</a>
 <li>Arnd Poetzsch-Heffter et al., <a href="https://softech.cs.uni-kl.de/homepage/teaching/SVHOL12/slides6a.pdf">Inductive Definitions and Fixed Points</a>
 <li>Cornell CS, <a href="https://www.cs.cornell.edu/courses/cs3110/2019sp/textbook/coq/coq.html">Coq Tutorial</a></li>
 </ul>
@@ -178,11 +178,11 @@ Removed model checking, can do on a Friday.
 <p>
   <h3>Assignments Outline</h3>
 
-<p>Here is an initial outline for what assignments will be offered in the class.  See the dateline for the  assignments we settle on, and the due dates.
+<p>Here is an outline for the assignments.  See the dateline for the  assignments we settle on, and the due dates.
   <ol>
-    <li>An environment-based Fb interpreter in OCaml</li>
     <li>Transforming Fb programs in OCaml: closure conversion, A-Translation, defunctionalization, CPS.</li>
-    <li>Programming with monads in OCaml</li>
+    <li>An environment-based Fb interpreter in OCaml</li>
+    <li>Monadic programming in OCaml</li>
     <li>An Fb environment/closure-based interpreter in OCaml</li>
     <li>An Fb abstract interpreter in OCaml</li>
     <li>An Fb symbolic evaluator in OCaml using the Z3 SMT solver</li>

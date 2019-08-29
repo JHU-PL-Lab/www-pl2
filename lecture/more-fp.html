@@ -8,7 +8,7 @@
 <h3 id="more-functional-programming-in-ocaml">More Functional Programming in OCaml</h3>
 
 <ul>
-  <li>There are “nearly infinitely many” features we skipped in PL I and we are not going to cover all of them</li>
+  <li>There are “nearly infinitely many” OCaml features we skipped in PL I and we are not going to cover all of them</li>
   <li>But let us cover a few, as a warm-up if nothing else</li>
 </ul>
 
@@ -31,7 +31,9 @@
 <span class="o">-</span> <span class="o">:</span> <span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span> <span class="o">=</span> <span class="o">&lt;</span><span class="k">fun</span><span class="o">&gt;</span>
 </code></pre></div></div>
 
-<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span> <span class="bp">[]</span> <span class="o">|&gt;</span> <span class="p">(</span><span class="nn">List</span><span class="p">.</span><span class="n">cons</span> <span class="mi">5</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="p">(</span><span class="nn">List</span><span class="p">.</span><span class="n">cons</span> <span class="mi">7</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="p">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">length</span><span class="p">;;</span>
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span> <span class="mi">5</span> <span class="o">|&gt;</span> <span class="p">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">20</span><span class="p">);;</span> <span class="c">(* it is really just new syntax for function application *)</span>
+<span class="o">-</span> <span class="o">:</span> <span class="kt">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">15</span>
+<span class="o">#</span> <span class="bp">[]</span> <span class="o">|&gt;</span> <span class="p">(</span><span class="nn">List</span><span class="p">.</span><span class="n">cons</span> <span class="mi">5</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="p">(</span><span class="nn">List</span><span class="p">.</span><span class="n">cons</span> <span class="mi">7</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="p">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">length</span><span class="p">;;</span>
 <span class="o">-</span> <span class="o">:</span> <span class="kt">int</span> <span class="o">=</span> <span class="mi">2</span>
 </code></pre></div></div>
 
@@ -105,7 +107,7 @@
 <div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">length</span> <span class="n">l</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">fold_left</span> <span class="p">(</span><span class="k">fun</span> <span class="n">a</span> <span class="n">_</span> <span class="o">-&gt;</span> <span class="n">a</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="mi">0</span> <span class="n">l</span>
 <span class="k">let</span> <span class="n">rev</span> <span class="n">l</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">fold_left</span> <span class="p">(</span><span class="k">fun</span> <span class="n">a</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">::</span><span class="n">a</span><span class="p">)</span> <span class="bp">[]</span> <span class="n">l</span> <span class="c">(* e.g. rev [1;2;3] = (3::(2::(1::[]))) *)</span>
 <span class="k">let</span> <span class="n">map</span> <span class="n">f</span> <span class="n">l</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">fold_right</span> <span class="p">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">f</span> <span class="n">x</span><span class="p">)</span><span class="o">::</span><span class="n">a</span><span class="p">)</span> <span class="n">l</span> <span class="bp">[]</span>
-<span class="k">let</span> <span class="n">map_rev</span> <span class="n">f</span> <span class="n">l</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">fold_left</span> <span class="p">(</span><span class="k">fun</span> <span class="n">a</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">f</span> <span class="n">x</span><span class="p">)</span><span class="o">::</span><span class="n">a</span><span class="p">)</span>  <span class="bp">[]</span> <span class="n">l</span>
+<span class="k">let</span> <span class="n">map_rev</span> <span class="n">f</span> <span class="n">l</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">fold_left</span> <span class="p">(</span><span class="k">fun</span> <span class="n">a</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">f</span> <span class="n">x</span><span class="p">)</span><span class="o">::</span><span class="n">a</span><span class="p">)</span>  <span class="bp">[]</span> <span class="n">l</span> <span class="c">(* contrasts left and right fold *)</span>
 <span class="k">let</span> <span class="n">filter</span> <span class="n">f</span> <span class="n">l</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">fold_right</span> <span class="p">(</span><span class="k">fun</span> <span class="n">x</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="n">f</span> <span class="n">x</span> <span class="k">then</span> <span class="n">x</span><span class="o">::</span><span class="n">a</span> <span class="k">else</span> <span class="n">a</span><span class="p">)</span> <span class="n">l</span> <span class="bp">[]</span>
 </code></pre></div></div>
 
@@ -113,8 +115,8 @@
 
 <ul>
   <li>What is fold on lists doing?  Visit all the elements applying an accumulating operator</li>
-  <li>Tree fold is to do the same thing on a tree structure</li>
-  <li>Here is a simple example from the Cornell notes.</li>
+  <li>The idea of Tree fold is to do the same thing on a tree structure</li>
+  <li>Here is a simple example derived from the Cornell notes.</li>
 </ul>
 
 <div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="k">'</span><span class="n">a</span> <span class="n">btree</span> <span class="o">=</span> 
@@ -134,7 +136,7 @@
 <span class="n">size</span> <span class="n">tex</span>
 </code></pre></div></div>
 
-<h5 id="catamorphisms">Catamorphisms</h5>
+<h5 id="catamorphism">Catamorphism</h5>
 
 <ul>
   <li>This is a fancy word for a fold over any data type.</li>
@@ -175,7 +177,7 @@
 
 <ul>
   <li>It is not worth getting <em>too</em> excited by this stuff as many functions on data structures are not just a simple fold.</li>
-  <li>Example: determining if an expression in the above language is closed is impossible with <code class="highlighter-rouge">exprfold</code></li>
+  <li>Example: determining if an expression in the above language is closed is impossible with just <code class="highlighter-rouge">exprfold</code></li>
 </ul>
 
 <h4 id="ocaml-functors">OCaml functors</h4>
