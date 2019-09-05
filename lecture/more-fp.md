@@ -46,11 +46,12 @@ We will roughly follow the [Cornell notes](https://www.cs.cornell.edu/courses/cs
 
 * The function ```List.fold_right``` in OCaml "folds" a list to a single element via an operation.
 * Example: 
+
 ```ocaml
 List.fold_right ( * ) [2; 5; 7] 1
 ```
 
-is ```2*(5*(7*(1)))```, i.e. ```70```.  The "right" refers to the zero (```1``` here) being on the right, not the left (it doesn't matter in the case of multiplication as it is associative).
+is ```2*(5*(7*(1)))```, i.e. ```70```.  The "right" refers to the zero (```1``` here) being on the right, not the left (it doesn't matter in the case of multiplication as it is commutative and associative).
 
 Here is roughly how ```List.fold_right``` is implemented:
 
@@ -63,8 +64,8 @@ let summate lst = List.fold_right (+) lst 0
 let concatenate lst = List.fold_right (^) lst ""
 ```
 
-* Actually writing out ```summate``` as a recursive function isn't going to save many lines, but it gets the code on a "higher level" so is often good practice.
-* It is similar in spirit to dot product in linear algebra: define things in terms of higher-level math operations, don't re-define from scratch.
+* Actually writing out ```summate``` as a recursive function isn't going to be much longer, but it gets the code on a "higher level" so is often good practice.
+* Analogy with e.g. dot product in linear algebra: define things in terms of higher-level math operations, don't re-define from scratch.
 
 ##### Fold left
 
@@ -76,6 +77,7 @@ List.fold_left ( * ) 1 [2; 5; 7] (* note the zero and the list swapped in arg li
 
 is ```(((1)*2)*5)*7```, i.e. ```70```.
 
+
 ```ocaml
 let rec fold_left op accum lst = match lst with
   | [] -> accum
@@ -85,11 +87,18 @@ let summate lst = List.fold_left (+) 0 lst
 let concatenate lst = List.fold_left (^) "" lst
 ```
 
- * Observe that since addition and concatenation are both associative that fold left and right give the same result in the above. 
+ * Observe that since addition and concatenation are both commutative and associative that fold left and right give the same result in the above. 
  * But, use ```List.fold_left``` by default, it is more efficient
  * Why is it more efficient?  Observe all recursive calls don't need to return really, at the rec-call point the function is done
  * Such recursion can be turned into a loop by an optimizing compiler, so-called *tail-call elimination*.
- 
+
+Some non-assoc/commut operator:
+```ocaml
+List.fold_right (-) [2; 5; 7] 0     (* 2-(5-(7-0))) = 4; not very useful *)
+List.fold_left (-) 0 [2; 5; 7]      (* ((0-2)-5)-7 = -14 *)
+```
+
+
 ##### length, map, reverse, and filter can be coded just with a fold!
 
 Here are some pleasant examples mostly from the Cornell notes illustrating the power of fold.
@@ -98,7 +107,7 @@ Here are some pleasant examples mostly from the Cornell notes illustrating the p
 let length l = List.fold_left (fun a _ -> a+1) 0 l
 let rev l = List.fold_left (fun a x -> x::a) [] l (* e.g. rev [1;2;3] = (3::(2::(1::[]))) *)
 let map f l = List.fold_right (fun x a -> (f x)::a) l []
-let map_rev f l = List.fold_left (fun a x -> (f x)::a)  [] l (* contrasts left and right fold *)
+let map_rev f l = List.fold_left (fun a x -> (f x)::a)  [] l (* to contrast left and right fold *)
 let filter f l = List.fold_right (fun x a -> if f x then x::a else a) l []
 ```
 
@@ -133,48 +142,37 @@ size tex
 ##### Catamorphism
 
 * This is a fancy word for a fold over any data type.
-* Well it is actually a little cooler than that, there is some elegant math behind it which we are skipping.
-* The general principle for any datatype is to accumulate results from the "rest" of the data type tree and "compose" with the current node.
+* Well it is actually cooler than that, there is some elegant math behind it which can't easily be coded in in OCaml.
+* The essential idea we can express in some OCaml pseudo-code; observe a recursve datatype is a fixed point of a type function:
 
-Treefold re-cast slightly more generically
+```
+type function btreefun('mytype)('a) = Leaf | Node of 'a * 'mytype('a) * 'mytype('a) (* takes self-type as arg *)
+type 'a btree = btreefun btreefun 'a  (* type fixed point via self-type passing *)
+```
+By feeding in the "accumulator type" for ```'mytype``` here we can obtain the type of one layer of the fold
 
-```ocaml
-let rec generic_treefold (i,f) = function
-  | Leaf -> i
-  | Node (v,l,r) -> f v (generic_treefold (i,f) l) (generic_treefold (i,f) r)
-
-let size t = generic_treefold (0, (fun _ l r -> 1 + l + r)) t
+```
+type summer = btreefun int int (* assume we are summating over an integer-node tree *)
 ```
 
-* In general, the tuple ```(i,f)``` can generalize to composers over all the cases of the datatype.
+Then we can write a function over this type which does that one layer:
 
 ```ocaml
-type expr = 
-| Var of string
-| Func of string * expr
-| Appl of expr * expr
+let (treesummer : summer -> int) = function
+  | Leaf -> 0
+  | Node (v,laccum,raccum) -> v + laccum + raccum
+
 ```
 
-```ocaml
-let rec exprfold (va,fu,ap) = function
-  | Var(s) -> va s
-  | Func(v,e) -> fu v (exprfold (va,fu,ap) e)
-  | Appl(e,e') -> ap (exprfold (va,fu,ap) e) (exprfold (va,fu,ap) e')
+And the folder can be generic over any such type -- it takes this non-recursive code to perform the fold operation.
 
-let allvaroccs e = exprfold ((fun s -> [s]),(fun v fo -> v :: fo), (fun fo1 fo2 -> fo1 @ fo2)) e
 
-let testexpr = Appl(Func("x",Var "x"),Var "y")
-
-allvaroccs testexpr
-```
-
-* It is not worth getting *too* excited by this stuff as many functions on data structures are not just a simple fold.
-* Example: determining if an expression in the above language is closed is impossible with just ```exprfold```
+* See [The Haskell Wiki](https://wiki.haskell.org/Catamorphisms) for more information
 
 ####  OCaml functors
 
 
- * A "function" from structures to structures
+ * A "function" from modules to modules
  * Allows a module to be parameterized and so instantiated in multiple ways
      - think of it as the ability to "plug in" a code module
  * General functors are found only in a few languages
@@ -197,7 +195,7 @@ Here is a functor version of a set, you feed in a struct with the set element or
 module FSetFunctor =
   functor (Elt: ORDERED_TYPE) ->
   struct
-    type element = Elt.t (* import the type of elements from the structure *)
+    type element = Elt.t (* import the type of elements from the module *)
     type set = element list
 
     let empty = []
@@ -239,7 +237,7 @@ module OrderedInt =
   end;;
 ```
 
-Here is how we feed it in, instantiating the functor to give a structure
+Here is how we feed it in, instantiating the functor to give a module
 
 ```ocaml
 module OrderedIntSet = FSetFunctor(OrderedInt);
@@ -288,12 +286,36 @@ module AbstractIntSet = AbstractSet(OrderedInt);;
 AbstractIntSet.add 5 AbstractIntSet.empty;;
 ```
 
- *  ```Stdlib.Set``` uses functors, let us review it -- [manpage](http://caml.inria.fr/pub/docs/manual-ocaml/libref/Set.html)
+* Observe the internal structure is hidden since the type list was hidden
+* This is called an *existential type*:  a type exists, we just don't know what it is.
+
+
+##### Functors in the Standard Library
+
+```Stdlib.Set``` uses functors similar to how our simplistic set works, let us review it -- [manpage](http://caml.inria.fr/pub/docs/manual-ocaml/libref/Set.html)
+
+
+
+Usage example
+
+```ocaml
+module Ints =
+       struct
+         type t = int
+         let compare x0 x1 =
+           Stdlib.compare x0 x1
+       end
+
+     module IntsSet = Set.Make(Ints) (* Set.Make is a functor *)
+
+     let m = IntsSet.(empty |> add 3 |> add 22 |> add 76)
+```
+
 
  * [Real World OCaml](https://dev.realworldocaml.org/functors.html) has more involved examples
  
  
- *  ```fbdk/src/application.ml``` in FbDK is yet another example; e.g. ```Fb/fb.ml``` uses the functor.
+ *  ```fbdk/src/application.ml``` in FbDK is yet another example; e.g. ```Fb/fb.ml``` uses a functor.
  
 ##### First-class modules
 
