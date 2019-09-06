@@ -191,7 +191,7 @@ type 'a btree = btreefun btreefun 'a  (* type fixed point via self-type passing 
   <span class="k">sig</span>
     <span class="k">type</span> <span class="n">t</span>
     <span class="k">val</span> <span class="n">compare</span><span class="o">:</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="n">comparison</span>
-  <span class="k">end</span><span class="p">;;</span>
+  <span class="k">end</span>
 </code></pre></div></div>
 
 <p>Here is a functor version of a set, you feed in a struct with the set element ordering defined on it</p>
@@ -221,7 +221,7 @@ type 'a btree = btreefun btreefun 'a  (* type fixed point via self-type passing 
             <span class="nc">EqualTo</span>   <span class="o">-&gt;</span> <span class="bp">true</span>
           <span class="o">|</span> <span class="nc">LessThan</span>    <span class="o">-&gt;</span> <span class="bp">false</span>
           <span class="o">|</span> <span class="nc">GreaterThan</span> <span class="o">-&gt;</span> <span class="n">contains</span> <span class="n">x</span> <span class="n">tl</span>
-  <span class="k">end</span><span class="p">;;</span>
+  <span class="k">end</span>
 </code></pre></div></div>
 
 <p>Here is a concrete ordering we can feed in, one over ints</p>
@@ -237,18 +237,18 @@ type 'a btree = btreefun btreefun 'a  (* type fixed point via self-type passing 
       <span class="nc">LessThan</span>
     <span class="k">else</span>
       <span class="nc">GreaterThan</span>
-  <span class="k">end</span><span class="p">;;</span>
+  <span class="k">end</span>
 </code></pre></div></div>
 
 <p>Here is how we feed it in, instantiating the functor to give a module</p>
 
-<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span> <span class="nc">OrderedIntSet</span> <span class="o">=</span> <span class="nc">FSetFunctor</span><span class="p">(</span><span class="nc">OrderedInt</span><span class="p">);</span>
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span> <span class="nc">OrderedIntSet</span> <span class="o">=</span> <span class="nc">FSetFunctor</span><span class="p">(</span><span class="nc">OrderedInt</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>Example of using the resulting module</p>
 
-<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">myOrderedIntSet</span> <span class="o">=</span> <span class="nn">OrderedIntSet</span><span class="p">.</span><span class="n">add</span> <span class="mi">5</span> <span class="nn">OrderedIntSet</span><span class="p">.</span><span class="n">empty</span><span class="p">;;</span>
-<span class="nn">OrderedIntSet</span><span class="p">.</span><span class="n">contains</span> <span class="mi">3</span> <span class="n">myOrderedIntSet</span><span class="p">;;</span>
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">myOrderedIntSet</span> <span class="o">=</span> <span class="nn">OrderedIntSet</span><span class="p">.</span><span class="n">add</span> <span class="mi">5</span> <span class="nn">OrderedIntSet</span><span class="p">.</span><span class="n">empty</span>
+<span class="nn">OrderedIntSet</span><span class="p">.</span><span class="n">contains</span> <span class="mi">3</span> <span class="n">myOrderedIntSet</span>
 </code></pre></div></div>
 
 <p>We can do the same thing for a string comparison</p>
@@ -260,11 +260,11 @@ type 'a btree = btreefun btreefun 'a  (* type fixed point via self-type passing 
     <span class="k">if</span> <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="k">then</span> <span class="nc">EqualTo</span>
     <span class="k">else</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span> <span class="k">then</span> <span class="nc">LessThan</span>
     <span class="k">else</span> <span class="nc">GreaterThan</span>
-<span class="k">end</span><span class="p">;;</span>
+<span class="k">end</span>
 
-<span class="k">module</span> <span class="nc">OrderedStringSet</span> <span class="o">=</span> <span class="nc">FSetFunctor</span><span class="p">(</span><span class="nc">OrderedString</span><span class="p">);;</span> <span class="c">(* a DIFFERENT instantiation of same *)</span>
+<span class="k">module</span> <span class="nc">OrderedStringSet</span> <span class="o">=</span> <span class="nc">FSetFunctor</span><span class="p">(</span><span class="nc">OrderedString</span><span class="p">)</span> <span class="c">(* a DIFFERENT instantiation of same *)</span>
 
-<span class="k">let</span> <span class="n">myOrderedStringSet</span> <span class="o">=</span> <span class="nn">OrderedStringSet</span><span class="p">.</span><span class="n">add</span> <span class="s2">"abc"</span> <span class="nn">OrderedStringSet</span><span class="p">.</span><span class="n">empty</span><span class="p">;;</span>
+<span class="k">let</span> <span class="n">myOrderedStringSet</span> <span class="o">=</span> <span class="nn">OrderedStringSet</span><span class="p">.</span><span class="n">add</span> <span class="s2">"abc"</span> <span class="nn">OrderedStringSet</span><span class="p">.</span><span class="n">empty</span>
 </code></pre></div></div>
 
 <p>Functors also have signatures; there can also be type abstraction in a functor signature</p>
@@ -277,12 +277,12 @@ type 'a btree = btreefun btreefun 'a  (* type fixed point via self-type passing 
     <span class="k">val</span> <span class="n">empty</span> <span class="o">:</span> <span class="n">set</span>
     <span class="k">val</span> <span class="n">add</span> <span class="o">:</span> <span class="n">element</span> <span class="o">-&gt;</span> <span class="n">set</span> <span class="o">-&gt;</span> <span class="n">set</span>
     <span class="k">val</span> <span class="n">contains</span> <span class="o">:</span> <span class="n">element</span> <span class="o">-&gt;</span> <span class="n">set</span> <span class="o">-&gt;</span> <span class="kt">bool</span>
-  <span class="k">end</span><span class="p">;;</span>
+  <span class="k">end</span>
 
-<span class="k">module</span> <span class="nc">AbstractSet</span> <span class="o">=</span> <span class="p">(</span><span class="nc">FSetFunctor</span> <span class="o">:</span> <span class="nc">SETFUNCTOR</span><span class="p">);;</span> <span class="c">(* slap that sig on a functor *)</span>
-<span class="k">module</span> <span class="nc">AbstractIntSet</span> <span class="o">=</span> <span class="nc">AbstractSet</span><span class="p">(</span><span class="nc">OrderedInt</span><span class="p">);;</span>
+<span class="k">module</span> <span class="nc">AbstractSet</span> <span class="o">=</span> <span class="p">(</span><span class="nc">FSetFunctor</span> <span class="o">:</span> <span class="nc">SETFUNCTOR</span><span class="p">)</span> <span class="c">(* slap that sig on a functor *)</span>
+<span class="k">module</span> <span class="nc">AbstractIntSet</span> <span class="o">=</span> <span class="nc">AbstractSet</span><span class="p">(</span><span class="nc">OrderedInt</span><span class="p">)</span>
 
-<span class="nn">AbstractIntSet</span><span class="p">.</span><span class="n">add</span> <span class="mi">5</span> <span class="nn">AbstractIntSet</span><span class="p">.</span><span class="n">empty</span><span class="p">;;</span>
+<span class="nn">AbstractIntSet</span><span class="p">.</span><span class="n">add</span> <span class="mi">5</span> <span class="nn">AbstractIntSet</span><span class="p">.</span><span class="n">empty</span>
 </code></pre></div></div>
 
 <ul>
@@ -356,8 +356,7 @@ types.</p>
 
 <p>Equivalent way to do list type using new generic type syntax (but using it to do old thing)</p>
 
-<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">_</span> <span class="n">newlist</span> <span class="o">=</span> <span class="nc">Nil</span> <span class="o">:</span> <span class="k">'</span><span class="n">a</span> <span class="n">newlist</span>
-<span class="o">|</span> <span class="nc">Cons</span> <span class="o">:</span> <span class="k">'</span><span class="n">a</span> <span class="o">*</span> <span class="k">'</span><span class="n">a</span> <span class="n">newlist</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="n">newlist</span>
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">_</span> <span class="n">newlist</span> <span class="o">=</span> <span class="nc">Nil</span> <span class="o">:</span> <span class="k">'</span><span class="n">a</span> <span class="n">newlist</span> <span class="o">|</span> <span class="nc">Cons</span> <span class="o">:</span> <span class="k">'</span><span class="n">a</span> <span class="o">*</span> <span class="k">'</span><span class="n">a</span> <span class="n">newlist</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="n">newlist</span>
 </code></pre></div></div>
 <p>(the <code class="highlighter-rouge">_</code> here could also be <code class="highlighter-rouge">'a</code>, you probably want to view it as <code class="highlighter-rouge">'a</code> in fact)</p>
 

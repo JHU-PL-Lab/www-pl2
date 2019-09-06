@@ -356,8 +356,7 @@ type oldlist = typefun 'a -> (Nil | Cons of oldlist('a * 'a))
 Equivalent way to do list type using new generic type syntax (but using it to do old thing)
 
 ```ocaml
-type _ newlist = Nil : 'a newlist
-| Cons : 'a * 'a newlist -> 'a newlist
+type _ newlist = Nil : 'a newlist | Cons : 'a * 'a newlist -> 'a newlist
 ```
  (the ```_``` here could also be ```'a```, you probably want to view it as ```'a``` in fact)
 
