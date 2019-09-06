@@ -186,7 +186,7 @@ module type ORDERED_TYPE =
   sig
     type t
     val compare: t -> t -> comparison
-  end;;
+  end
 ```
 
 Here is a functor version of a set, you feed in a struct with the set element ordering defined on it
@@ -217,7 +217,7 @@ module FSetFunctor =
             EqualTo   -> true
           | LessThan    -> false
           | GreaterThan -> contains x tl
-  end;;
+  end
 ```
 
 Here is a concrete ordering we can feed in, one over ints
@@ -234,20 +234,20 @@ module OrderedInt =
       LessThan
     else
       GreaterThan
-  end;;
+  end
 ```
 
 Here is how we feed it in, instantiating the functor to give a module
 
 ```ocaml
-module OrderedIntSet = FSetFunctor(OrderedInt);
+module OrderedIntSet = FSetFunctor(OrderedInt)
 ```
 
 Example of using the resulting module
 
 ```ocaml
-let myOrderedIntSet = OrderedIntSet.add 5 OrderedIntSet.empty;;
-OrderedIntSet.contains 3 myOrderedIntSet;;
+let myOrderedIntSet = OrderedIntSet.add 5 OrderedIntSet.empty
+OrderedIntSet.contains 3 myOrderedIntSet
 ```
 
 We can do the same thing for a string comparison
@@ -260,11 +260,11 @@ struct
     if x = y then EqualTo
     else if x < y then LessThan
     else GreaterThan
-end;;
+end
 
-module OrderedStringSet = FSetFunctor(OrderedString);; (* a DIFFERENT instantiation of same *)
+module OrderedStringSet = FSetFunctor(OrderedString) (* a DIFFERENT instantiation of same *)
 
-let myOrderedStringSet = OrderedStringSet.add "abc" OrderedStringSet.empty;;
+let myOrderedStringSet = OrderedStringSet.add "abc" OrderedStringSet.empty
 ```
 
 Functors also have signatures; there can also be type abstraction in a functor signature
@@ -278,12 +278,12 @@ module type SETFUNCTOR = (* below is the syntax for a signature of a functor *)
     val empty : set
     val add : element -> set -> set
     val contains : element -> set -> bool
-  end;;
+  end
 
-module AbstractSet = (FSetFunctor : SETFUNCTOR);; (* slap that sig on a functor *)
-module AbstractIntSet = AbstractSet(OrderedInt);;
+module AbstractSet = (FSetFunctor : SETFUNCTOR) (* slap that sig on a functor *)
+module AbstractIntSet = AbstractSet(OrderedInt)
 
-AbstractIntSet.add 5 AbstractIntSet.empty;;
+AbstractIntSet.add 5 AbstractIntSet.empty
 ```
 
 * Observe the internal structure is hidden since the type list was hidden
