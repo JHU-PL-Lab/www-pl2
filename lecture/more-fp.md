@@ -328,29 +328,17 @@ Idea: Lift modules to be true first-class data; supported in more recent OCaml v
  * [Example in OCaml manual](http://caml.inria.fr/pub/docs/manual-ocaml/manual028.html) shows how to build a Set-making function
  * See [Real-World OCaml](https://dev.realworldocaml.org/first-class-modules.html) for more info on first-class modules, the manual is pretty minimal
 
-##### Background: Basic Type Theory
-
-Before getting into functors and GADTs, review forall, exists, and higher kinded (types as values) 
-types.
-
- * Polymorphic types inferred in OCaml are forall types
- * Parameters on type definitions are defining type-valued functions (which are not OCaml functions -- "not first-class")
- * Hidden / abstract types in module signatures are exists types: holds for some type
- * New features of OCaml covered here have other fancy types; each one is either a forall, exists, or type-as-value usage.
- 
   
 #### GADTs in OCaml
 
-Lists manually using existing OCaml types
+Generalized Abstract Data Types (GADT's) allow several more flexible uses of OCaml data types.  See [The Manual](https://caml.inria.fr/pub/docs/manual-ocaml/manual033.html) for the details.
+
+##### New data type syntax for OCaml
+
+Review: roll-your-own lists using existing OCaml types
 
 ```ocaml
 type 'a oldlist = Nil | Cons of 'a * 'a oldlist
-```
-
-Think of this as a type-valued function: given a type ```'a``` we get a type out: it is "really" 
-
-```ocaml
-type oldlist = typefun 'a -> (Nil | Cons of oldlist('a * 'a))
 ```
 
 Equivalent way to do list type using new generic type syntax (but using it to do old thing)
@@ -358,10 +346,9 @@ Equivalent way to do list type using new generic type syntax (but using it to do
 ```ocaml
 type _ newlist = Nil : 'a newlist | Cons : 'a * 'a newlist -> 'a newlist
 ```
- (the ```_``` here could also be ```'a```, you probably want to view it as ```'a``` in fact)
 
-
-Observe how this is writing out the constructors with what their types are, viewing constructors as functions (they still are not functions in OCaml, but they are closer to being so)
+* Observe how this is writing out the constructors with what their types are, viewing constructors as functions (they still are not functions in OCaml, but they are closer to being so)
+* This type will work at least as well as the original ```oldlist``` type.
 
 Lets now show some added power of this new notation (toy example).
 
@@ -413,7 +400,25 @@ You can still do whatever combinations will type, e.g.
 - : float dough = Bump (Morph (Bump (Add (Intcomb (4, Coin)))))
 ```
 
-This particular type has no purpose: it is like making some random (well-formed) operational semantics rules, they are not likely to be useful.  As with an operational semantics rule set, with the right set of rules you can do interesting stuff.
+* The above type has no purpose: it is like making some random (well-formed) operational semantics rules, they are not likely to be useful.  
+* As with an operational semantics rule set, with the right set of rules you can do interesting stuff.
+
+
+##### Explicit forall types
+
+Along with the new syntax for type declarations is new syntax for polymorphic (for all / generic) types.
+
+```ocaml
+let id: type t. t -> t = fun x -> x;;
+val id : 't -> 't = <fun>
+```
+
+* This type syntax is better in that it makes it more explicit that the type is "for all types t, t to t".
+* But, a big downside of all this is you need to start declaring types for OCaml functions as we will see below.
+* These types are a form of the [locally abstract types](https://caml.inria.fr/pub/docs/manual-ocaml/manual027.html) in OCaml.
+
+##### Useful work from the new GADT's in OCaml
+
 
 Here is an example from the manual showing how some useful work can be done.
 
@@ -438,32 +443,54 @@ type atype = OInt | OString | OPair of atype * atype
 - : (int * string) typ = Pair (Int, String) (* observe parameter on typ *)
 ```
 
-The interesting and useful bit about this seemingly-useless difference is this type parameter on ```typ``` can be used to force typings to go a certain way:
+The interesting and useful bit about this seemingly-useless difference is this type parameter on ```typ``` can be used to type otherwise untypeable code:
 
 ```ocaml
- let rec to_string: type t. t typ -> t -> string =
+ let rec to_string: type t. t typ -> t -> string = (* notice need to declare forall types! *)
    fun tv x ->
    match tv with
    | Int -> string_of_int x
    | String -> Printf.sprintf "%S" x
    | Pair(t1,t2) ->
        let (x1, x2) = x in
-       Printf.sprintf "(%s,%s)" (to_string t1 x1) (to_string t2 x2)
+       Printf.sprintf "(%s,%s)" (to_string t1 x1) (to_string t2 x2);;
+val to_string : 't typ -> 't -> string = <fun>
 ```
 
-Here ```typ``` is giving a run-time name, ```Int``` which in the type of ```to_string``` adds an implicit constraint that the second argument *must be an integer* (cool, eh?).  This allows run-time type dispatch to be encoded; this trick is in fact how the OCaml libraries implement printf.
+ * Here ```typ``` is giving a run-time name, ```Int``` which in the type of ```to_string``` adds an implicit constraint that the second argument *must be an integer* (cool, eh?).   
+ * Notice that the whole ```match``` above cannot be typed at a fixed type for ```tv``` like ```int typ```
+ * The type used in each branch clause _depends_ on which constuctor we are using
+ * this is sometimes called a _weak dependent type_ but it is really a _path-sensitive type_: different paths through the function can have different types.
+ * This allows run-time type dispatch to be encoded
+ * This trick is in fact how the OCaml libraries implement printf.
 
 ```
-# to_string Int 5;;
+# to_string Int 5;; (* Int has type int typ and 5 is of type int -- a match *)
 - : string = "5"
-# to_string Int "oops";;
+# to_string Int "oops";; (* Int has type int typ and "oops" is of type string -- mismatch *)
 Error: This expression has type string but an expression was expected of type
          int
 ```
 
-Notice also the special new ```type t.``` syntax for the type argument (which must be declared, inference is stupid for GADT types).  This shows what GADTs are useful for: the type ```t``` can be viewed as an (implicit) parameter to this function.  If the type were the more standard OCaml ```'a typ -> 'a -> string``` this would require ```'a``` to be *generic* and since the body de facto cases on that type this standard typing would not work.
+If the type of ```to_string``` were the more standard OCaml ```'a typ -> 'a -> string``` this path-sensitivity would not be allowed:
 
-Notice also that any cases from a GADT which do not type-check can be elided since the type system knows that case will never be matched -- the following typechecks:
+```ocaml
+ let rec too_string:  'a typ -> 'a -> string =
+   fun tv x ->
+   match tv with
+   | Int -> string_of_int x
+   | String -> Printf.sprintf "%S" x
+   | Pair(t1,t2) ->
+       let (x1, x2) = x in
+       Printf.sprintf "(%s,%s)" (to_string t1 x1) (to_string t2 x2);;
+Error: This pattern matches values of type string typ
+       but a pattern was expected which matches values of type int typ
+       Type string is not compatible with type int 
+```
+
+* From the first match case ```'a``` must be an integer, but that conflicts with the second case.  GADTs allow each branch to have it's own type.
+* Notice also that any cases from a GADT which do not type-check can be elided since the type system knows that case will never be matched
+* For example the following typechecks in spite of missing cases:
 
 ```ocaml
 let int_to_string: int typ -> int -> string =
@@ -473,7 +500,7 @@ let int_to_string: int typ -> int -> string =
 ```
 
 
-Here is another simple example.
+Here is another simple example of suspended application.
 
 ```ocaml
 type _ wait =  Wait : 'arg * ('arg -> 'result) -> 'result wait
@@ -484,7 +511,13 @@ let run_it w = match w with Wait(arg,func) -> func arg
 let doit = run_it suspended_value
 ```
 
-Observe that the type ```'arg``` is not an exposed parameter in the wait type like ```'result``` is, it is an *existential* type, there is *some* type that works there but it is from the ```wait``` type.
+* Observe that the type ```'arg``` is not an exposed parameter in the wait type like ```'result``` is
+* It is an *existential* type, there is *some* type that works there but it is hidden in the ```wait``` type.
+* The above code in fact would work with a regular OCaml ```Wait``` type but we could not make a list of the two ```int wait``` values above as their ```'arg``` types differ
+
+```ocaml
+type ('a, 'b) badwait =  BadWait of  'a * ('a -> 'b);; (* notice how BOTH 'a and 'b exposed here *)
+```
 
 A practical library example: [Gmap](https://github.com/hannesm/gmap)
 

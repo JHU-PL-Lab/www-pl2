@@ -330,37 +330,26 @@ type 'a btree = btreefun btreefun 'a  (* type fixed point via self-type passing 
   <li>See <a href="https://dev.realworldocaml.org/first-class-modules.html">Real-World OCaml</a> for more info on first-class modules, the manual is pretty minimal</li>
 </ul>
 
-<h5 id="background-basic-type-theory">Background: Basic Type Theory</h5>
-
-<p>Before getting into functors and GADTs, review forall, exists, and higher kinded (types as values) <br />
-types.</p>
-
-<ul>
-  <li>Polymorphic types inferred in OCaml are forall types</li>
-  <li>Parameters on type definitions are defining type-valued functions (which are not OCaml functions – “not first-class”)</li>
-  <li>Hidden / abstract types in module signatures are exists types: holds for some type</li>
-  <li>New features of OCaml covered here have other fancy types; each one is either a forall, exists, or type-as-value usage.</li>
-</ul>
-
 <h4 id="gadts-in-ocaml">GADTs in OCaml</h4>
 
-<p>Lists manually using existing OCaml types</p>
+<p>Generalized Abstract Data Types (GADT’s) allow several more flexible uses of OCaml data types.  See <a href="https://caml.inria.fr/pub/docs/manual-ocaml/manual033.html">The Manual</a> for the details.</p>
+
+<h5 id="new-data-type-syntax-for-ocaml">New data type syntax for OCaml</h5>
+
+<p>Review: roll-your-own lists using existing OCaml types</p>
 
 <div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="k">'</span><span class="n">a</span> <span class="n">oldlist</span> <span class="o">=</span> <span class="nc">Nil</span> <span class="o">|</span> <span class="nc">Cons</span> <span class="k">of</span> <span class="k">'</span><span class="n">a</span> <span class="o">*</span> <span class="k">'</span><span class="n">a</span> <span class="n">oldlist</span>
-</code></pre></div></div>
-
-<p>Think of this as a type-valued function: given a type <code class="highlighter-rouge">'a</code> we get a type out: it is “really”</p>
-
-<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">oldlist</span> <span class="o">=</span> <span class="n">typefun</span> <span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nc">Nil</span> <span class="o">|</span> <span class="nc">Cons</span> <span class="k">of</span> <span class="n">oldlist</span><span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="o">*</span> <span class="k">'</span><span class="n">a</span><span class="p">))</span>
 </code></pre></div></div>
 
 <p>Equivalent way to do list type using new generic type syntax (but using it to do old thing)</p>
 
 <div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">_</span> <span class="n">newlist</span> <span class="o">=</span> <span class="nc">Nil</span> <span class="o">:</span> <span class="k">'</span><span class="n">a</span> <span class="n">newlist</span> <span class="o">|</span> <span class="nc">Cons</span> <span class="o">:</span> <span class="k">'</span><span class="n">a</span> <span class="o">*</span> <span class="k">'</span><span class="n">a</span> <span class="n">newlist</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="n">newlist</span>
 </code></pre></div></div>
-<p>(the <code class="highlighter-rouge">_</code> here could also be <code class="highlighter-rouge">'a</code>, you probably want to view it as <code class="highlighter-rouge">'a</code> in fact)</p>
 
-<p>Observe how this is writing out the constructors with what their types are, viewing constructors as functions (they still are not functions in OCaml, but they are closer to being so)</p>
+<ul>
+  <li>Observe how this is writing out the constructors with what their types are, viewing constructors as functions (they still are not functions in OCaml, but they are closer to being so)</li>
+  <li>This type will work at least as well as the original <code class="highlighter-rouge">oldlist</code> type.</li>
+</ul>
 
 <p>Lets now show some added power of this new notation (toy example).</p>
 
@@ -406,7 +395,26 @@ types.</p>
 <span class="o">-</span> <span class="o">:</span> <span class="kt">float</span> <span class="n">dough</span> <span class="o">=</span> <span class="nc">Bump</span> <span class="p">(</span><span class="nc">Morph</span> <span class="p">(</span><span class="nc">Bump</span> <span class="p">(</span><span class="nc">Add</span> <span class="p">(</span><span class="nc">Intcomb</span> <span class="p">(</span><span class="mi">4</span><span class="o">,</span> <span class="nc">Coin</span><span class="p">)))))</span>
 </code></pre></div></div>
 
-<p>This particular type has no purpose: it is like making some random (well-formed) operational semantics rules, they are not likely to be useful.  As with an operational semantics rule set, with the right set of rules you can do interesting stuff.</p>
+<ul>
+  <li>The above type has no purpose: it is like making some random (well-formed) operational semantics rules, they are not likely to be useful.</li>
+  <li>As with an operational semantics rule set, with the right set of rules you can do interesting stuff.</li>
+</ul>
+
+<h5 id="explicit-forall-types">Explicit forall types</h5>
+
+<p>Along with the new syntax for type declarations is new syntax for polymorphic (for all / generic) types.</p>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">id</span><span class="o">:</span> <span class="k">type</span> <span class="n">t</span><span class="o">.</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="n">t</span> <span class="o">=</span> <span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="p">;;</span>
+<span class="k">val</span> <span class="n">id</span> <span class="o">:</span> <span class="k">'</span><span class="n">t</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">t</span> <span class="o">=</span> <span class="o">&lt;</span><span class="k">fun</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>This type syntax is better in that it makes it more explicit that the type is “for all types t, t to t”.</li>
+  <li>But, a big downside of all this is you need to start declaring types for OCaml functions as we will see below.</li>
+  <li>These types are a form of the <a href="https://caml.inria.fr/pub/docs/manual-ocaml/manual027.html">locally abstract types</a> in OCaml.</li>
+</ul>
+
+<h5 id="useful-work-from-the-new-gadts-in-ocaml">Useful work from the new GADT’s in OCaml</h5>
 
 <p>Here is an example from the manual showing how some useful work can be done.</p>
 
@@ -428,30 +436,55 @@ types.</p>
 <span class="o">-</span> <span class="o">:</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span> <span class="kt">string</span><span class="p">)</span> <span class="n">typ</span> <span class="o">=</span> <span class="nc">Pair</span> <span class="p">(</span><span class="nc">Int</span><span class="o">,</span> <span class="nc">String</span><span class="p">)</span> <span class="c">(* observe parameter on typ *)</span>
 </code></pre></div></div>
 
-<p>The interesting and useful bit about this seemingly-useless difference is this type parameter on <code class="highlighter-rouge">typ</code> can be used to force typings to go a certain way:</p>
+<p>The interesting and useful bit about this seemingly-useless difference is this type parameter on <code class="highlighter-rouge">typ</code> can be used to type otherwise untypeable code:</p>
 
-<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">let</span> <span class="k">rec</span> <span class="n">to_string</span><span class="o">:</span> <span class="k">type</span> <span class="n">t</span><span class="o">.</span> <span class="n">t</span> <span class="n">typ</span> <span class="o">-&gt;</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="kt">string</span> <span class="o">=</span>
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">let</span> <span class="k">rec</span> <span class="n">to_string</span><span class="o">:</span> <span class="k">type</span> <span class="n">t</span><span class="o">.</span> <span class="n">t</span> <span class="n">typ</span> <span class="o">-&gt;</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="kt">string</span> <span class="o">=</span> <span class="c">(* notice need to declare forall types! *)</span>
    <span class="k">fun</span> <span class="n">tv</span> <span class="n">x</span> <span class="o">-&gt;</span>
    <span class="k">match</span> <span class="n">tv</span> <span class="k">with</span>
    <span class="o">|</span> <span class="nc">Int</span> <span class="o">-&gt;</span> <span class="n">string_of_int</span> <span class="n">x</span>
    <span class="o">|</span> <span class="nc">String</span> <span class="o">-&gt;</span> <span class="nn">Printf</span><span class="p">.</span><span class="n">sprintf</span> <span class="s2">"%S"</span> <span class="n">x</span>
    <span class="o">|</span> <span class="nc">Pair</span><span class="p">(</span><span class="n">t1</span><span class="o">,</span><span class="n">t2</span><span class="p">)</span> <span class="o">-&gt;</span>
        <span class="k">let</span> <span class="p">(</span><span class="n">x1</span><span class="o">,</span> <span class="n">x2</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span> <span class="k">in</span>
-       <span class="nn">Printf</span><span class="p">.</span><span class="n">sprintf</span> <span class="s2">"(%s,%s)"</span> <span class="p">(</span><span class="n">to_string</span> <span class="n">t1</span> <span class="n">x1</span><span class="p">)</span> <span class="p">(</span><span class="n">to_string</span> <span class="n">t2</span> <span class="n">x2</span><span class="p">)</span>
+       <span class="nn">Printf</span><span class="p">.</span><span class="n">sprintf</span> <span class="s2">"(%s,%s)"</span> <span class="p">(</span><span class="n">to_string</span> <span class="n">t1</span> <span class="n">x1</span><span class="p">)</span> <span class="p">(</span><span class="n">to_string</span> <span class="n">t2</span> <span class="n">x2</span><span class="p">);;</span>
+<span class="k">val</span> <span class="n">to_string</span> <span class="o">:</span> <span class="k">'</span><span class="n">t</span> <span class="n">typ</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">t</span> <span class="o">-&gt;</span> <span class="kt">string</span> <span class="o">=</span> <span class="o">&lt;</span><span class="k">fun</span><span class="o">&gt;</span>
 </code></pre></div></div>
 
-<p>Here <code class="highlighter-rouge">typ</code> is giving a run-time name, <code class="highlighter-rouge">Int</code> which in the type of <code class="highlighter-rouge">to_string</code> adds an implicit constraint that the second argument <em>must be an integer</em> (cool, eh?).  This allows run-time type dispatch to be encoded; this trick is in fact how the OCaml libraries implement printf.</p>
+<ul>
+  <li>Here <code class="highlighter-rouge">typ</code> is giving a run-time name, <code class="highlighter-rouge">Int</code> which in the type of <code class="highlighter-rouge">to_string</code> adds an implicit constraint that the second argument <em>must be an integer</em> (cool, eh?).</li>
+  <li>Notice that the whole <code class="highlighter-rouge">match</code> above cannot be typed at a fixed type for <code class="highlighter-rouge">tv</code> like <code class="highlighter-rouge">int typ</code></li>
+  <li>The type used in each branch clause <em>depends</em> on which constuctor we are using</li>
+  <li>this is sometimes called a <em>weak dependent type</em> but it is really a <em>path-sensitive type</em>: different paths through the function can have different types.</li>
+  <li>This allows run-time type dispatch to be encoded</li>
+  <li>This trick is in fact how the OCaml libraries implement printf.</li>
+</ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># to_string Int 5;;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># to_string Int 5;; (* Int has type int typ and 5 is of type int -- a match *)
 - : string = "5"
-# to_string Int "oops";;
+# to_string Int "oops";; (* Int has type int typ and "oops" is of type string -- mismatch *)
 Error: This expression has type string but an expression was expected of type
          int
 </code></pre></div></div>
 
-<p>Notice also the special new <code class="highlighter-rouge">type t.</code> syntax for the type argument (which must be declared, inference is stupid for GADT types).  This shows what GADTs are useful for: the type <code class="highlighter-rouge">t</code> can be viewed as an (implicit) parameter to this function.  If the type were the more standard OCaml <code class="highlighter-rouge">'a typ -&gt; 'a -&gt; string</code> this would require <code class="highlighter-rouge">'a</code> to be <em>generic</em> and since the body de facto cases on that type this standard typing would not work.</p>
+<p>If the type of <code class="highlighter-rouge">to_string</code> were the more standard OCaml <code class="highlighter-rouge">'a typ -&gt; 'a -&gt; string</code> this path-sensitivity would not be allowed:</p>
 
-<p>Notice also that any cases from a GADT which do not type-check can be elided since the type system knows that case will never be matched – the following typechecks:</p>
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">let</span> <span class="k">rec</span> <span class="n">too_string</span><span class="o">:</span>  <span class="k">'</span><span class="n">a</span> <span class="n">typ</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">string</span> <span class="o">=</span>
+   <span class="k">fun</span> <span class="n">tv</span> <span class="n">x</span> <span class="o">-&gt;</span>
+   <span class="k">match</span> <span class="n">tv</span> <span class="k">with</span>
+   <span class="o">|</span> <span class="nc">Int</span> <span class="o">-&gt;</span> <span class="n">string_of_int</span> <span class="n">x</span>
+   <span class="o">|</span> <span class="nc">String</span> <span class="o">-&gt;</span> <span class="nn">Printf</span><span class="p">.</span><span class="n">sprintf</span> <span class="s2">"%S"</span> <span class="n">x</span>
+   <span class="o">|</span> <span class="nc">Pair</span><span class="p">(</span><span class="n">t1</span><span class="o">,</span><span class="n">t2</span><span class="p">)</span> <span class="o">-&gt;</span>
+       <span class="k">let</span> <span class="p">(</span><span class="n">x1</span><span class="o">,</span> <span class="n">x2</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span> <span class="k">in</span>
+       <span class="nn">Printf</span><span class="p">.</span><span class="n">sprintf</span> <span class="s2">"(%s,%s)"</span> <span class="p">(</span><span class="n">to_string</span> <span class="n">t1</span> <span class="n">x1</span><span class="p">)</span> <span class="p">(</span><span class="n">to_string</span> <span class="n">t2</span> <span class="n">x2</span><span class="p">);;</span>
+<span class="nc">Error</span><span class="o">:</span> <span class="nc">This</span> <span class="n">pattern</span> <span class="n">matches</span> <span class="n">values</span> <span class="k">of</span> <span class="k">type</span> <span class="kt">string</span> <span class="n">typ</span>
+       <span class="n">but</span> <span class="n">a</span> <span class="n">pattern</span> <span class="n">was</span> <span class="n">expected</span> <span class="n">which</span> <span class="n">matches</span> <span class="n">values</span> <span class="k">of</span> <span class="k">type</span> <span class="kt">int</span> <span class="n">typ</span>
+       <span class="nc">Type</span> <span class="kt">string</span> <span class="n">is</span> <span class="n">not</span> <span class="n">compatible</span> <span class="k">with</span> <span class="k">type</span> <span class="kt">int</span> 
+</code></pre></div></div>
+
+<ul>
+  <li>From the first match case <code class="highlighter-rouge">'a</code> must be an integer, but that conflicts with the second case.  GADTs allow each branch to have it’s own type.</li>
+  <li>Notice also that any cases from a GADT which do not type-check can be elided since the type system knows that case will never be matched</li>
+  <li>For example the following typechecks in spite of missing cases:</li>
+</ul>
 
 <div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">int_to_string</span><span class="o">:</span> <span class="kt">int</span> <span class="n">typ</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="o">-&gt;</span> <span class="kt">string</span> <span class="o">=</span>
    <span class="k">fun</span> <span class="n">t</span> <span class="n">x</span> <span class="o">-&gt;</span>
@@ -459,7 +492,7 @@ Error: This expression has type string but an expression was expected of type
    <span class="o">|</span> <span class="nc">Int</span> <span class="o">-&gt;</span> <span class="n">string_of_int</span> <span class="n">x</span>
 </code></pre></div></div>
 
-<p>Here is another simple example.</p>
+<p>Here is another simple example of suspended application.</p>
 
 <div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">_</span> <span class="n">wait</span> <span class="o">=</span>  <span class="nc">Wait</span> <span class="o">:</span> <span class="k">'</span><span class="n">arg</span> <span class="o">*</span> <span class="p">(</span><span class="k">'</span><span class="n">arg</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">result</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">result</span> <span class="n">wait</span>
 <span class="k">let</span> <span class="n">foo</span> <span class="p">(</span><span class="n">x</span> <span class="o">:</span> <span class="kt">bool</span><span class="p">)</span> <span class="o">=</span> <span class="k">if</span> <span class="n">x</span> <span class="k">then</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span>
@@ -469,7 +502,14 @@ Error: This expression has type string but an expression was expected of type
 <span class="k">let</span> <span class="n">doit</span> <span class="o">=</span> <span class="n">run_it</span> <span class="n">suspended_value</span>
 </code></pre></div></div>
 
-<p>Observe that the type <code class="highlighter-rouge">'arg</code> is not an exposed parameter in the wait type like <code class="highlighter-rouge">'result</code> is, it is an <em>existential</em> type, there is <em>some</em> type that works there but it is from the <code class="highlighter-rouge">wait</code> type.</p>
+<ul>
+  <li>Observe that the type <code class="highlighter-rouge">'arg</code> is not an exposed parameter in the wait type like <code class="highlighter-rouge">'result</code> is</li>
+  <li>It is an <em>existential</em> type, there is <em>some</em> type that works there but it is hidden in the <code class="highlighter-rouge">wait</code> type.</li>
+  <li>The above code in fact would work with a regular OCaml <code class="highlighter-rouge">Wait</code> type but we could not make a list of the two <code class="highlighter-rouge">int wait</code> values above as their <code class="highlighter-rouge">'arg</code> types differ</li>
+</ul>
+
+<div class="language-ocaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span><span class="o">,</span> <span class="k">'</span><span class="n">b</span><span class="p">)</span> <span class="n">badwait</span> <span class="o">=</span>  <span class="nc">BadWait</span> <span class="k">of</span>  <span class="k">'</span><span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="k">'</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="k">'</span><span class="n">b</span><span class="p">);;</span> <span class="c">(* notice how BOTH 'a and 'b exposed here *)</span>
+</code></pre></div></div>
 
 <p>A practical library example: <a href="https://github.com/hannesm/gmap">Gmap</a></p>
 
