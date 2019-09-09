@@ -505,6 +505,7 @@ Error: This expression has type string but an expression was expected of type
 <ul>
   <li>Observe that the type <code class="highlighter-rouge">'arg</code> is not an exposed parameter in the wait type like <code class="highlighter-rouge">'result</code> is</li>
   <li>It is an <em>existential</em> type, there is <em>some</em> type that works there but it is hidden in the <code class="highlighter-rouge">wait</code> type.</li>
+  <li>Such types cannot be formed in the “old” OCaml type syntax</li>
   <li>The above code in fact would work with a regular OCaml <code class="highlighter-rouge">Wait</code> type but we could not make a list of the two <code class="highlighter-rouge">int wait</code> values above as their <code class="highlighter-rouge">'arg</code> types differ</li>
 </ul>
 

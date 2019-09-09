@@ -513,6 +513,7 @@ let doit = run_it suspended_value
 
 * Observe that the type ```'arg``` is not an exposed parameter in the wait type like ```'result``` is
 * It is an *existential* type, there is *some* type that works there but it is hidden in the ```wait``` type.
+* Such types cannot be formed in the "old" OCaml type syntax
 * The above code in fact would work with a regular OCaml ```Wait``` type but we could not make a list of the two ```int wait``` values above as their ```'arg``` types differ
 
 ```ocaml
