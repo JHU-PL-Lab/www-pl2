@@ -454,6 +454,7 @@ type 'a btree = btreefun btreefun 'a  (* type fixed point via self-type passing 
   <li>Notice that the whole <code class="highlighter-rouge">match</code> above cannot be typed at a fixed type for <code class="highlighter-rouge">tv</code> like <code class="highlighter-rouge">int typ</code></li>
   <li>The type used in each branch clause <em>depends</em> on which constuctor we are using</li>
   <li>this is sometimes called a <em>weak dependent type</em> but it is really a <em>path-sensitive type</em>: different paths through the function can have different types.</li>
+  <li>Additionally, notice that the recursive call for pairs is at a type different than the original parameter – this is called a <em>polymorphic recursive type</em> and is not supported in normal OCaml types.</li>
   <li>This allows run-time type dispatch to be encoded</li>
   <li>This trick is in fact how the OCaml libraries implement printf.</li>
 </ul>
