@@ -461,6 +461,7 @@ val to_string : 't typ -> 't -> string = <fun>
  * Notice that the whole ```match``` above cannot be typed at a fixed type for ```tv``` like ```int typ```
  * The type used in each branch clause _depends_ on which constuctor we are using
  * this is sometimes called a _weak dependent type_ but it is really a _path-sensitive type_: different paths through the function can have different types.
+ * Additionally, notice that the recursive call for pairs is at a type different than the original parameter -- this is called a _polymorphic recursive type_ and is not supported in normal OCaml types.
  * This allows run-time type dispatch to be encoded
  * This trick is in fact how the OCaml libraries implement printf.
 
