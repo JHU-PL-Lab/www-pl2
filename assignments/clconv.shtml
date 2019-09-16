@@ -1,0 +1,30 @@
+<!--#include virtual="/pl2/header.html" -->	 
+</div>
+
+<!-- Main -->
+<div id="main" class="wrapper style4">
+
+<!-- Content -->
+<div id="content" class="container">
+<section>
+<header class="major">
+  <h2>Assigment 1: Closure conversion</h2>
+</header>
+
+<p>
+  Implement closure conversion for <strong>FbSR</strong>: write an OCaml function <tt>clconv</tt> which takes <strong>FbSR</strong> programs that may have non-local variables and produce a <strong>FbSR</strong> program without non-local variables that nonetheless interprets to the same value (for integer and boolean values that is).  Along with the lecture, closure conversion is in Ch 8 of the PL book and in the Leroy notes.
+
+<p>
+  Use the PLI FbDK for this assignment: <a href="http://pl.cs.jhu.edu/pl/book/_dist/">here</a>.  We will be using OCaml 4.08.1, if you are using opam from PLI you will need to <tt>opam update</tt>, <tt>opam switch create 4.08.1</tt>, and <tt>opam install ... </tt> (list all the packages you had in 4.07, at least <tt>ocamlbuild merlin ocp-indent user-setup tuareg menhir</tt>) to get the latest version.  The <a href="http://pl.cs.jhu.edu/pl2/coding.shtml">PLII coding page</a> gives general information on the OCaml we will be using in this class; if you did not take PLI follow the link there to the PLI OCaml info page in order to install etc.
+
+<p> For this assignment just place your <tt>clconv</tt> function in the file <tt>src/FbSR/fbsrinterp.ml</tt>.  You can either use the debugscript file to test it or define it to also be <tt>eval</tt> and turn the top loop into a closure convertor.
+  
+<p> Use Gradescope to submit, I will post the course code on Piazza.  We are not going to provide any test harness and you should write your own tests.
+
+	
+</section>
+</div>
+</div>
+
+
+<!--#include virtual="/pl2/footer.html" -->
