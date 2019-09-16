@@ -99,7 +99,7 @@
             <div align="center" class="body">Wed</div>
           </td>
           <td width="30%"> 
-            <div align="left" class="body">Program Transformations: A-trans, Closure conversion</div>
+            <div align="left" class="body">Program Transformations: A-translation</div>
           </td>
           <td width="30%"> 
             <div align="center" class="body"><a href="http://pl.cs.jhu.edu/pl/book/book.pdf">PLI Book</a>; <a href="https://xavierleroy.org/mpri/2-4/transformations.2up.pdf">Leroy slides</a>
@@ -117,7 +117,7 @@
             <div align="center" class="body">Mon</div>
           </td>
           <td width="30%"> 
-            <div align="left" class="body">&nbsp;</div>
+            <div align="left" class="body">More Transformations: Closure Conversion, Exception encoding</div>
           </td>
           <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
@@ -134,7 +134,7 @@
             <div align="center" class="body">Wed</div>
           </td>
           <td width="30%"> 
-            <div align="left" class="body">&nbsp;</div>
+            <div align="left" class="body">Yet More Transformations: State, Continuation Passing</div>
           </td>
           <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
@@ -157,7 +157,7 @@
             <div align="center" class="body">&nbsp;</div>
           </td>
           <td width="15%"> 
-            <div align="center" class="body">&nbsp;</div>
+            <div align="center" class="body">Assn 1</div>
           </td>
         </tr>
         <tr> 
