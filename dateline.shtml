@@ -102,7 +102,7 @@
             <div align="left" class="body">Program Transformations: A-translation</div>
           </td>
           <td width="30%"> 
-            <div align="center" class="body"><a href="http://pl.cs.jhu.edu/pl/book/book.pdf">PLI Book</a>; <a href="https://xavierleroy.org/mpri/2-4/transformations.2up.pdf">Leroy slides</a>
+            <div align="center" class="body"><a href="http://pl.cs.jhu.edu/pl/book/book.pdf">PLI Book</a>; <a href="https://xavierleroy.org/mpri/2-4/transformations.2up.pdf">Leroy transformations slides</a>
 	    </div>
           </td>
           <td width="15%"> 
@@ -137,7 +137,8 @@
             <div align="left" class="body">Yet More Transformations: State, Continuation Passing</div>
           </td>
           <td width="30%"> 
-            <div align="center" class="body">&nbsp;</div>
+            <div align="center" class="body"><a href="http://matt.might.net/articles/by-example-continuation-passing-style/">Might JavaScript continuations post</a>
+	    </div>
           </td>
           <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
@@ -151,7 +152,7 @@
             <div align="center" class="body">Mon</div>
           </td>
           <td width="30%"> 
-            <div align="left" class="body">&nbsp;</div>
+            <div align="left" class="body">Uniting effecting translations: Monads</div>
           </td>
           <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
