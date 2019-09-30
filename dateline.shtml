@@ -155,7 +155,8 @@
             <div align="left" class="body">Uniting effecting translations: Monads</div>
           </td>
           <td width="30%"> 
-            <div align="center" class="body">&nbsp;</div>
+            <div align="center" class="body"><a href="https://xavierleroy.org/mpri/2-4/monads.2up.pdf">Leroy monads slides</a>
+	    </div>
           </td>
           <td width="15%"> 
             <div align="center" class="body">Assn 1</div>
@@ -169,7 +170,7 @@
             <div align="center" class="body">Wed</div>
           </td>
           <td width="30%"> 
-            <div align="left" class="body">&nbsp;</div>
+            <div align="left" class="body">More monads</div>
           </td>
           <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
@@ -186,10 +187,11 @@
             <div align="center" class="body">Mon</div>
           </td>
           <td width="30%"> 
-            <div align="left" class="body">&nbsp;</div>
+            <div align="left" class="body">Monad programming</div>
           </td>
           <td width="30%"> 
-            <div align="center" class="body">&nbsp;</div>
+            <div align="center" class="body"><a href="code/monads.ml"><tt>monads.ml</tt></a> (minor variation on Leroy code)
+	    </div>
           </td>
           <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
@@ -203,7 +205,7 @@
             <div align="center" class="body">Wed</div>
           </td>
           <td width="30%"> 
-            <div align="left" class="body">&nbsp;</div>
+            <div align="left" class="body">Environment-based operational semantics</div>
           </td>
           <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
