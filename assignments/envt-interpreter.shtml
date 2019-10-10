@@ -1,0 +1,55 @@
+<!--#include virtual="/pl2/header.html" -->	 
+</div>
+
+<!-- Main -->
+<div id="main" class="wrapper style4">
+
+<!-- Content -->
+<div id="content" class="container">
+<section>
+<header class="major">
+  <h2>A3: Environment-based interpreter</h2>
+</header>
+
+<p>
+  For this assignment you will write an environment-based interpreter for Fb using closures.
+  <ol>
+    <li> Your interpreter must do no substitution when it is running, it needs to follow the lecture and use environments / closures.</li>
+    <li>Along with the lecture, <a href="https://xavierleroy.org/mpri/2-4/semantics.2up.pdf">Leroy's semantics slides</a> define the operational semantics rules which serve as the specification for such an interpreter.</li>
+    <li>As with the first assignment we will use the FbDK.  For this assignment you will write all your code in the file <tt>Fb/fbinterp.ml</tt>, constructing an <tt>eval</tt> function there which will in turn invoke your closure-based interpreter.</li>
+    <li>Here is a suggested expression type which includes closures.  (We put an <tt>E</tt> in front of the standard Fb data type constructors for reasons which will soon become clear.)
+      <pre>type eexpr =
+  | EVar of ident | EFunction of ident * eexpr | EAppl of eexpr * eexpr
+  | EPlus of eexpr * eexpr | EMinus of eexpr * eexpr | EEqual of eexpr * eexpr
+  | EAnd of eexpr * eexpr| EOr of eexpr * eexpr | ENot of eexpr
+  | EIf of eexpr * eexpr * eexpr | EInt of int | EBool of bool
+  | EClosure of eexpr * envt
+
+and envt = (ident * eexpr) list
+</pre>
+      <li>Notice the type of closures and environments in the above -- an environment is a list of identifiers and expressions.  This is the <em>Association list</em> representation of a mapping, see <a href="https://caml.inria.fr/pub/docs/manual-ocaml/libref/List.html">the List module docs</a> for how <tt>List.assoc</tt> etc allow lists of key/value pairs to serve as maps.  You can alternatively use the OCaml <tt>Map</tt> module but the mutual recursion between expressions and environments makes this harder.
+    <li>One issue with re-using the FbDK is the type of expressions above needs to include closures.  Rather than redoing the FbDK lexer/parser/etc codebase just write translation functions between the Fb expressions, <tt>expr</tt>, and the new <tt>eexpr</tt> type above.  Something like
+      <pre>let rec expr_to_eexpr e =
+   match e with
+       Var(x) -> EVar(x)
+     | Int(x) -> EInt(x)
+     | Bool(x) -> EBool(x)
+     | Let(i, e1, e2) -> EAppl(EFunction(i, expr_to_eexpr e2), expr_to_eexpr e1) (* encode let *)
+     | Appl(e1, e2) -> EAppl(expr_to_eexpr e1, expr_to_eexpr e2)
+	...
+
+let rec eexpr_to_expr e = ...</pre>
+      Assuming your interpreter is <tt>eeval : eexpr -> eexpr</tt>, with these conversion functions you can then define the top-loop <tt>eval : expr -> expr</tt> function as
+      <pre>let eval e = eexpr_to_expr(eeval (expr_to_eexpr e))</pre>
+      
+  </ol>
+  
+  <p>
+    For this assignment submit ONLY the file fbinterp.ml with your interpreter code.
+	
+</section>
+</div>
+</div>
+
+
+<!--#include virtual="/pl2/footer.html" -->

@@ -225,7 +225,8 @@
             <div align="left" class="body">Small-step operational semantics</div>
           </td>
           <td width="30%"> 
-            <div align="center" class="body">&nbsp;</div>
+            <div align="center" class="body"><a href="https://xavierleroy.org/mpri/2-4/semantics.2up.pdf">Leroy slides</a>
+	    </div>
           </td>
           <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
