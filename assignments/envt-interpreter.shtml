@@ -39,7 +39,7 @@ and envt = (ident * eexpr) list
 	...
 
 let rec eexpr_to_expr e = ...</pre>
-<li> Note that since we are writing a translator here we may as well eliminate some syntax to make our jobs easier in the interpreter .. you can see above that I turned Let into an application, and Let Rec can be treated similarly (that is why it is not in the <tt>eexpr</tt> grammar above).
+<li> Note that since we are writing a translator front-end here anyway we may as well eliminate some syntax to make our jobs easier in the interpreter .. you can see above that I turned Let into an application, and Let Rec can be treated similarly (that is why it is not in the <tt>eexpr</tt> grammar above).
     <li>    Assuming your interpreter is <tt>eeval : eexpr -> eexpr</tt>, with these conversion functions you can then define the top-loop <tt>eval : expr -> expr</tt> function as
       <pre>let eval e = eexpr_to_expr(eeval (expr_to_eexpr e))</pre>
       
