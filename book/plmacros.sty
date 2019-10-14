@@ -1,0 +1,538 @@
+%
+% Macros for the PL II book.
+% Currently there is a great deal of junk from the PL I macros in here, a bit has been flushed but a lot more needs to be.
+%
+
+%
+% Packages needed; includes some not currently used.
+%
+\usepackage{alltt}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{ifthen}
+\usepackage{listings}
+\usepackage{mathpartir}
+
+%\makeindex
+
+\newcount\tmpcount
+
+\newcounter{example}[chapter]
+\renewcommand{\theexample}{\thechapter.\arabic{example}}
+
+%\usepackage{picins}
+
+\newcommand{\fflat}{F\mbox{$\flat$}}
+\newcommand{\plin}{\in}
+\newcommand{\plnotin}{\notin}
+
+\newlength{\pagelen}
+\setlength{\pagelen}{\textwidth}
+\addtolength{\pagelen}{-.5in}
+
+
+\def\defeq{\stackrel{\textrm{def}}{=}}
+\def\evalto{\ensuremath{\Rightarrow}}
+\def\evalconc#1{\stackrel{#1}{\Longrightarrow}}
+\def\nevalto{\nRightarrow}
+\def\computesto{\rightarrow}
+\def\goesto{\rightarrow}
+\def\setofint{\mathbb{Z}}
+\newenvironment{oprules}
+        {\begin{eqnarray*}}
+        {\end{eqnarray*}}
+
+\def\delim{&&}
+
+\def\lb{\langle}
+\def\rb{\rangle}
+
+\newcommand{\oprule}[4][short]{
+  \def\longform{long}
+  \def\arg{#1}
+  \ifx\arg\longform
+    \vbox{%
+      \hbox{\textsl{(#2)}}
+      \vskip5pt plus 2pt minus 2pt
+      \hbox{$\displaystyle\frac{#3}{#4}$}}
+  \else 
+    \textsl{(#2)}\delim\frac{#3}{#4}\fi
+}
+\newcommand{\opruletwoline}[4][short]{
+  \def\longform{long}
+  \def\arg{#1}
+  \ifx\arg\longform
+    \vbox{%
+      \hbox{\textsl{(#2)}}
+      \vskip5pt plus 2pt minus 2pt
+      \hbox{$\displaystyle\frac{#3}{#4}$}}
+  \else 
+    \textsl{(#2)}\delim\frac{#3}{#4}\fi
+}
+
+\def\oprulespace{\;\;\;\;}
+\def\newruleline{\\\bigskip&&\\}
+\newenvironment{pldisplay}{\begin{displaymath}}{\end{displaymath}}
+\def\superprime{^\prime}
+\newenvironment{pldisplaylines}{\begin{displaymath}\begin{array}{@{}l}}
+                               {\end{array}\end{displaymath}}
+\newcommand{\plline}[1]{#1}
+\def\newplline{\\}
+\def\Fbtab{\hskip.25in}
+\def\equivto{\cong}
+\def\nequivto{\ncong}
+\def\doubleprime{^{\prime\prime}}
+\def\tripleprime{^{\prime\prime\prime}}
+\def\plhrule{\hrule}
+\newcommand{\CC}{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\tiny\bf +}\nolinebreak\hspace{-.10em}\raisebox{.4ex}{\tiny\bf +}}
+
+\def\plmapsto{\mapsto}
+
+\newenvironment{example}%
+        {\removelastskip\vskip4pt plus 3pt minus 1.5pt%
+         \begin{Sbox}\begin{minipage}{.97\textwidth}%
+         \refstepcounter{example}%
+         \noindent\textbf{Example \theexample.}%
+         }%\vskip2pt plus 1pt minus 1pt}%
+        {\end{minipage}\end{Sbox}\noindent\fbox{\TheSbox}%
+         \vskip4pt plus 3pt minus 1.5pt}
+
+\newenvironment{interactive}[1]
+        {\removelastskip\goodbreak\vskip4pt plus 3pt minus 1.5pt%
+         \noindent\hrule\nobreak
+         \parpic{\includegraphics[width=.3in]{figures/termicon}}
+            \noindent\textbf{Interact with #1.}}
+        {\noindent\hrule\goodbreak\vskip10pt plus 7pt minus 3pt}
+
+
+%
+% Indexing macros
+%
+\newcommand*{\plBeginRangedIndex}[1]{\plIndex{#1|(}}
+\newcommand*{\plEndRangedIndex}[1]{\plIndex{#1|)}}
+
+
+
+
+\newcommand*{\judges}{\vdash}
+\newcommand*{\union}{\cup}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Common Versions of Commands, Environments, and Definitions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%
+% Standard theorem environments that we'll be using.
+%
+\newtheorem{corollary}{Corollary}[chapter]
+\newtheorem{property}{Property}[chapter]
+\newtheorem{definition}{Definition}[chapter]
+\theoremstyle{definition}
+\newtheorem{exercise}{Exercise}[chapter]
+\theoremstyle{plain}
+\newtheorem{lemma}{Lemma}[chapter]
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{fact}{Fact}[chapter]
+
+%
+% This seems like it's not doing anything, but it's actually expanding
+% the argument to index (as opposed to rewriting it verbatim in the
+% .idx file).  We want this because other index macros (see
+% plmacros_pdf.sty and plmacros_html.sty) will implicitly expand their
+% arguments, and using the primitive \index command in the document
+% would cause term mismatches.
+%
+\let\super@index\index
+\renewcommand*{\index}{\@latex@error{%
+  Don't use \noexpand\index -- use \noexpand\plIndex instead}
+}
+\newcommand*{\plIndex}[1]{\super@index{#1}}
+
+%
+% Use for keywords
+%
+\newcommand{\keyword}[1]{\textbf{#1}}
+\newcommand{\idxkeyword}[1]{{\keyword{#1}\plIndex{#1}}}
+
+\ifx\undefined\alsoname%
+  \newcommand{\alsoname}{see also}%
+\fi
+\ifx\undefined\seealso%
+  \newcommand*\seealso[2]{\emph{\alsoname} #1}%
+\fi
+
+%
+% comments macros
+%
+\newcommand{\signednote}[2]%
+        {\ifx\undefined\nonotes%
+         \marginpar{#1}%
+         {\small \ \ $\langle\langle\langle$\ {#2 -#1}\ %
+                     $\rangle\rangle\rangle$\ \ }\fi}
+\newcommand{\snote}[1]{\signednote{SS}{#1}}
+\newcommand{\mgnote}[1]{\signednote{MG}{#1}}
+\newcommand{\znote}[1]{\signednote{ZP}{#1}}
+%
+% To turn off notes, simply define \nonotes.  For example
+% \def\nonotes{1}
+% This is generally done by the Makefile, and not by editing this
+% style file.
+
+
+%
+% For programs and operational semantics
+%
+
+\newcommand*{\MLcode}[1]{\texttt{#1}} % Deprecated in favor of \ilCaml{}
+\newcommand*{\Fbcode}[1]{\MLcode{#1}} % Deprecated in favor of \ilFb{}
+\newcommand{\Fboverset}[2]{\ensuremath{\overset{#1}{\Fbcode{#2}}}}
+\newcommand{\Fb}{\textbf{\fflat{}}}
+\newcommand{\FbOB}{\textbf{\fflat{}OB}}
+\newcommand{\FbR}{\textbf{\fflat{}R}}
+\newcommand{\CFbR}{\textbf{C\fflat{}R}}
+\newcommand{\FbV}{\textbf{\fflat{}V}}
+\newcommand{\AFbV}{\textbf{A\fflat{}V}}
+\newcommand{\FbS}{\textbf{\fflat{}S}}
+\newcommand{\FbSR}{\textbf{\fflat{}SR}}
+\newcommand{\FbX}{\textbf{\fflat{}X}}
+\newcommand{\FbDK}{FbDK}
+\newcommand{\TFb}{\textbf{T\fflat{}}}
+\newcommand{\EFb}{\textbf{E\fflat{}}}
+\newcommand{\PEFb}{\textbf{PE\fflat{}}}
+\newcommand{\STFbR}{\textbf{ST\fflat{}R}}
+\newcommand{\TFbSRX}{\textbf{T\fflat{}SRX}}
+% computer versions
+\newcommand{\fb}{\texttt{Fb}}
+\newcommand{\fbsr}{\texttt{FbSR}}
+\newcommand{\fbdksrc}{\$FbDK\_SRC}
+
+\newcommand{\bigspace}{\;\;\;\;\;}
+
+\newcommand{\codeline}[3][notlast]{%
+  \plline{\ntimes{\Fbtab}{#2}\Fbcode{#3}}%
+  \ifx{last}{#1}\empty\else\newplline\fi}
+
+
+%
+% Repeat #1, #2 times.
+% eg. f\ntimes{o}{2} ==> foo
+%
+\newcommand{\ntimes}[2]{%
+  \tmpcount=#2
+  \ifnum\tmpcount>0%
+    #1%
+    \advance\tmpcount-1%
+    \ntimes{#1}{\number\tmpcount}%
+  \fi
+}
+
+%
+% This was meant to italicize the primary index entry for a term.  The
+% problem is that the hyperref package will not create a hyperlink if
+% we mess with the default index entry format.   Hopefully we can
+% think of a workaround.
+
+%\def\pidx#1{{\it #1}}
+
+% Skalka macros, uncomment as needed
+
+
+% \newcommand{\heading}[1]{\vspace{3mm}\noindent #1:\ }
+
+% \newcounter{thmcounter}
+% \setcounter{thmcounter}{1}
+% \newtheorem{prop}{Proposition}[thmcounter]
+% \newtheorem{definition}{Definition}[thmcounter]
+% \newtheorem{theorem}{Theorem}[thmcounter]
+% \newtheorem{lemma}{Lemma}[thmcounter]
+% \newenvironment{proof}{\noindent\textit{Proof. }}{}
+
+% \newcommand{\interp}[3]{
+% \begin{tabular}{l}
+% \texttt{\# #1 }\\
+% \texttt{- :\ #3 = #2}
+% \end{tabular}\\
+% }
+
+% \newcommand{\declinterp}[4]{
+% \begin{tabular}{l}
+% \texttt{\# #2 }\\
+% \texttt{val #1 :\ #4 = #3}
+% \end{tabular}\\
+% }
+
+% \newcommand{\interpbad}[2]{
+% \begin{tabular}{l}
+% \texttt{\# #1 }\\
+% \texttt{#2}
+% \end{tabular}\\
+% }
+
+% \newcommand{\note}[1]{\noindent\textit{(\textbf{$\star$note$\star$:}\ \ #1)}}
+
+% \newcommand{\evals}{\Downarrow}
+% \newcommand{\diverges}{\Uparrow}
+% \newcommand{\intt}{\texttt{int}}
+% \newcommand{\unitt}{\texttt{unit}}
+% \newcommand{\boolt}{\texttt{bool}}
+% \newcommand{\floatt}{\texttt{float}}
+% \newcommand{\stringt}{\texttt{string}}
+% \newcommand{\chart}{\texttt{char}}
+% \newcommand{\vb}[1]{\verb+#1+}
+% \newcommand{\evalexmp}[2]{\texttt{#1}\ \ensuremath{\evals}\ \texttt{#2}}
+% \newcommand{\texmp}[2]{\texttt{#1\ :\ #2}}
+\newcommand{\skipper}{\bigskip\\}
+% \newcommand{\fyi}{\noindent\textbf{\textit{fyi:}}\ }
+% \newcommand{\NB}{\noindent\textbf{NB:\ }}
+% \newcommand{\const}{\ensuremath{\mathbf{c}}}
+% \newcommand{\defn}{\heading{definition}}
+% \newcommand{\defeq}{\triangleq}
+% \newcommand{\nat}{\mathbb{N}}
+% \newcommand{\atom}{\texttt{const}}
+% \def\squareforqed{\hbox{\rlap{$\sqcap$}$\sqcup$}}
+% \def\qed{\ifmmode\squareforqed\else{\unskip\nobreak\hfil
+% \penalty50\hskip1em\null\nobreak\hfil\squareforqed
+% \parfillskip=0pt\finalhyphendemerits=0\endgraf}\fi}
+% \newcommand{\exampletab}[1]{\skipper\begin{tabular}{lll}#1\end{tabular}\skipper}
+% \newcommand{\verbtab}[1]{\skipper\begin{verbatimtab}{#1}\end{verbatimtab}\skipper}
+\newcommand{\eqntab}[1]{\skipper\begin{tabular}{rcl}#1\end{tabular}\skipper}
+% \newcommand{\recdefn}[1]{\{#1\}}
+% \newcommand{\ttt}[1]{\texttt{#1}}
+% \newcommand{\gdesc}[1]{\text{\textit{#1}}}
+
+% using these macros; will need to make the two versions of syntax
+% macros consistent, probably by switching to these everywhere.
+\newcommand{\true}{\mathtt{true}}
+\newcommand{\false}{\mathtt{false}}
+\newcommand{\reval}{\Rightarrow}
+\newcommand{\Fband}{\ \mathtt{and}\ }
+\newcommand{\Fbor}{\ \mathtt{or}\ }
+\newcommand{\Fbnot}{\mathtt{not}\ }
+\newcommand{\cod}[1]{\llbracket #1 \rrbracket}
+\newcommand{\Fbplus}{\mathtt{plus}}
+\newcommand{\Fbminus}{\mathtt{minus}}
+\newcommand{\Fbequal}{\mathtt{=}}
+\newcommand{\Fbabs}[2]{(\lambda #1 . #2)}
+\newcommand{\Fbite}[3]{\mathtt{if}\ #1\ \mathtt{then}\ #2\ \mathtt{else}\ #3}
+\newcommand{\dotminus}{\stackrel{.}{-}}
+\newcommand{\Fblet}[3]{\mathtt{let}\ #1\ \texttt{=}\ #2\ \mathtt{ in }\ #3}
+\newcommand{\Fbletrec}[4]{\mathtt{let\ rec}\ #1\ #2 = #3\ \mathtt{in}\
+  #4}
+\newcommand{\msgsend}{\shortleftarrow}
+
+% \newcommand{\Fbfst}{\mathtt{left}}
+% \newcommand{\Fbsnd}{\mathtt{right}}
+% \newcommand{\labset}{\mathit{Lab}}
+% \newcommand{\Fbrec}[1]{\{ #1 \}}
+% \newcommand{\linfer}[3]{\inferrule*[right=(\TirName{#1})]{#2}{#3}}
+% \newcommand{\lab}[1]{\mathtt{#1}}
+% \newcommand{\loc}{\ell}
+% \newcommand{\Fbref}[1]{\mathtt{Ref}\,#1}
+% \newcommand{\store}{S}
+% \newcommand{\config}[2]{\langle #1,#2 \rangle}
+% \newcommand{\configf}[2]{\begin{array}[t]{l}\langle #1\\,\\ #2 \rangle \end{array}}
+% \newcommand{\extend}[3]{#1\{#2 \mapsto #3\}}
+% \newcommand{\emptystore}{\{\}}
+% \newcommand{\storedefn}[1]{\{#1\}}
+% \newcommand{\Fbret}[1]{\mathtt{Return}\,#1}
+% \newcommand{\Fbraise}[1]{\mathtt{Raise}\,#1}
+% \newcommand{\Fbexn}[2]{\#\!#1\,#2}
+% \newcommand{\Fbtry}[3]{\mathtt{Try}\,#1\,\mathtt{With}\,#2 \rightarrow #3}
+% \newcommand{\xname}{\mathit{exn}}
+% \newcommand{\Fbboolt}{\mathtt{bool}}
+% \newcommand{\Fbreft}[1]{#1\,\mathtt{ref}}
+% \newcommand{\Fbintt}{\mathtt{int}}
+% \newcommand{\tjudge}[3]{#1 \vdash #2 : #3}
+% \newcommand{\textend}[3]{#1;#2:#3}
+% \newcommand{\fnt}[2]{#1 \rightarrow #2}
+% \newcommand{\TFbabs}[3]{(\mathtt{Function}\ (#1 : #2) \rightarrow #3)}
+% \newcommand{\TFbletrec}[6]{\Fbletrec{#1}{#2 : #3}{#4 : #5}{#6}}
+% \newcommand{\emptyenv}{\varnothing}
+% \newcommand{\tfail}{\mathbf{fail}}
+% \newcommand{\tcheck}{\mathrm{typecheck}}
+% \newcommand{\tcheckfail}{\mathbf{TypeMismatch}}
+% \newcommand{\algtab}[1]
+% {
+% \vspace*{-3mm}
+% \begin{tabbing}
+% \hspace*{12mm}\=\hspace{9mm}\=\hspace{9mm}\=\hspace{6mm}\=\hspace{6mm}\=
+% \hspace{6mm}\=
+% #1
+% \end{tabbing}
+% }
+% \newcommand{\lt}{\left\{}
+% \newcommand{\rt}{\right\}}
+% \newcommand{\Lt}{\left\{\!\!\right.}
+% \newcommand{\Rt}{\left.\!\!\right\}}
+% \newcommand{\tinfer}{\mathit{PT}}
+% \newcommand{\unify}{\mathit{unify}}
+% \newcommand{\tsubn}{\varphi}
+% \newcommand{\scheme}[2]{\forall #1 . #2}
+% \newcommand{\Fbself}{\mathrm{this}}
+% \newcommand{\Fbsuper}{\mathrm{super}}
+% \newcommand{\Fbsend}[3]{#1.#2(#3)}
+% \newcommand{\Fbselect}[2]{#1.#2}
+% \newcommand{\Fbemptyclass}{\mathrm{EmptyClass}}
+% %\newcommand{\Fbclass}[3]{\mathrm{Class}\ \mathrm{Extends}\ #1\ \mathrm{Inst}
+% %\ #2\ \mathrm{Meth}\ #3}
+% \newcommand{\Fbclass}[2]{\mathrm{Class}\ \mathrm{Inst} \ #1\ \mathrm{Meth}\ #2}
+% \newcommand{\Fbobj}[2]{\mathrm{Object}\ \mathrm{Inst}\ #1\ \mathrm{Meth}\ #2}
+% %\newcommand{\Fbclassf}[3]{
+% %\begin{array}[t]{l}
+% %\mathrm{Class}\ \mathrm{Extends}\ #1 \\
+% %\quad \mathrm{Inst}\\
+% %\qquad #2 \\
+% %\quad \mathrm{Meth}\\
+% %\qquad #3
+% %\end{array}
+% %}
+% \newcommand{\Fbclassf}[3]{
+% \begin{array}[t]{l}
+% \mathrm{Class}\\
+% \quad \mathrm{Inst}\\
+% \qquad #1 \\
+% \quad \mathrm{Meth}\\
+% \qquad #2
+% \end{array}
+% }
+% \newcommand{\Fbobjf}[2]{
+% \begin{array}[t]{l}
+% \mathrm{Object}\\
+% \quad \mathrm{Inst}\\
+% \qquad #1 \\
+% \quad \mathrm{Meth}\\
+% \qquad #2
+% \end{array}
+% }
+% \newcommand{\Fbnew}[1]{\mathrm{New}\ #1}
+% \newcommand{\vtab}[1]{\begin{verbatimtab}[4]#1\end{verbatimtab}}
+
+% Commands for drawing operational semantics proof trees.
+% This layer of indirection is included in case stylistic adjustments need to
+% be made in the future.
+\newcommand{\optree}[2]{\ensuremath{\dfrac{#1}{#2}}}
+
+\newenvironment{opproof}{%
+    \vspace{0.25in}%
+}{%
+    \vspace{0.25in}%
+}
+
+% Environment for displaying equations.  (More robust than \eqntab)
+\newenvironment{eqntable}{%
+    \vspace{0.25in}%
+    \begin{tabular}{rcl}%
+}{
+    \end{tabular}%
+    \vspace{0.25in}%
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Code listing macros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%
+% Use this environment for generic blocks of code.
+%
+\newenvironment{codeblock}{\begin{alltt}}{\end{alltt}}
+
+%
+% Inputs code from the specified file
+%
+\newcommand{\inputcode}[1]{\begin{codeblock}\input{#1}\end{codeblock}}
+
+%
+% Create a command for common listings formats
+%
+\newcommand{\lstsetcommon}{%
+    \lstset{%
+        escapeinside={(`}{`)},
+        basicstyle=\ttfamily
+    }%
+}
+
+%
+% Create commands for listing for Caml code
+%
+\lstnewenvironment{CamlCode}{%
+    \lstsetcommon%
+    \lstset{language=Caml}%
+}{}
+\newcommand{\inputCaml}[1]{%
+    \begingroup%
+    \lstsetcommon%
+    \lstset{language=Caml}%
+    \lstinputlisting{#1}%
+    \endgroup%
+}
+\newcommand{\ilCaml}[1]{%
+    \lstsetcommon%
+    \lstset{language=Caml}%
+    \lstinline~#1~ % cherokee replaced with ~ for now, new unicode latex doesn't like for some reson - SS
+    % WAS: because the chances of Cherokee letters appearing in our source code are quite slim
+}
+
+%
+% Defines the creation of a language for source listings.
+% #1 - The base language to modify (or none to start fresh).
+% #2 - The name of the language.
+% #3 - The language key-value pairs (as per listings package).
+%
+% This command defines several commands when it is executed.  For instance,
+% \deflang{Foo}{...} creates the following comments:
+%     \lstsetFoo - Performs an appropriate \lstset for the language
+%     \inputFoo{file} - Inputs "file" verbatim and formats it (as per lstinputlisting)
+%     \begin{FooCode},\end{FooCode} - Starts/ends a listing environment for the language.
+%     \ilFoo{...} - An inline-formatted block of code (which must not contain the Cherokee letter Ꮙ)
+%
+\newcommand{\deflang}[3][]{%
+    \ifthenelse{\equal{#1}{}}{%
+        \lstdefinelanguage[]{#2}{#3}[keywords,comments]%
+    }{%
+        \lstdefinelanguage[]{#2}[]{#1}{#3}[keywords,comments]%
+    }%
+    \expandafter\newcommand\expandafter{\csname lstset#2\endcsname}{%
+        \lstsetcommon{}%
+        \lstset{%
+            language=#2
+        }%
+    }%
+    \expandafter\newcommand\expandafter{\csname input#2\endcsname}[1]{%
+        \begingroup
+        \expandafter\csname lstset#2\expandafter\endcsname
+        \lstinputlisting{##1}
+        \endgroup
+    }%
+    \lstnewenvironment{#2Code}{%
+        \expandafter\csname lstset#2\expandafter\endcsname
+    }{}%
+    \expandafter\newcommand\expandafter{\csname il#2\endcsname}[1]{%
+        \expandafter\csname lstset#2\expandafter\endcsname%
+        \lstinlineᏉ##1Ꮙ% because the chances of Cherokee letters appearing in our source code are quite slim
+    } %
+% TODO: this overset doesn't work correctly even with the hbox - why?
+%     \expandafter\newcommand\expandafter{\csname il#2Over\endcsname}[2]{%
+%         \expandafter\csname lstset#2\expandafter\endcsname%
+%         \ensuremath{\overset{##1}{\hbox{\lstinlineᏉ##1Ꮙ}}} %
+%     } %
+}
+
+% Defines a base language for Fb
+\deflang{Fb}{%
+    morecomment=[n]{(*}{*)},
+    sensitive=true,
+    morekeywords={true,false,if,then,else,and,or,not,fun,let,rec,in}
+}
+
+% TODO: note: the above language macros are not used exclusively throughout the book.
+% Several other macros, such as \Fbcode{}, still exist.  They are deprecated in favor
+% of these macros (such as \ilFb{}) but have not yet been removed from the book.
+

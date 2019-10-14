@@ -1,0 +1,291 @@
+%
+% Envt based opsem
+%
+\newcommand{\env}{\epsilon}
+\newcommand{\store}{\sigma}
+\chapter{Environment-based Operational Semantics}\label{ch_opsem}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\Fb{} Reviewed}
+\label{opsem_sec_d}
+
+Let us briefly review the grammar and substitution-based operational semantics from the PL I book.  Please see that book for details.  We are going to use Xavier's syntax notation rather than the PL I capitalized-keywords business, which gets tiring to write after awhile.  The syntax is the same, but \Fbcode{let rec} has been removed; it is not hard to encode with self-passing so is not adding a lot.
+
+\subsection{\Fb{} Syntax}\label{opsem_sec_syntax}
+
+
+$$
+\begin{array}{rcll}
+x &::=& (\Fbcode{a} \mid \Fbcode{b} \mid \ldots \mid \Fbcode{z}) &
+    \textit{lower-case letters} \\
+  &   & (\Fbcode{A} \mid \Fbcode{B} \mid \ldots \mid \Fbcode{Z} &
+    \textit{capital letters} \\
+  &   & \mid \Fbcode{a} \mid \Fbcode{b} \mid \ldots \mid \Fbcode{z} &
+    \textit{lower-case letters} \\
+  &   & \mid \Fbcode{0} \mid \Fbcode{1} \mid \ldots \mid \Fbcode{9} &
+    \textit{digits} \\
+  &   & \mid \Fbcode{\char'137} \mid \Fbcode{'} \mid \cdots)* &
+    \textit{other characters} \\
+&&&\\
+v &::=& x & \textit{variable values}\\
+  &   & \mid \Fbcode{true} \mid \Fbcode{false}  & \textit{boolean
+  values}\\
+  &   & \mid \Fbcode{0}\mid \Fbcode{1}\mid \Fbcode{-1}\mid \Fbcode{2}\mid
+  \Fbcode{-2}\mid \ldots & \textit{integer values}\\
+  &   & \mid \lambda x. e & \textit{function values}\\
+&&&\\
+e &::=& v & \textit{value expressions}\\
+  &   & \mid \Fbcode{(}e\Fbcode{)} &
+        \textit{parenthesized expressions}\\
+  &   & \mid e \Fbcode{ and } e \mid e \Fbcode{ or } e \mid \Fbcode{not }
+        e & \textit{boolean expressions}\\
+  &   & \mid e \Fbcode{ + }e \mid e \Fbcode{ - }e \mid e \Fbcode{ = }e \mid & \textit{numerical
+        expression}\\
+  &   & \mid e\;e & \textit{application expression}\\
+  &   & \mid \Fbcode{if }e\Fbcode{ then }e\Fbcode{ else }e &
+        \textit{conditional expressions}\\
+  &   & \mid \Fbcode{let } x \Fbcode{ = }e\Fbcode{ in }e & \textit{let expression}\\
+  % &   & \mid \Fbcode{let Rec } f\;x\Fbcode{
+  % = }e\Fbcode{ in }e & \textit{recursive let expression}
+\end{array}
+$$
+
+Note that in accordance with the above BNF, we will be using
+metavariables $e$, $v$, and $x$ to represent expressions, values, and variables
+respectively.
+
+Notions of bound and free variables and substitution are standard; see the PL I book.
+
+
+\subsection{Subsitution-based Operational Semantics}
+For reference, here are the \Fb{} operational semantics rules from the PL I book.
+
+\begin{oprules}
+\oprule{value}{}{v \evalto v}\newruleline
+\oprule{not}{e \evalto v}
+        {\Fbcode{not } e \evalto \textrm{the negation of } v}\newruleline
+\oprule{and}{e_1 \evalto v_1 \oprulespace e_2 \evalto v_2}
+        {e_1 \Fbcode{ and } e_2 \evalto \textrm{the logical and of }v_1
+        \textrm{ and } v_2}\newruleline
+\oprule{\Fbcode{+}}
+       {e_1 \evalto v_1,\oprulespace e_2 \evalto v_2 \textrm{ where }v_1,v_2\plin\setofint}
+       {e_1 \Fbcode{ + } e_2 \evalto \textrm{the integer sum of }v_1\textrm{ and }v_2}\newruleline
+\oprule{\Fbcode{=}}
+       {e_1 \evalto v_1,\oprulespace e_2 \evalto v_2 \textrm{ where }v_1,v_2\plin\setofint}
+       {e_1 \Fbcode{ = } e_2 \evalto \Fbcode{true} \textrm{ if }v_1\textrm{ and }v_2\textrm{ are identical, else }\Fbcode{false}}\newruleline
+\oprule{\Fbcode{if true}}
+       {e_1\evalto\Fbcode{true},\oprulespace e_2\evalto v_2}
+       {\Fbcode{if } e_1 \Fbcode{ then } e_2 \Fbcode{ else } e_3 \evalto v_2}\newruleline
+\oprule{\Fbcode{if false}}
+       {e_1\evalto\Fbcode{false},\oprulespace e_3\evalto v_3}
+       {\Fbcode{if }e_1 \Fbcode{ then }e_2 \Fbcode{ else } e_3 \evalto v_3}\newruleline
+\oprule{application}
+       {e_1 \evalto\lambda x.e,\oprulespace e_2 \evalto v_2,\oprulespace e[v_2/x]\evalto v}
+       {e_1\;e_2\evalto v}\newruleline
+\oprule{let}
+       {e_1 \evalto v_1  \oprulespace  e_2[v_1/x] \evalto v_2}
+       {\Fblet{x}{e_1}{e_2} \evalto v_2}
+\end{oprules}
+% \begin{oprules}
+% \oprule[long]{let Rec}
+%        {e_2[\Fbcode{Function }x\Fbcode{ -> }e_1[(\Fbcode{Function }x
+%        \Fbcode{ -> let Rec }f\;x\Fbcode{ = }e_1\Fbcode{ in }f\Fbcode{ }x)/f]/f] \evalto v}
+%        {\Fbcode{let Rec }f\;x\Fbcode{ = }e_1\Fbcode{ in }e_2 \evalto v}
+% \end{oprules}
+
+\section{Environment-based evaluator}
+Let us now get rid of substitutions, both because they are inefficient to implement in an interpreter and that we cannot make a program analysis out of an operational semantics with substitution.
+
+The semantics will include an extra parameter $\env$, the \emph{environment}, which map variables to values.  But, for non-local variables in functions we will lose those definitions unless they are explicitly stashed.  So, function values are not just $\lambda x.e$, they are \emph{closures} $\lb \lambda x.e, \env$ where $\env$ is a mapping taking local variables to values.
+
+It is more elegant to fully decouple the value grammar $v$ from the expression grammar $e$ at this point -- closures are computation results so are only parts of values, and regular $\lambda$-expressions $\lambda x.e$ are still the non-value form of a function.  Writing out the full grammars (note we are overriding the definitions of $e$ and $v$ from the previous section here) we have
+$$
+\begin{array}{rcll}
+v &::=& x \mid \Fbcode{true} \mid \Fbcode{false} \mid \Fbcode{0}\mid \Fbcode{1}\mid \Fbcode{-1}\mid \Fbcode{2}\mid  \Fbcode{-2}\mid \ldots & \textit{non-function values}\\
+  &   & \mid \lb \lambda x. e, \env \rb  & \textit{function closures}\\
+\env &::=& \{x \mapsto v, \dots x \mapsto v \}&\textit{environments}\\
+e &::=& x \mid \lambda x. e \mid \Fbcode{true} \mid \Fbcode{false} \mid \Fbcode{0}\mid \Fbcode{1}\mid \Fbcode{-1}\mid \Fbcode{2}\mid  \Fbcode{-2}\mid \ldots\\
+  &   & \mid e \Fbcode{ and } e \mid e \Fbcode{ or } e \mid \Fbcode{not }
+        e \mid e \Fbcode{ + }e \mid e \Fbcode{ - }e \mid e \Fbcode{ = }e \\
+& & \mid e\;e
+\mid \Fbcode{if }e\Fbcode{ then }e\Fbcode{ else }e
+\mid \Fbcode{let } x \Fbcode{ = }e\Fbcode{ in }e
+  % &   & \mid \Fbcode{let Rec } f\;x\Fbcode{
+  % = }e\Fbcode{ in }e & \textit{recursive let expression}
+\end{array}
+$$
+ 
+Environments $\env$ are simple mappings from variables to values.  It is a true mapping in that there is at most one mapping for any variable in any $\env$.   To avoid ambiguity let us write out the basic operations etc on environments.
+
+\begin{definition}
+  Basic definitions on environments include
+  \begin{itemize}
+  \item $x \in \mathit{domain}(\env)$ iff $\env$ is of the form $\{\dots x \mapsto v, \dots\}$, i.e. it has some mapping of $x$.
+  \item $\env(x) = v$ where $\env = \{\dots, x \mapsto  v,\dots\}$.  Looking up a variable not in the domain is undefined.
+  \item $(\env_1 \union \env_2)$ is the least $\env'$ such that $\env'(x) = \env_2(x)$ if $x \in \mathit{domain}(\env_2)$, and otherwise $\env'(x) = \env_1(x)$.
+  \item We say $e/\env$ is \emph{closed} if all free variables in $e$ are in $\mathit{domain}(\env)$.
+  \item We extend environment lookup notation so that $\env(e) = e[v_1/x_1,...,v_n/x_n]$ for $\env = \{x_1 \mapsto v_1, \dots x_n \mapsto v_n\}$.
+  \item We will let $\env_\emptyset = \{\}$ be shorthand for the empty environment.
+  \end{itemize}
+\end{definition}
+
+We can now define the operational semantics rules.
+
+\begin{oprules}
+\oprule{variable}{\env(x)=v}{\env \vdash x \evalto v}\newruleline
+\oprule{closure}{}{\env \vdash \lambda x.e \evalto \lb\lambda x.e, \env\rb}\newruleline
+\oprule{value}{v \text{ not a variable or a closure}}{\env \vdash v \evalto v}\newruleline
+\oprule{not}{\env \vdash e \evalto v}
+        {\env \vdash \Fbcode{not } e \evalto \textrm{the negation of } v}\newruleline
+\oprule{and}{\env \vdash e_1 \evalto v_1 \oprulespace \env \vdash e_2 \evalto v_2}
+        {\env \vdash e_1 \Fbcode{ and } e_2 \evalto \textrm{the logical and of }v_1
+        \textrm{ and } v_2}\newruleline
+\oprule{\Fbcode{+}}
+       {\env \vdash e_1 \evalto v_1,\oprulespace \env \vdash e_2 \evalto v_2 \textrm{ where }v_1,v_2\plin\setofint}
+       {\env \vdash e_1 \Fbcode{ + } e_2 \evalto \textrm{the integer sum of }v_1\textrm{ and }v_2}\newruleline
+\oprule{\Fbcode{=}}
+       {\env \vdash e_1 \evalto v_1,\oprulespace \env \vdash e_2 \evalto v_2 \textrm{ where }v_1,v_2\plin\setofint}
+       {\env \vdash e_1 \Fbcode{ = } e_2 \evalto \Fbcode{true} \textrm{ if }v_1\textrm{ and }v_2\textrm{ are identical, else }\Fbcode{false}}\newruleline
+\oprule{\Fbcode{if true}}
+       {\env \vdash e_1\evalto\Fbcode{true},\oprulespace \env \vdash e_2\evalto v_2}
+       {\env \vdash \Fbcode{if } e_1 \Fbcode{ then } e_2 \Fbcode{ else } e_3 \evalto v_2}\newruleline
+\oprule{\Fbcode{if false}}
+       {\env \vdash e_1\evalto\Fbcode{false},\oprulespace \env \vdash e_3\evalto v_3}
+       {\env \vdash \Fbcode{if }e_1 \Fbcode{ then }e_2 \Fbcode{ else } e_3 \evalto v_3}\newruleline
+\oprule{application}
+       {\env \vdash e_1 \evalto\lb \lambda x.e,\env'\rb\oprulespace \env \vdash e_2 \evalto v_2,\oprulespace \env' \cup \{x \mapsto v_2\} \vdash e \evalto v}
+       {\env \vdash e_1\;e_2\evalto v}\newruleline
+\oprule{let}
+       {\env \vdash e_1 \evalto v_1  \oprulespace  \env \cup \{x \mapsto v_1\}\vdash e_2 \evalto v_2}
+       {\env \vdash \Fblet{x}{e_1}{e_2} \evalto v_2}
+\end{oprules}
+
+We can now define the (big step) relation.
+     
+\begin{definition}
+$\env \vdash e \evalto v$ for $e/\env$ closed is the least relation closed under the above rules.
+\end{definition}
+
+The two evaluators we defined are equivalent.
+\begin{lemma} \begin{itemize}
+  \item For all expressions $e$ and for non-function values $v$, $e \evalto v$ in the substitution-based system iff $\env_\emptyset \vdash e \evalto v$ in the environment-based system.
+  \item For all expressions $e$, $e \evalto \lambda x.e'$ in the substitution-based system iff $\env_\emptyset \vdash e \evalto \lb\lambda x.e'', \env'\rb$ in the environment-based system, where $\env'(\lambda x.e'') =\lambda x.e'$.
+  \end{itemize}
+\end{lemma}
+There is a bit of a mismatch here on the result because function values differ between the two systems, the former performing substitutions and the latter not.  The second clause puts them back on equal footing by substituting the final environment in.
+
+
+% \begin{oprules}
+% \oprule[long]{let Rec}
+%        {e_2[\Fbcode{Function }x\Fbcode{ -> }e_1[(\Fbcode{Function }x
+%        \Fbcode{ -> let Rec }f\;x\Fbcode{ = }e_1\Fbcode{ in }f\Fbcode{ }x)/f]/f] \evalto v}
+%        {\Fbcode{let Rec }f\;x\Fbcode{ = }e_1\Fbcode{ in }e_2 \evalto v}
+%      \end{oprules}
+
+\section{A Store-of-Environments evaluator}
+
+We are now going to define a variation on the above where rather than putting environments $\env$ directly in closures, we put a ``reference'' $r$ to the environment in the closure and then we additionally have a store, $\store$, which like a heap is a mapping from references $r$ to environments.  We want to make sure we make a fresh reference for each new environment, otherwise we get overlaps.  Let us now define this revised evaluator. 
+
+$$
+\begin{array}{rcll}
+v &::=& \dots & \textit{non-function values as before}\\
+  &   & \mid \lb \lambda x. e, p \rb  & \textit{function closures}\\
+\env &::=& \{x \mapsto v, \dots x \mapsto v \}&\textit{environments as before}\\
+e &::=& \dots & \textit{expressions as before}\\
+r &::=& & \textit{references, abstract now}\\
+\store &::=& \{r \mapsto v, \dots r \mapsto v\} & \textit{store}
+\end{array}
+$$
+ 
+Stores $\store$ are maps like environments and we use the same notation for extension and lookup etc.  Their domain of references $r$ are for now abstract nonces, similar to the cells $c$ of FbS.  If you like things concrete think of them as natural numbers.  When we make a new closure we want to make a fresh $r \mapsto \env$ to add to the store.
+
+The revised relation is of the form $\env \vdash \lb e, \store\rb \evalto \lb v,\store'\rb$ - the store is threaded through the computation in a manner similar to FbS.
+We can now define the operational semantics rules as a variation on the previous system.  Most of the added ``baggage'' is because we need to explicitly thread the store here.
+
+\begin{oprules}
+%
+\oprule{var}{\env(x)=v}{\env \vdash \lb x, \store \rb \evalto \lb v, \store \rb}\newruleline
+%
+\oprule{closure}{\store' = \store \cup \{r \mapsto \env\} \oprulespace r \text{ is fresh }}
+{\env \vdash \lb \lambda x.e, \store \rb \evalto \lb \lb\lambda x.e, r\rb,\store'\rb}\newruleline
+%
+\oprule{value}{v \text{ not a variable or a closure}}{\env \vdash \lb v, \store \rb \evalto \lb v, \store \rb}\newruleline
+%
+\oprule{not}{\env \vdash \lb e, \store \rb \evalto \lb v, \store'\rb
+  \oprulespace v' \textrm{ is the negation of } v}
+  {\env \vdash \lb \store, \Fbcode{not } e \rb \evalto \lb v',\store'\rb}\newruleline
+%
+\oprule{and}{\env \vdash \lb e_1, \store \rb \evalto \lb v_1, \store' \rb \oprulespace \env \vdash \lb e_2, \store' \rb \evalto \lb v_2,\store''\rb \oprulespace v \textrm{ is } v_1 \land v_2}
+        {\env \vdash \lb e_1 \Fbcode{ and } e_2, \store \rb \evalto \lb v,\store''\rb}\newruleline
+%
+\oprule{\Fbcode{+}}
+       {\env \vdash \lb e_1, \store \rb \evalto \lb v_1,\store'\rb \oprulespace \env \vdash \lb e_2, \store' \rb \evalto \lb v_2,\store'' \rb \textrm{ where }v_1,v_2,\store''\plin\setofint \textrm{ and } v_1+v_2=v}
+       {\env \vdash \lb e_1 \Fbcode{ + } e_2, \store  \rb \evalto \lb v,\store''\rb}\newruleline
+%
+\oprule{\Fbcode{=}}
+       {\env \vdash \lb e_1, \store \rb \evalto \lb v_1, \store' \rb  \oprulespace \env \vdash \lb e_2, \store' \rb \evalto \lb v_2,\store'' \rb \textrm{ where }v_1,v_2,\store''\plin\setofint, v = (v_1=v_2)}
+       {\env \vdash \lb e_1 \Fbcode{ = } e_2, \store  \rb \evalto \lb v,\store''\rb}\newruleline
+%
+\oprule{\Fbcode{if true}}
+       {\env \vdash \lb e_1, \store\rb \evalto \lb \Fbcode{true}, \store' \rb \oprulespace \env \vdash \lb e_2, \store'\rb \evalto \lb v_2,\store'' \rb}
+       {\env \vdash \lb \store, \Fbcode{if } e_1 \Fbcode{ then } e_2 \Fbcode{ else } e_3 \rb \evalto \lb v_2,\store'' \rb}\newruleline
+%
+\oprule{\Fbcode{if false}}
+       {\env \vdash \lb e_1, \store\rb \evalto \lb \Fbcode{false}, \store' \rb \oprulespace \env \vdash \lb \store', e_3\rb \evalto \lb v_3, \store'' \rb}
+       {\env \vdash \lb \store, \Fbcode{if }e_1 \Fbcode{ then }e_2 \Fbcode{ else } e_3 \rb \evalto \lb v_3, \store'' \rb }\newruleline
+%
+\oprule{app}
+       {\begin{array}{l}\env \vdash \lb e_1, \store \rb \evalto \lb \lb \lambda x.e,r \rb, \store' \rb \oprulespace \env \vdash \lb e_2, \store' \rb \evalto \lb v_2,\store'' \rb \oprulespace\\ \store''(r) = \env' \oprulespace \env' \cup \{x \mapsto v_2\} \vdash \lb e, \store'' \rb \evalto \lb v,\store'''\rb\end{array}}
+       {\env \vdash \lb e_1\;e_2, \store \rb \evalto \lb v, \store''' \rb }\newruleline
+%
+\oprule{let}
+       {\env \vdash \lb e_1, \store \rb \evalto \lb v_1, \store' \rb   \oprulespace  \env \cup \{x \mapsto v_1\}\vdash \lb e_2,\store' \rb \evalto \lb v_2,\store'''\rb}
+       {\env \vdash \lb \Fblet{x}{e_1}{e_2}, \store \rb \evalto \lb v_2,\store'''\rb}
+\end{oprules}
+
+The closure rule is the main change, notice how we only store a reference $r$ to the environment in the closure, and we put the environment itself in the store.  Since each time we make a closure we pick a fresh $r$ there will be no overlap on different environments.
+
+We can now define the (big step) relation.
+     
+\begin{definition}
+$\env \vdash \lb e, \store \rb \evalto \lb v, \store' \rb$ for $e/\env$ closed is the least relation closed under the above rules.  An initial computation starts with an empty emvironment and store: $\env_\emptyset \vdash \lb e, \store_\emptyset \rb\evalto \lb v,\store\rb$.
+\end{definition}
+
+\subsection{Call site stacks as references}
+
+We want to make one final modification to this operational semantics before we will be ready to ``hobble'' it to make a program analysis.
+
+Above the references $r$ were arbitrary entities, now we will make them something more concrete that we can then make finite so our program analysis will terminate.  In particular we make them stacks (lists in particular) of call sites, which we call \emph{contexts}, $C$.  We also need to distinguish different call sites and so tweak the language grammar ever so slightly to add a tag $e^{\ t}\;e$ to each call site where $t$ is distinct for each different call site in the program.
+
+Here are the changed grammar entities.
+$$
+\begin{array}{rcll}
+e &::=& \dots \mid e^{\ t}\;e& \textit{expressions nearly as before}\\
+t &::=& & \textit{call site tags, think numbers}\\
+C &::=& [t;\ldots;t] & \textit{references, now call site lists}\\
+\store &::=& \{C \mapsto v, \dots C \mapsto v\} & \textit{store}
+\end{array}
+$$
+The rules are nearly identical, but we need to keep track of the current call site list $C$ since it will be the reference used in the store.  Here are the closure and app rules, for the others just tack a $C$ on front as they are unchanged otherwise.
+
+\begin{oprules}
+\oprule{closure}{\store' = \store \cup \{C \mapsto \env\}}
+{\env, C \vdash \lb \lambda x.e, \store \rb \evalto \lb \lb\lambda x.e, C\rb,\store'\rb}\newruleline
+%
+\oprule{app}
+       {\begin{array}{l}\env, C \vdash \lb e_1, \store \rb \evalto \lb \lb \lambda x.e,C' \rb, \store' \rb \oprulespace \env, C \vdash \lb e_2, \store' \rb \evalto \lb v_2,\store'' \rb \oprulespace\\ \store''(C') = \env' \oprulespace \env' \cup \{x \mapsto v_2 \},(t::C) \vdash \lb e, \store'' \rb \evalto \lb v,\store'''\rb\end{array}}
+       {\env \vdash \lb e_1^{\ t}\;e_2, \store \rb \evalto \lb v, \store''' \rb }\newruleline
+\end{oprules}
+
+\begin{definition}
+$\env, C \vdash \lb e, \store \rb \evalto \lb v, \store' \rb$ for $e/\env$ closed is the least relation closed under the above rules.  An initial computation starts with an empty emvironment, call stack, and store: $\env_\emptyset, [] \vdash \lb e, \store_\emptyset \rb \evalto \lb v,\store\rb$.
+\end{definition}
+
+All of the operational semantics presented in this section will produce the same answers.  The use of call stacks as store references requires that call stacks will never be re-used, but this is a property of functional programs (while-loops don't have this property).
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

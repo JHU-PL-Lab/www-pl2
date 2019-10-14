@@ -1,0 +1,84 @@
+\documentclass[fleqn,oneside,11pt]{book}
+% somewhat less wasted paper/screenspace
+\setlength{\evensidemargin}{0.25in}
+\setlength{\oddsidemargin}{0.25in}
+\setlength{\topmargin}{0in}
+\setlength{\textwidth}{35pc}
+\setlength{\textheight}{52pc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amstext}
+%\usepackage[T1]{fontenc}
+%\usepackage[english]{fp-autoref}
+%\usepackage{fp-frame}
+%\usepackage[latin1]{inputenc}
+%\usepackage{mathpartir}
+%\usepackage{moreverb}
+%\def\TirName#1{\text{\sc #1}}
+\usepackage{stmaryrd}
+%\usepackage{enumerate}
+\usepackage{url}
+
+\usepackage{fancybox}
+\usepackage{makeidx}
+
+\usepackage{multirow}
+\usepackage{multicol}
+
+\usepackage{tikz}
+\usetikzlibrary{%
+    arrows,%
+    backgrounds,%
+    calc,%
+    chains,%
+    matrix,%
+    positioning,%
+    scopes,%
+    shapes,%
+    trees%
+    }
+
+% This must be the last package in the list.
+\usepackage{plmacros}
+
+\usepackage{hyperref}
+\usepackage{color}
+\hypersetup{
+    colorlinks=true, %set true if you want colored links
+    linktoc=all,     %set to all if you want both sections and subsections linked
+    linkcolor=blue,  %choose some color if you want links to stand out
+}
+\setcounter{tocdepth}{2}
+\setlength{\mathindent}{0pt}
+
+\bibliographystyle{plain}
+
+\title{Principles of Programming Languages II}
+
+\author{Scott Smith}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\frontmatter
+
+\pagenumbering{roman}
+
+\maketitle
+
+\mainmatter
+\pagenumbering{arabic}
+
+\include{eeval}
+
+%\appendix
+
+%\bibliography{main}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
