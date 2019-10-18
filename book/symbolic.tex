@@ -1,0 +1,102 @@
+%
+% symbolic execution
+\newcommand{\sat}{\textsc{Sat}}
+\newcommand{\sats}{\textsc{Sats}}
+\newcommand{\plusplus}{\mathnormal{+}\mathnormal{+}}
+
+\chapter{Symbolic Execution}\label{ch_symbolic}
+Here is an initial draft of the symbolic execution system.
+$$
+\begin{array}{rcll}
+  x && & \textit{variables}\\
+  i^n && \subseteq x\text{'s}, n \in \mathbb N^+ & \textit{input variables}\\
+  v &::=& s  \mid \lambda x. e  & \textit{values}\\
+  s &::=&x^C \mid \Fbcode{true} \mid \Fbcode{false} \mid \dots \mid \{\dots \Fbcode{-1}, \Fbcode{0}, \Fbcode{1}, \dots\}\\
+ &&   \mid s \Fbcode{ and } s \mid s \Fbcode{ or } s \mid \Fbcode{not }
+          s \mid s \Fbcode{ + } s \mid s \Fbcode{ - } s \mid s \Fbcode{ = } s& \textit{symbolic values}\\
+  \phi &::=& \text{$s$ with top node one of \Fbcode{and/or/not/=}} \mid x^C \mapsto v&\textit{formulae}\\
+  \Phi &::=& \phi \land \dots \land \phi &\textit{global formula}\\
+%\env &::=& \{x^C \mapsto v, \dots x^C \mapsto v \}&\textit{environments}\\
+e &::=& x \mid \lambda x. e \mid \Fbcode{true} \mid \Fbcode{false} \mid \{\dots \Fbcode{-1}, \Fbcode{0}, \Fbcode{1}, \dots\}\\
+  &   & \mid e \Fbcode{ and } e \mid e \Fbcode{ or } e \mid \Fbcode{not }
+        e \mid e \Fbcode{ + }e \mid e \Fbcode{ - }e \mid e \Fbcode{ = }e \\
+& & \mid e^{\,t}e
+\mid \Fbcode{if }e\Fbcode{ then }e\Fbcode{ else }e
+\mid \Fbcode{let } x \Fbcode{ = }e\Fbcode{ in }e\\
+t &::=& & \textit{call site tags, think numbers}\\
+C &::=& [t;\ldots;t] & \textit{call site lists aka contexts}\\
+%I &::=& [X^c; \dots x^C] & \textit{abstract input stream}\\
+  % 
+\end{array}
+$$
+
+We require that all expressions $e$ additionally are ``alphatized'' -- they cannot bind the same variable in multiple places.  This is not a practical restriction as any otherwise identical variables can be renamed.  We will reserve special program variable \Fbcode{input} to denote an input effect, it should not be bound and programs are considered closed even if \Fbcode{input} is free.  The syntax for input will be \Fbcode{let x = input in ...}.  This fits into the grammar above and will require no modifications to the FbDK which is why we are not introducing new syntax for input -- it will let us re-use the same \Fb{} parsers, pretty printers, etc.
+
+Global constraints on inputs are accumulated in a master formula $\Phi$. It can equivalently be viewed as a big conjunction of $\phi$ or as a set of $\phi$, we will pun across the two forms.  We will also be putting variable bindings in $\Phi$ by adding $x^C \mapsto v$ to $\Phi$; this is just an equivalence as far as the logical interpretation of $\Phi$ goes, so think ``$=$'' when you see these $\mapsto$; we use a different symbol to make things more readable (also recall the \Fbcode{=} only works on numbers).  Notation ``$\Phi(x^C)=v$'' is shorthand for $\Phi = \dots \land x^C \mapsto v\land\dots$.  It is an invariant that there will never be two different such mappings for any variable $x^C$ in $\Phi$, so this operation is always in fact a function.
+
+Variables $i^n$ for $n \in \mathbb N^+$ are special variables in $\Phi$ which are used to name successive inputs to the program.  The first input statement will return a result equivalent to $i^1$, the second $i^2$, etc.  We define a function $\Phi\plusplus$ which given a $\Phi$ returns the least $n>0$ such that $i^n$ does not occur in $\Phi$.
+
+The formula $\Phi$ must always be \emph{satisfiable}: there must be some assignment of numbers/booleans to the variables in $\Phi$ such that all of the conjuncts $\phi_j$ of $\Phi$ hold.  We write $\sat(\Phi)$ as a predicate asserting this fact.  Function $\sats(\Phi)$ returns a set of all possible such mappings of variables to values. 
+
+\begin{oprules}
+%
+\oprule{var}{\Phi(x)=v}{C \vdash \lb x, \Phi \rb \evalto \lb v, \Phi \rb}\newruleline
+%
+\oprule{value}{}{C \vdash \lb v, \Phi \rb \evalto \lb v, \Phi \rb}\newruleline
+%
+\oprule{not}{C \vdash \lb e, \Phi \rb \evalto \lb \phi, \Phi' \rb}
+  {C \vdash \lb \Phi, \Fbcode{not } e \rb \evalto \lb \Fbcode{not } \phi,\Phi' \rb}\newruleline
+%
+\oprule{and}{C \vdash \lb e_1, \Phi \rb \evalto \lb \phi_1, \Phi' \rb \oprulespace C \vdash \lb e_2, \Phi' \rb \evalto \lb \phi_2,\Phi'' \rb}
+        {C \vdash \lb e_1 \Fbcode{ and } e_2, \Phi \rb \evalto \lb \phi_1 \Fbcode{ and } \phi_2,\Phi'' \rb}\newruleline
+%
+\oprule{\Fbcode{+}}
+       {C \vdash \lb e_1, \Phi \rb \evalto \lb s_1,\Phi' \rb \oprulespace C \vdash \lb e_2, \Phi' \rb \evalto \lb s_2,\Phi'' \rb}
+       {C \vdash \lb e_1 \Fbcode{ + } e_2, \Phi \rb \evalto \lb s_1 \Fbcode{ + } s_2,\Phi'' \rb}\newruleline
+%
+\oprule{\Fbcode{=}}
+       {C \vdash \lb e_1, \Phi \rb \evalto \lb s_1, \Phi' \rb  \oprulespace C \vdash \lb e_2, \Phi' \rb \evalto \lb s_2,\Phi'' \rb }
+       {C \vdash \lb e_1 \Fbcode{ = } e_2, \Phi \rb \evalto \lb s_1 \Fbcode{ = } s_2,\Phi'' \rb}\newruleline
+%
+\oprule{\Fbcode{if true}}
+       {C \vdash \lb e_1, \Phi\rb \evalto \lb \phi, \Phi' \rb \oprulespace  \Phi'' = \Phi' \land \phi \oprulespace C \vdash \lb e_2, \Phi'' \rb \evalto \lb v_2,\Phi''' \rb}
+       {C \vdash \lb \Fbcode{if } e_1 \Fbcode{ then } e_2 \Fbcode{ else } e_3, \Phi \rb \evalto \lb v_2,\Phi''' \rb}\newruleline
+%
+\oprule{\Fbcode{if false}}
+       {C \vdash \lb e_1, \Phi\rb \evalto \lb \phi, \Phi' \rb \oprulespace  \Phi'' = \Phi' \land (\Fbcode{not }\phi) \oprulespace C \vdash \lb e_2, \Phi'' \rb \evalto \lb v_2,\Phi''' \rb}
+       {C \vdash \lb \Fbcode{if } e_1 \Fbcode{ then } e_2 \Fbcode{ else } e_3, \Phi \rb \evalto \lb v_2,\Phi''' \rb}\newruleline
+%
+\oprule{app}
+       {\begin{array}{l}C \vdash \lb e_1, \Phi \rb \evalto \lb \lambda x.e, \Phi' \rb \oprulespace C \vdash \lb e_2, \Phi' \rb \evalto \lb v_2,\Phi'' \rb \oprulespace\\  t::C \vdash \lb e[x^{t::C}/x], (\Phi''\land x^{t::C} \mapsto v_2) \rb \evalto \lb v,\Phi''' \rb\end{array}}
+       {C \vdash \lb e_1^{\, t}e_2, \Phi \rb \evalto \lb v, \Phi''' \rb }\newruleline
+%
+\oprule{let}
+       {C \vdash \lb e_1, \Phi \rb \evalto \lb v_1, \Phi' \rb   \oprulespace  C \vdash \lb e_2[x^{t::C}/x],(\Phi'\land x^C \mapsto v_1) \rb \evalto \lb v_2,\Phi'' \rb\oprulespace e_1 \neq \Fbcode{input}}
+       {C \vdash \lb \Fblet{x}{e_1}{e_2}, \Phi \rb \evalto \lb v_2,\Phi'' \rb}\newruleline
+\oprule{input}
+       {C \vdash \lb e_2[x^{t::C}/x],(\Phi \land x^{t::C} = i^{\Phi\plusplus}) \rb \evalto \lb v_2,\Phi' \rb}
+       {C \vdash \lb \Fblet{x}{\Fbcode{input}}{e_2}, \Phi \rb \evalto \lb v_2,\Phi' \rb}
+\end{oprules}
+
+\begin{definition}[Symbolic evaluation]
+$C \vdash \lb e, \Phi \rb \evalto \lb v, \Phi' \rb$ for $e$ closed is the least relation closed under the above rules for which $\sat(\Phi')$ holds.  An initial symbolic computation starts with an empty context and formula: $C_\emptyset \vdash \lb e, \Phi_\emptyset \rb \evalto \lb v,\Phi\rb$.
+\end{definition}
+ In an implementation of an evaluator, at any point where $\Phi$ becomes unsatisfiable that execution path is no longer possible and it can be aborted, but the above relation will only check satisfiability at the end of a computation.
+
+\begin{lemma}[Soundness] 
+For programs with no input, this symbolic evaluator works just like a regular evaluator:
+ For all \Fbcode{input}-free expressions $e$ and for non-function values $v$,  $ e \evalto v$ in the standard substitution-based \Fb{} operational semantics iff $C_\emptyset \vdash \lb  e , \Phi_\emptyset \rb \evalto \lb v,\Phi\rb$ in the symbolic evaluator.
+\end{lemma}
+
+\begin{lemma}[Nondeterminism] 
+The $C_\emptyset \vdash \lb e , \Phi_\emptyset \rb \evalto \lb v,\Phi\rb$ relation is not a function, there may be more than one value corresponding to initial expression $e$.
+\end{lemma}
+
+For example the program \Fbcode{let x = input in if x = 0 then true else false} could evaluate to either \Fbcode{true} or \Fbcode{false}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

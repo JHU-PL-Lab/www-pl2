@@ -1,0 +1,127 @@
+%
+% program analysis
+%
+\newcommand{\envset}{E}
+\chapter{Program Analysis}\label{ch_analysis}
+
+In this chapter we will ``hobble'' the (complete) evaluator $\env, C \vdash \lb e, \store \rb \evalto \lb v, \store' \rb$ defined in the previous chapter so it can be implemented as a total function.  Since a hobbled evaluator always terminates, it can be used by a compiler to optimize programs and/or to help find potential run-time errors.  Well, the previous sentence is not completely accurate, it must \emph{feasibly} terminate -- a doubly-exponential algorithm would not be very good!  This is in fact a serious issue as many program analyses are exponential in the worst case.
+
+Our development here is based on ``Abstracting Abstract Machines'' (AAM for short), a paper by Might and Van Horn \cite{AAM}.  We could just re-use their development, but their analysis only works over CPS-converted programs which can make some things more difficult to see, and I have simplified their approach, getting rid of one parameter in the evaluation relation.
+
+\section{The Basic Analysis}
+
+We start from the store-call-stack evaluator at the end of the previous chapter.  All we need to do is to make the store and value space finite; to make the store finite we will just make the references finite, by arbitrarily pruning the stack.
+
+Here is the full grammar.  Note how we have finitary integers here, only keeping the sign, and also include unknown-int and unknown-bool values.  Unknown-int is needed when we for example add a positive and a negative number -- it is unknown what its sign will be.  Other than these changes to atomic data the language grammar is the same.
+
+The major change is for the store: when we hobble the analysis we may end up re-using a key $C$ in the store, and we don't want to overwrite the old value as it could still be needed in the future -- to overwrite the old value would make the analyses \emph{un-sound}, it should always return a ``superset'' of what the actual program does and that property would fail.
+
+So, the solution is that instead of overwriting we just include them all, making it a multi-map.  We will notate this as a map where the key lookup in general returns a \emph{set} of environments $\{\env_1,\dots,\env_n\}$.
+
+$$
+\begin{array}{rcll}
+v &::=& x \mid \Fbcode{true} \mid \Fbcode{false} \mid \Fbcode{(-)}\mid \Fbcode{(0)}\mid \Fbcode{(+)}& \textit{non-function values}\\
+  &   & \mid \lb \lambda x. e, \env \rb  & \textit{function closures}\\
+\env &::=& \{x \mapsto v, \dots x \mapsto v \}&\textit{environments}\\
+\envset &::=& \{\env, \dots,\env \}&\textit{environment sets}\\
+e &::=& x \mid \lambda x. e \mid \Fbcode{true} \mid \Fbcode{false} \mid \{\dots \Fbcode{-1}, \Fbcode{0}, \Fbcode{1}, \dots\}\\
+  &   & \mid e \Fbcode{ and } e \mid e \Fbcode{ or } e \mid \Fbcode{not }
+        e \mid e \Fbcode{ + }e \mid e \Fbcode{ - }e \mid e \Fbcode{ = }e \\
+& & \mid e^{\,t}e
+\mid \Fbcode{if }e\Fbcode{ then }e\Fbcode{ else }e
+\mid \Fbcode{let } x \Fbcode{ = }e\Fbcode{ in }e\\
+t &::=& & \textit{call site tags, think numbers}\\
+C &::=& [t;\ldots;t] & \textit{call site lists aka contexts}\\
+\store &::=& \{C \mapsto \envset, \dots C \mapsto \envset\} & \textit{store}
+  % 
+\end{array}
+$$
+
+Since stores are now multi-maps we need to re-define store extension and lookup.
+\begin{definition}
+  Basic definitions on stores now include
+  \begin{itemize}
+  \item $C \in \mathit{domain}(\store)$ iff $\store$ is of the form $\{\dots C \mapsto \envset, \dots\}$, i.e. it has some mapping of $C$.
+  \item $\store(C) = \envset $ where $\store = \{\dots, C \mapsto  E,\dots\}$.  Looking up a context not in the domain is undefined.  To assert a particular environment is in a store map result we then assert $\env \in \store(C)$.
+  \item $(\store_1 \union \store_2)$ is the least $\store'$ such that $\store'(C) = \store_1(C) \cup \store_2(C)$.  Observe that we are unioning up the respective multi-map results here; this is also how we may create multi-maps to begin with if the stores formerly had only singleton sets of environments mapped.
+  \item We will let $\store_\emptyset = \{\}$ be shorthand for the empty store.
+  \end{itemize}
+\end{definition}
+
+The rules are mostly unchanged from the previous evaluation system.  For functions and function call only the store operations in closure and app and the context append in app change.  The integer rules are different because we have abstracted their values to only positive, negative, and zero in order to make them finite.  The hatted operators below are over this finite value space; for example, $\Fbcode{(+)} \in \Fbcode{(+)} \hat + \Fbcode{(-)}$ - adding a positive and a negative can produce a positive (it also can produce a negative or a 0\dots).
+\begin{oprules}
+%
+\oprule{var}{\env(x)=v}{\env, C \vdash \lb x, \store \rb \aevalto \lb v, \store \rb}\newruleline
+%
+\oprule{closure}{\store' = \store \cup \{C \mapsto \env\}}
+{\env, C \vdash \lb \lambda x.e, \store \rb \aevalto \lb \lb\lambda x.e, C\rb,\store'\rb}\newruleline
+%
+\oprule{number}{e \plin\setofint \oprulespace v \text{ is the sign of } e}{\env, C \vdash \lb e, \store \rb \aevalto \lb v, \store \rb}\newruleline
+%
+\oprule{boolean}{v \text{ is a boolean}}{\env, C \vdash \lb v, \store \rb \aevalto \lb v, \store \rb}\newruleline
+%
+\oprule{not}{\env, C \vdash \lb e, \store \rb \aevalto \lb v, \store'\rb
+  \oprulespace v' \textrm{ is the negation of } v}
+  {\env, C \vdash \lb \store, \Fbcode{not } e \rb \aevalto \lb v',\store'\rb}\newruleline
+%
+\oprule{and}{\env, C \vdash \lb e_1, \store \rb \aevalto \lb v_1, \store' \rb \oprulespace \env, C \vdash \lb e_2, \store' \rb \aevalto \lb v_2,\store''\rb \oprulespace v \textrm{ is } v_1 \land v_2}
+        {\env, C \vdash \lb e_1 \Fbcode{ and } e_2, \store \rb \aevalto \lb v,\store''\rb}\newruleline
+%
+\oprule{\Fbcode{+}}
+       {\env, C \vdash \lb e_1, \store \rb \aevalto \lb v_1,\store'\rb \oprulespace \env, C \vdash \lb e_2, \store' \rb \aevalto \lb v_2 \rb \textrm{ where }v_1,v_2\plin\hat\setofint \textrm{ and } v \plin v_1\hat{+}v_2}
+       {\env, C \vdash \lb e_1 \Fbcode{ + } e_2, \store  \rb \aevalto \lb v,\store''\rb}\newruleline
+%
+\oprule{\Fbcode{=}}
+       {\env, C \vdash \lb e_1, \store \rb \aevalto \lb v_1, \store' \rb  \oprulespace \env, C \vdash \lb e_2, \store' \rb \aevalto \lb v_2,\store'' \rb \textrm{ where }v_1,v_2\plin\hat\setofint, v \plin (v_1\hat =v_2)}
+       {\env, C \vdash \lb e_1 \Fbcode{ = } e_2, \store  \rb \aevalto \lb v,\store''\rb}\newruleline
+%
+\oprule{\Fbcode{if true}}
+       {\env, C \vdash \lb e_1, \store\rb \aevalto \lb \Fbcode{true}, \store' \rb \oprulespace  \env, C \vdash \lb e_2, \store'\rb \aevalto \lb v_2,\store'' \rb}
+       {\env, C \vdash \lb \Fbcode{if } e_1 \Fbcode{ then } e_2 \Fbcode{ else } e_3,\store \rb \aevalto \lb v_2,\store'' \rb}\newruleline
+%
+\oprule{\Fbcode{if false}}
+       {\env, C \vdash \lb e_1, \store\rb \aevalto \lb \Fbcode{false}, \store' \rb \oprulespace \env, C \vdash \lb \store', e_3\rb \aevalto \lb v_3, \store'' \rb}
+       {\env, C \vdash \lb \Fbcode{if }e_1 \Fbcode{ then }e_2 \Fbcode{ else } e_3,\store \rb \aevalto \lb v_3, \store'' \rb }\newruleline
+%
+\oprule{app}
+       {\begin{array}{l}\env, C \vdash \lb e_1, \store \rb \aevalto \lb \lb \lambda x.e,C' \rb, \store' \rb \oprulespace \env, C \vdash \lb e_2, \store' \rb \aevalto \lb v_2,\store'' \rb \oprulespace\\ \env'\in \store''(C') \oprulespace \env' \cup \{x \mapsto v_2 \},(t::_k C) \vdash \lb e, \store'' \rb \aevalto \lb v,\store'''\rb\end{array}}
+       {\env, C \vdash \lb e_1^{\, t}e_2, \store \rb \aevalto \lb v, \store''' \rb }\newruleline
+%
+\oprule{let}
+       {\env, C \vdash \lb e_1, \store \rb \aevalto \lb v_1, \store' \rb   \oprulespace  \env \cup \{x \mapsto v_1\}, C \vdash \lb e_2,\store' \rb \aevalto \lb v_2,\store''\rb}
+       {\env, C \vdash \lb \Fblet{x}{e_1}{e_2}, \store \rb \aevalto \lb v_2,\store''\rb}
+\end{oprules}
+
+Notice that list cons, $::$, has been replaced with $k$-cons, $::_k$.  This operation conses an element to the front and prunes any elements past length $k$ off of the end of the list.  This is key to making function calls finitary, eventually they will start re-using environments since no new keys $C$ will be manufactured.  The particular number $k$ is a parameter to the analysis, this style of analysis is termed $k$CFA \cite{Shivers91}.  $k$ is usually something small like $0$, $1$, or $2$ as it in practice gets very slow for larger $k$.
+
+\begin{definition}
+$\env, C \vdash \lb e, \store \rb \aevalto \lb v, \store' \rb$ for $e/\env$ closed is the least relation closed under the above rules.  An initial computation starts with an empty environment, call stack, and store: $\env_\emptyset, C_\emptyset \vdash \lb e, \store_\emptyset \rb \aevalto \lb v,\store\rb$.
+\end{definition}
+
+\begin{lemma}[Soundness] 
+The analysis evaluator above is a conservative approximation of the actual evaluation relation:
+ For all expressions $e$ and for non-function values $v$,  $\env_\emptyset, C_\emptyset \vdash \lb e, \store_\emptyset \rb\evalto \lb v,\store\rb$ in the store-reference system implies  $\env_\emptyset, C_\emptyset \vdash \lb  e , \store_\emptyset \rb \aevalto \lb v',\store\rb$ in the analysis, where $ v \in v'$ (the ``in'' here means e.g. $\Fbcode{5} \in \Fbcode{(+)}$).
+\end{lemma}
+
+\begin{lemma}[Nondeterminism] 
+The $\env_\emptyset, C_\emptyset \vdash \lb e , \store_\emptyset \rb \aevalto \lb v,\store\rb$ relation is not a function, there may be more than one value corresponding to initial expression $e$.
+\end{lemma}
+
+\begin{lemma}[Decidability] 
+The $\env_\emptyset, C_\emptyset \vdash \lb  e , \store_\emptyset \rb \aevalto \lb v,\store\rb$ relation is decidable: given an $e$ it is possible to compute the complete result value set $\{v_1,\dots,v_n\}$, the largest set such that for each $v_i$, $\env_\emptyset, C_\emptyset \vdash \lb e, \store_\emptyset \rb \aevalto \lb v_i,\store\rb$.
+\end{lemma}
+
+
+
+
+\section*{Acknowledgements}
+Thanks to Leandro Facchinetti for serving as a sounding board for this presentation of program analysis, and for suggesting several improvements to the representations.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
