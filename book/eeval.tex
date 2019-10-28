@@ -251,7 +251,7 @@ The environment and store evaluators are equivalent:
  For all expressions $e$ and for non-function values $v$, $\env_\emptyset \vdash e \evalto v$ in the environment-based system iff $\env_\emptyset \vdash \lb e, \store_\emptyset \rb\evalto \lb v,\store\rb$ in the store-based system.
 \end{lemma}
 
-\subsection{Call site stacks as references}
+\section{Call site stacks as references}
 
 We want to make one final modification to this operational semantics before we will be ready to ``hobble'' it to make a program analysis.
 
@@ -260,6 +260,8 @@ Above the references $r$ were arbitrary entities, now we will make them somethin
 Here are the changed grammar entities.
 $$
 \begin{array}{rcll}
+v &::=& \dots & \textit{non-function values as before}\\
+  &   & \mid \lb \lambda x. e, C \rb  & \textit{function closures}\\
 e &::=& \dots \mid e^{\, t}e& \textit{expressions nearly as before}\\
 t &::=& & \textit{call site tags, think numbers}\\
 C &::=& [t;\ldots;t] & \textit{references, now call site lists}\\

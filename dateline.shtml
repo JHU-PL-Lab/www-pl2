@@ -293,7 +293,7 @@
             <div align="center" class="body">Mon</div>
           </td>
           <td width="30%"> 
-            <div align="left" class="body">Program Analysis: the full system</div>
+            <div align="left" class="body">Program analysis: nearly the full system</div>
           </td>
           <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
@@ -310,7 +310,7 @@
             <div align="center" class="body">Wed</div>
           </td>
           <td width="30%"> 
-            <div align="left" class="body">Implementing Analyses; Industrial strength analysis</div>
+            <div align="left" class="body">Program Analysis: the full system</div>
           </td>
           <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
@@ -327,7 +327,7 @@
             <div align="center" class="body">Mon</div>
           </td>
           <td width="30%"> 
-            <div align="left" class="body">Symbolic evaluation</div>
+            <div align="left" class="body">Implementing Analyses; Industrial strength analysis</div>
           </td>
           <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
@@ -362,7 +362,7 @@
             <div align="center" class="body">Mon</div>
           </td>
           <td width="30%"> 
-            <div align="left" class="body">Symbolic Evaluation: SMT solvers</div>
+            <div align="left" class="body">Symbolic Evaluation</div>
           </td>
           <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
@@ -379,7 +379,7 @@
             <div align="center" class="body">Wed</div>
           </td>
           <td width="30%"> 
-            <div align="left" class="body">Type Systems</div>
+            <div align="left" class="body">Symbolic Evaluation</div>
           </td>	
           <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>

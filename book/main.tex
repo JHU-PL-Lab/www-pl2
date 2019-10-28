@@ -1,6 +1,6 @@
 \documentclass[fleqn,oneside,11pt]{book}
 
-%\usepackage{utopia}
+% Trying out some other fonts .. sick of the usual stuff.
 \usepackage[adobe-utopia]{mathdesign}
 \usepackage[T1]{fontenc}
 
@@ -10,6 +10,8 @@
 \setlength{\topmargin}{0in}
 \setlength{\textwidth}{35pc}
 \setlength{\textheight}{52pc}
+
+% Packages from PL I book, commenting out ones not using now.
 \usepackage{amsmath}
 \usepackage{amssymb} % one conflict line with adobe-utopia so using local version now.. SS, 10/19
 \usepackage{amstext}
@@ -20,31 +22,25 @@
 %\usepackage{mathpartir}
 %\usepackage{moreverb}
 %\def\TirName#1{\text{\sc #1}}
-\usepackage{stmaryrd}
+%\usepackage{stmaryrd}
 %\usepackage{enumerate}
 \usepackage{url}
+%\usepackage{alltt}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+%\usepackage{graphicx}
+%\usepackage{verbatim}
+%\usepackage{ifthen}
+\usepackage{listings}
+\usepackage{mathpartir}
 
-\usepackage{fancybox}
-\usepackage{makeidx}
+%\makeindex
 
-\usepackage{multirow}
-\usepackage{multicol}
+%\usepackage{fancybox}
+%\usepackage{makeidx}
 
-\usepackage{tikz}
-\usetikzlibrary{%
-    arrows,%
-    backgrounds,%
-    calc,%
-    chains,%
-    matrix,%
-    positioning,%
-    scopes,%
-    shapes,%
-    trees%
-    }
-
-% This must be the last package in the list.
-\usepackage{plmacros}
+%\usepackage{multirow}
+%\usepackage{multicol}
 
 \usepackage{hyperref}
 \usepackage{color}
@@ -53,7 +49,11 @@
     linktoc=all,     %set to all if you want both sections and subsections linked
     linkcolor=blue,  %choose some color if you want links to stand out
 }
-\setcounter{tocdepth}{2}
+
+% This must be the last package in the list.
+\usepackage{plmacros}
+
+%\setcounter{tocdepth}{2}
 \setlength{\mathindent}{0pt}
 
 \bibliographystyle{plain}
