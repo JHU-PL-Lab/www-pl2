@@ -1,0 +1,48 @@
+<!--#include virtual="/pl2/header.html" -->	 
+</div>
+
+<!-- Main -->
+<div id="main" class="wrapper style4">
+
+<!-- Content -->
+<div id="content" class="container">
+<section>
+<header class="major">
+  <h2>A4: Context interpreter</h2>
+</header>
+
+<p>
+  For this assignment you will write a context-based interpreter for Fb.  This is a warm-up to writing a full program analysis.
+  <ol>
+    <li> Your interpreter should closely follow Section 1.4 of the <a href="http://localhost/pl2/book/book.pdf">PLII book</a>, which serves as the specification.  In particular you are to keep track of the current call site string and use it as the key for a store of environments.
+    </li>
+    <li>For this assignment you will again write all your code in the file <tt>Fb/fbinterp.ml</tt>, constructing an <tt>eval</tt> function there which will in turn invoke your interpreter.</li>
+    <li>Here is a possible expression type which includes closures.  Feel free to use whatever type you want.
+      <pre>
+type callsite = int
+type context = callsite list
+
+type eexpr =
+  | EVar of ident | EFunction of ident * eexpr | EAppl of callsite * eexpr * eexpr
+  | ELet of ident * eexpr * eexpr | ELetRec of ident * ident * eexpr * eexpr
+  | EPlus of eexpr * eexpr | EMinus of eexpr * eexpr | EEqual of eexpr * eexpr
+  | EAnd of eexpr * eexpr| EOr of eexpr * eexpr | ENot of eexpr
+  | EIf of eexpr * eexpr * eexpr | EInt of int | EBool of bool
+  | EClosure of eexpr * context
+</pre>
+    <li>Notice the type of <tt>EAppl</tt> here, it additionally has a <tt>callsite</tt> which is the tag <tt>t</tt> in the mathematical version; this type is just integers here.  The <tt>context</tt> corresponds to the <em>C</em> of the book, the list of call sites.  We use that as a key placed in each closure <tt>EClosure</tt> above, following the spec.</li>
+    <li>You will also need types for store and evironment.  The environment is the same structure as the previous assignment, and the store is a mapping from <tt>context</tt>s to environments.  Note that for this assignment you can use the OCaml <tt>Map</tt> module, and it will be a good exercise to do so, but you don't have to; mappings as assocs as in the previous assignment is still OK.
+    <li>Generally you should just be tweaking your <tt>eeval</tt> interpreter of the previous assignment, for example modify the implementation of expr_to_eexpr to conform to this new grammar (and, you should also use this to generate unique tags for each call site), etc.  It should still create a working top-loop as with that assignment.</li>
+    <li>Assigngment 5 will be to implement chapter 2's program analysis, this is just a stepping stone on the way there.  If you want you can skip ahead to that if you think you can get it all done by the HW 4 deadline.  But, its a lot of work so that is why it is getting divided up into multiple assignments.
+      <li>If you had big problems on the previous interpreter assignment we can give you some "answers" to that to help you catch up.  Just ask.
+  </ol>
+  
+  <p>
+    For this assignment submit ONLY the file <tt>fbinterp.ml</tt> with your interpreter code.
+	
+</section>
+</div>
+</div>
+
+
+<!--#include virtual="/pl2/footer.html" -->
