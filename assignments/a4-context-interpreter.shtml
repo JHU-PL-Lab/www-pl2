@@ -14,7 +14,7 @@
 <p>
   For this assignment you will write a context-based interpreter for Fb.  This is a warm-up to writing a full program analysis.
   <ol>
-    <li> Your interpreter should closely follow Section 1.4 of the <a href="http://localhost/pl2/book/book.pdf">PLII book</a>, which serves as the specification.  In particular you are to keep track of the current call site string and use it as the key for a store of environments.
+    <li> Your interpreter should closely follow Section 1.4 of the <a href="/pl2/book/book.pdf">PLII book</a>, which serves as the specification.  In particular you are to keep track of the current call site string and use it as the key for a store of environments.
     </li>
     <li>For this assignment you will again write all your code in the file <tt>Fb/fbinterp.ml</tt>, constructing an <tt>eval</tt> function there which will in turn invoke your interpreter.</li>
     <li>Here is a possible expression type which includes closures.  Feel free to use whatever type you want.
