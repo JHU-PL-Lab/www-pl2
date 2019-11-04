@@ -44,6 +44,7 @@ Since stores are now multi-maps we need to re-define store extension and lookup.
   \item $C \in \mathit{domain}(\store)$ iff $\store$ is of the form $\{\dots C \mapsto \envset, \dots\}$, i.e. it has some mapping of $C$.
   \item $\store(C) = \envset $ where $\store = \{\dots, C \mapsto  E,\dots\}$.  Looking up a context not in the domain is undefined.  To assert a particular environment is in a store map result we then assert $\env \in \store(C)$.
   \item $(\store_1 \union \store_2)$ is the least $\store'$ such that $\store'(C) = \store_1(C) \cup \store_2(C)$.  Observe that we are unioning up the respective multi-map results here; this is also how we may create multi-maps to begin with if the stores formerly had only singleton sets of environments mapped.
+  \item We must be careful on how sets of environments are unioned -- $E_1 \union E_2$ will union the $\env$ except in the case where one environment strictly subsumes another; in that case the smaller environment will be elided.  This subtle issue is only needed to address let-binding since there is no context change in the let rule and environments may interfere in the store if we are not careful.
   \item We will let $\store_\emptyset = \{\}$ be shorthand for the empty store.
   \end{itemize}
 \end{definition}

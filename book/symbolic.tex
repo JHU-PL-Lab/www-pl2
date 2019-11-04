@@ -71,10 +71,10 @@ The formula $\Phi$ must always be \emph{satisfiable}: there must be some assignm
        {C \vdash \lb e_1^{\, t}e_2, \Phi \rb \evalto \lb v, \Phi''' \rb }\newruleline
 %
 \oprule{let}
-       {C \vdash \lb e_1, \Phi \rb \evalto \lb v_1, \Phi' \rb   \oprulespace  C \vdash \lb e_2[x^{t::C}/x],(\Phi'\land x^C \mapsto v_1) \rb \evalto \lb v_2,\Phi'' \rb\oprulespace e_1 \neq \Fbcode{input}}
+       {C \vdash \lb e_1, \Phi \rb \evalto \lb v_1, \Phi' \rb   \oprulespace  C \vdash \lb e_2[x^{C}/x],(\Phi'\land x^C \mapsto v_1) \rb \evalto \lb v_2,\Phi'' \rb\oprulespace e_1 \neq \Fbcode{input}}
        {C \vdash \lb \Fblet{x}{e_1}{e_2}, \Phi \rb \evalto \lb v_2,\Phi'' \rb}\newruleline
 \oprule{input}
-       {C \vdash \lb e_2[x^{t::C}/x],(\Phi \land x^{t::C} = i^{\Phi\plusplus}) \rb \evalto \lb v_2,\Phi' \rb}
+       {C \vdash \lb e_2[x^{C}/x],(\Phi \land x^{C} = i^{\Phi\plusplus}) \rb \evalto \lb v_2,\Phi' \rb}
        {C \vdash \lb \Fblet{x}{\Fbcode{input}}{e_2}, \Phi \rb \evalto \lb v_2,\Phi' \rb}
 \end{oprules}
 

@@ -280,6 +280,8 @@ The rules are nearly identical, but we need to keep track of the current call si
        {\env, C \vdash \lb e_1^{\, t}e_2, \store \rb \evalto \lb v, \store''' \rb }\newruleline
 \end{oprules}
 
+The $\union$ operation in the closure rule needs to be clarified -- in the context of let bindings the environment may be extended as more let expressions are entered, but the context $C$ is not changing.  The solution is to take $\union$ to always replace if the key $C$ is already present, as that environment will always be an extension.  When we get to making an analysis out of this it is more subtle, the mapping becomes a multi-mapping due to non-determinism.
+
 \begin{definition}
 $\env, C \vdash \lb e, \store \rb \evalto \lb v, \store' \rb$ for $e/\env$ closed is the least relation closed under the above rules.  An initial computation starts with an empty environment, call stack, and store: $\env_\emptyset, [] \vdash \lb e, \store_\emptyset \rb \evalto \lb v,\store\rb$.
 \end{definition}
