@@ -1,0 +1,58 @@
+<!--#include virtual="/pl2/header.html" -->	 
+</div>
+
+<!-- Main -->
+<div id="main" class="wrapper style4">
+
+<!-- Content -->
+<div id="content" class="container">
+<section>
+<header class="major">
+  <h2>A5: Program Analysis</h2>
+</header>
+
+<p>
+  For this assignment you will write a program analysis for Fb.
+  <ol>
+    <li> Your analysis should closely follow Chapter 2 of the <a href="/pl2/book/book.pdf">PLII book</a>, which serves as the specification.
+    </li>
+    <li>For this assignment you will again write all your code in the file <tt>Fb/fbinterp.ml</tt>, constructing an <tt>aeval</tt> function there which will in turn invoke your abstract interpreter.</li>
+    <li>Here is a possible abstract-expression type.  Feel free to use whatever type you want.
+      <pre>
+type callsite = int
+type context = callsite list
+
+(* abstract booleans *)
+type abool = T | F
+
+(* abstract ints *)
+type aint = N | Z | P
+
+type aexpr =
+  | AVar of ident | AFunction of ident * eexpr | AAppl of callsite * eexpr * eexpr
+  | ALet of ident * eexpr * eexpr | ALetRec of ident * ident * eexpr * eexpr
+  | APlus of eexpr * eexpr | AMinus of eexpr * eexpr | AEqual of eexpr * eexpr
+  | AAnd of eexpr * eexpr| AOr of eexpr * eexpr | ANot of eexpr
+  | AIf of eexpr * eexpr * eexpr | AInt of aint | ABool of abool
+  | AClosure of eexpr * context
+      </pre>
+    <li>There are several changes that the analysis must make to the interpreter of the previous assignment:<ol>
+	<li> The context must be made some fixed finite length.  Please either include a <tt>ref</tt> variable <tt>k</tt> which contains the maximum length of the context stack, or otherwise specifiy some other mechanism in comments.</li>
+	<li> The integers need to be finitized to just - 0, and + values.  As in the previous assignments we suggest a function <tt>expr_to_aexpr</tt> which can map initial Fb <tt>expr</tt> expressions to these abstract expressions.  The interpreter operations then must work over these abstract values.</li>
+	<li> The store is now not just a map from contexts to environments, due to non-determinism it must be a mapping from contexts to <em>sets</em> of environments.  You can use the OCaml <tt>Set</tt> module or you can just implement sets as OCaml lists.  </li>
+	<li> Here is the hardest part: there may be more than one value to any computation, including intermediate results.  For example <tt>(+) = (+)</tt> returns both true and false, and if this is the condition on an <tt>if</tt> then both branches must be taken and the final result the union of those two results (which themselves could be sets of more than one result).  Any binary operator also returns a set on either side so the <em>product</em> of possibilities must be evaluated.</li>
+	<li>Related to this, any lookup of a variable may also return multiple values all of which must be evaluated.
+	  <li>Lastly, all visited states must be checkpointed in a set -- this interpreter can get in a loop, but since the possible states are finite we can cache them and abort any eval which is visiitng a state already visited (just return an empty set of values).
+	  </ol>
+      <li>If you had big problems on the previous interpreter assignment we can give you some "answers" to that to help you catch up.  Just ask.
+  </ol>
+  
+  <p>
+    For this assignment submit ONLY the file <tt>fbinterp.ml</tt> with your interpreter code.
+	
+</section>
+</div>
+</div>
+
+
+<!--#include virtual="/pl2/footer.html" -->
