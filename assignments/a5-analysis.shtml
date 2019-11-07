@@ -45,6 +45,7 @@ type aexpr =
 	  <li>Lastly, all visited states must be checkpointed in a set -- this interpreter can get in a loop, but since the possible states are finite we can cache them and abort any eval which is visiitng a state already visited (just return an empty set of values).
 	  </ol>
       <li>If you had big problems on the previous interpreter assignment we can give you some "answers" to that to help you catch up.  Just ask.
+	<li>Please make sure your aeval output is readable by some mechanism.  If you use OCaml lists it will get printed out in the top loop which is good enough, but if you use the Map and Set modules you will need to write a pretty-printer.  You will find this handy for debuging as well :-)
   </ol>
   
   <p>
