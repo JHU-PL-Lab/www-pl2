@@ -14,7 +14,8 @@
 <p>
   We will fill in this M/W dateline as we go based on the topics covered on the indicated day.  The <a href="syllabus.shtml">Syllabus</a> contains the general plan we are following.  For the Friday schedule, see <a href="https://pl.cs.jhu.edu/seminars/fall-2019/">The fall PL Lab Seminar Schedule</a>.
   <p>
-  Lecture material and assigments are under the indicated links.</p>
+    Lecture material are under the indicated links; the assignments are <a href="assignments/">here.</a>
+  </p>
 
 <p>
 <table class="date" width="100%" border="1" cellspacing="0" cellpadding="0" bordercolor="#CCCCCC">
@@ -159,7 +160,7 @@
 	    </div>
           </td>
           <td width="15%"> 
-            <div align="center" class="body">Assn 1</div>
+            <div align="center" class="body">A1</div>
           </td>
         </tr>
         <tr> 
@@ -229,7 +230,7 @@
 	    </div>
           </td>
           <td width="15%"> 
-            <div align="center" class="body">&nbsp;</div>
+            <div align="center" class="body">A2</div>
           </td>
         </tr>
         <tr> 
@@ -299,7 +300,7 @@
             <div align="center" class="body">&nbsp;</div>
           </td>
           <td width="15%"> 
-            <div align="center" class="body">&nbsp;</div>
+            <div align="center" class="body">A3</div>
           </td>
         </tr>
         <tr> 
@@ -330,7 +331,8 @@
             <div align="left" class="body">Implementing Analyses; Industrial strength analysis</div>
           </td>
           <td width="30%"> 
-            <div align="center" class="body">&nbsp;</div>
+            <div align="center" class="body"><a href="https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/notes/slides01-intro.pdf">Aldrich intro slides</a>
+	    </div>
           </td>
           <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
@@ -348,7 +350,7 @@
           </td>  
           </td>
           <td width="30%"> 
-            <div align="center" class="body">&nbsp;</div>
+            <div align="center" class="body"><a href="book/book.pdf">PL II book</a>, chapter 3</div>
           </td>
           <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
@@ -368,7 +370,7 @@
             <div align="center" class="body">&nbsp;</div>
           </td>
           <td width="15%"> 
-            <div align="center" class="body">&nbsp;</div>
+            <div align="center" class="body">A4</div>
           </td>
         </tr>
         <tr> 
@@ -396,10 +398,11 @@
             <div align="center" class="body">Mon</div>
           </td>
           <td width="30%"> 
-            <div align="left" class="body">Type Systems</div>
+            <div align="left" class="body">Concolic Execution; Type Systems Intro</div>
           </td>
           <td width="30%"> 
-            <div align="center" class="body">&nbsp;</div>
+            <div align="center" class="body"><a href="https://www.cs.cmu.edu/~aldrich/courses/17-355-18sp/notes/notes15-concolic-testing.pdf">Aldrich Notes</a>
+	      </div>
           </td>
           <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
@@ -416,7 +419,8 @@
             <div align="left" class="body">Type Systems</div>
           </td>
           <td width="30%"> 
-            <div align="center" class="body">&nbsp;</div>
+            <div align="center" class="body"><a href="https://plv.mpi-sws.org/semantics/2017/lecturenotes.pdf">Dreyer et al notes</a>
+	    </div>
           </td>
           <td width="15%"> 
             <div align="center" class="body">&nbsp;</div>
@@ -436,7 +440,7 @@
             <div align="center" class="body">&nbsp;</div>
           </td>
           <td width="15%"> 
-            <div align="center" class="body">&nbsp;</div>
+            <div align="center" class="body">A5</div>
           </td>
         </tr>
         <tr> 
@@ -464,7 +468,7 @@
             <div align="center" class="body">Mon</div>
           </td>
           <td width="30%"> 
-            <div align="left" class="body">Theorem Proving in Coq</div>
+            <div align="left" class="body">Type Systems</div>
           </td>
           <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
@@ -481,7 +485,7 @@
             <div align="center" class="body">Wed</div>
           </td>
           <td width="30%"> 
-            <div align="left" class="body">Theorem Proving in Coq</div>
+            <div align="left" class="body">Type Systems</div>
           </td>
           <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
@@ -516,42 +520,6 @@
           </td>
           <td width="30%"> 
             <div align="left" class="body">Theorem Proving in Coq</div>
-          </td>
-          <td width="30%"> 
-            <div align="center" class="body">&nbsp;</div>
-          </td>
-          <td width="15%"> 
-            <div align="center" class="body">&nbsp;</div>
-          </td>
-        </tr>
-	<tr> 
-          <td width="8%"> 
-            <div align="center" class="body">Dec TBA,
-        5:00-5:50PM</div>
-          </td>
-          <td width="8%"> 
-            <div align="center" class="body">TBA</div>
-          </td>
-          <td width="30%"> 
-            <div align="left" class="body">&nbsp;<strong>Final Review</strong></div>
-          </td>
-          <td width="30%"> 
-            <div align="center" class="body">&nbsp;</div>
-          </td>
-          <td width="15%"> 
-            <div align="center" class="body">&nbsp;</div>
-          </td>
-        </tr>
-	<tr> 
-          <td width="8%"> 
-            <div align="center" class="body">Dec TBA,
-        TBA PM</div>
-          </td>
-          <td width="8%"> 
-            <div align="center" class="body">TBA</div>
-          </td>
-          <td width="30%"> 
-            <div align="left" class="body">&nbsp;<strong>Final Exam</strong></div>
           </td>
           <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>

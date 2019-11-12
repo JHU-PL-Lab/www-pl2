@@ -69,7 +69,7 @@ The rules are mostly unchanged from the previous evaluation system.  For functio
         {\env, C \vdash \lb e_1 \Fbcode{ and } e_2, \store \rb \aevalto \lb v,\store''\rb}\newruleline
 %
 \oprule{\Fbcode{+}}
-       {\env, C \vdash \lb e_1, \store \rb \aevalto \lb v_1,\store'\rb \oprulespace \env, C \vdash \lb e_2, \store' \rb \aevalto \lb v_2 \rb \textrm{ where }v_1,v_2\plin\hat\setofint \textrm{ and } v \plin v_1\hat{+}v_2}
+       {\env, C \vdash \lb e_1, \store \rb \aevalto \lb v_1,\store'\rb \oprulespace \env, C \vdash \lb e_2, \store' \rb \aevalto \lb v_2,\store'' \rb \textrm{ where }v_1,v_2\plin\hat\setofint \textrm{ and } v \plin v_1\hat{+}v_2}
        {\env, C \vdash \lb e_1 \Fbcode{ + } e_2, \store  \rb \aevalto \lb v,\store''\rb}\newruleline
 %
 \oprule{\Fbcode{=}}

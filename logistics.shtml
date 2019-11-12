@@ -36,7 +36,8 @@ announcements and discuss the material with other students.</p>
 <ol>
   <li> Implementation of small interpreters, type checkers, symbolic evaluators, program analyses, in OCaml, and some theorem-proving in Coq.
   <li> Written assignments covering topics in the mathematical theory of
-       programming languages.
+    programming languages.</li>
+  <li>There will also be a "take home final" which will in fact be a long homework which will cover the mathematical concepts.
 </ol>
 
 <p>
