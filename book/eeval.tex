@@ -269,6 +269,9 @@ C &::=& [t;\ldots;t] & \textit{references, now call site lists}\\
 %
 \end{array}
 $$
+
+There is one additional assumption we need to make on source programs: {\tt Let} bindings cannot shadow.  So for example \Fbcode{Let x = 1 in Let x = 2 in x + 1} would not be legal as the inner \Fbcode{x} binding is shadowing the outer one.  This is not a restriction in practice as any program with let-shadowing can rename the inner variable to avoid shadowing.  There is an even stronger notion of not shadowing termed \emph{alphatized} which means no bound variable anywhere in the program repeats; we do not need such a strong notion here.
+
 The rules are nearly identical, but we need to keep track of the current call site list $C$ since it will be the reference used in the store.  Here are the closure and app rules, for the others just tack a $C$ on front as they are unchanged otherwise.
 
 \begin{oprules}

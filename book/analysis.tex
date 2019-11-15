@@ -18,6 +18,8 @@ The major change is for the store: when we hobble the analysis we may end up re-
 
 So, the solution is that instead of overwriting we just include them all, making it a multi-map.  We will notate this as a map where the key lookup in general returns a \emph{set} of environments $\{\env_1,\dots,\env_n\}$.
 
+Note that we will still need to assume that \Fbcode{Let} variable definitions never shadow each other; in an implementation we will need to rename any such shadowing cases.
+
 $$
 \begin{array}{rcll}
 v &::=& x \mid \Fbcode{true} \mid \Fbcode{false} \mid \Fbcode{(-)}\mid \Fbcode{(0)}\mid \Fbcode{(+)}& \textit{non-function values}\\
