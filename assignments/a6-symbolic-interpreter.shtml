@@ -1,0 +1,59 @@
+<!--#include virtual="/pl2/header.html" -->	 
+</div>
+
+<!-- Main -->
+<div id="main" class="wrapper style4">
+
+<!-- Content -->
+<div id="content" class="container">
+<section>
+<header class="major">
+  <h2>A6: Symbolic Interpreter (DRAFT)</h2>
+</header>
+
+<p>
+  For this assignment you will write a symbolic interpreter for Fb.
+  <ol>
+    <li> Your interpreter should closely follow Chapter 3 of the <a href="/pl2/book/book.pdf">PLII book</a>, which serves as the specification.
+    </li>
+    <li>For this assignment you will again write all your code in the file <tt>Fb/fbinterp.ml</tt>, constructing an <tt>seval</tt> function there which will in turn invoke your symbolic interpreter.</li>
+    <li>Here is a possible symbolic-expression type.  Feel free to use whatever type you want.
+      <pre>
+type callsite = int
+type context = callsite list
+type sident = ident * context
+
+type sexpr =
+  | SVar of sident | SFunction of ident * sexpr | SAppl of callsite * sexpr * sexpr
+  | SLet of ident * sexpr * sexpr | SLetRec of ident * ident * sexpr * sexpr
+  | SLetInput of ident * sexpr 
+  | SPlus of sexpr * sexpr | SMinus of sexpr * sexpr | SEqual of sexpr * sexpr
+  | SAnd of sexpr * sexpr| SOr of sexpr * sexpr | SNot of sexpr
+  | SIf of sexpr * sexpr * sexpr | SInt of int | SBool of bool
+
+type phi =
+  | VVar of sident | VFunction of ident * sexpr
+  | VPlus of phi * phi | VMinus of phi * phi | VEqual of phi * phi
+  | VAnd of phi * phi| VOr of phi * phi | VNot of phi | VMap of sident * phi
+</pre>
+    <li>Beyond just implementing the rules in the book there are several things to take into account:<ol>
+	<li>Recall that we are reverting to our old substitution-based method but substituting variables for variables instead of values for variables; these new variables also use the call site stacks (contexts) C to freshen appropriately so we are also borrowing the contexts idea from the context-based interpreter (but, not the closures which make extracting formulae more difficult).</li>
+	<li>Recall also that values may be things like <tt>4 + 3</tt>, by default we are relying on the SMT solver to do all our atomic operations.  The <tt>phi</tt> data type above is one possible type of values and formulae.</li>
+	<li>The above grammar merges the value (v) and formula (phi) grammars of the spec, this is one possible approach which will have fewer coercions at the expense of some "type correctness".  Feel free to do this your own way.</li>
+	<li>The "hard part" of a symbolic interpreter is that conditionals are non-deterministic since either branch could hold.  If your interpreter just tried the two paths in series it could get stuck in an infinitely deep pit on the first one (for example, infinitely looping on a factorial never to hit the base case) and miss the correct result in the second one.  There are many solutions to this problem but the most straightfowward one is to do a "breadth first evaluation": keep a queue of active evaluations in progress, and only do one step of computation and put any needed sub-computations on the back of the queue (at lower priority).  At a conditional there will be two sub-computations queued up, one for each path.</li>
+	<li>Since evaluations are pulled off a queue, recursive calls may pull a computation off the queue different than what the caller was waiting for.  So, queued tasks should include both the expression to evaluate, and a callback function aka continuation to invoke on the value. </li>
+	<li>At the top level the continuation should return the final result value and formula, as well as the queue of any evaluations not yet completed.
+	<li>Use Z3 to evaluate the formula phi to check for validity; if valid the input values inferred can be returned; if not, continue by evaluating the next expression on the queue.</li>
+	<li>For inputs my suggested data type uses a separate <tt>SLetInput</tt> constructor for let-input expressions; you just need to follow the (input) rule to implement input.</li>
+	<li>The queue of evaluations should be implementable with a coroutine monad if you would like to try a monadic approach; see Xavier's notes and code.
+  </ol>
+  
+  <p>
+    For this assignment submit ONLY the file <tt>fbinterp.ml</tt> with your symbolic interpreter code.
+	
+</section>
+</div>
+</div>
+
+
+<!--#include virtual="/pl2/footer.html" -->
