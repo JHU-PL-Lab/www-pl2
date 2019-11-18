@@ -29,12 +29,12 @@ type abool = T | F
 type aint = N | Z | P
 
 type aexpr =
-  | AVar of ident | AFunction of ident * eexpr | AAppl of callsite * eexpr * eexpr
-  | ALet of ident * eexpr * eexpr | ALetRec of ident * ident * eexpr * eexpr
-  | APlus of eexpr * eexpr | AMinus of eexpr * eexpr | AEqual of eexpr * eexpr
-  | AAnd of eexpr * eexpr| AOr of eexpr * eexpr | ANot of eexpr
-  | AIf of eexpr * eexpr * eexpr | AInt of aint | ABool of abool
-  | AClosure of eexpr * context
+  | AVar of ident | AFunction of ident * aexpr | AAppl of callsite * aexpr * aexpr
+  | ALet of ident * aexpr * aexpr | ALetRec of ident * ident * aexpr * aexpr
+  | APlus of aexpr * aexpr | AMinus of aexpr * aexpr | AEqual of aexpr * aexpr
+  | AAnd of aexpr * aexpr| AOr of aexpr * aexpr | ANot of aexpr
+  | AIf of aexpr * aexpr * aexpr | AInt of aint | ABool of abool
+  | AClosure of aexpr * context
       </pre>
     <li>There are several changes that the analysis must make to the interpreter of the previous assignment:<ol>
 	<li> The context must be made some fixed finite length.  Please either include a <tt>ref</tt> variable <tt>k</tt> which contains the maximum length of the context stack, or otherwise specifiy some other mechanism in comments.</li>
