@@ -77,21 +77,21 @@ type phi =
 export LD_LIBRARY_PATH=`opam config var z3:lib`
 export DYLD_LIBRARY_PATH=`opam config var z3:lib`
 </pre>
-	<li>To use the Z3 library when compiling change <tt>makefiles/interpreters.make</tt> line 31 to
-	  <pre>ocamlbuild -use-ocamlfind -use-menhir -I $(srcdir) -Is "$(interpreter_dirs)" -r $(BUILD_FLAGS) -pkg z3 $@`</pre></li>
+	<li>To use the Z3 library when compiling change <tt>makefiles/interpreters.make</tt> line 31 to<br>
+	  <tt>ocamlbuild <span style='color: red'>-use-ocamlfind</span> -use-menhir -I $(srcdir) -Is "$(interpreter_dirs)" -r $(BUILD_FLAGS) <span style='color: red'>-pkg z3</span>  $@`</tt></li>
 	<li>Here is an <a href="../code/a6-z3/fbinterp.ml">fbinterp.ml</a> written by Shiwei
 	  which just does a simple test of Z3, start with this one to test your Z3 install and to get an idea of how the API works.</li>
 	<li>The full API docs are here: <a href="https://z3prover.github.io/api/html/ml/index_modules.html">Z3 API</a>
 	<li>To run: <tt>make fb.byte && ./fb.byte</tt></li>
-	<li>There is an obscure bug on Macs which may rear its ugly head for you.  If you get an error like
-	  <pre>Error: Error on dynamically loaded library: /Users/scott/.opam/4.08.1/lib/z3/dllz3ml.so: dlopen(/Users/scott/.opam/4.08.1/lib/z3/dllz3ml.so, 10): Library not loaded: libz3.dylib</pre>
-	  on the make, then you may need to manually copy this library intto the build directory:
-	  <pre>cp /Users/scott/.opam/4.08.1/lib/z3/libz3.dylib _build/
-	  </pre>
+	<li>There is an obscure bug on Macs which may rear its ugly head for you.  If you get an error like<br>
+	  <tt>Error: Error on dynamically loaded library: /Users/scott/.opam/4.08.1/lib/z3/dllz3ml.so: dlopen(/Users/scott/.opam/4.08.1/lib/z3/dllz3ml.so, 10): Library not loaded: libz3.dylib</tt><br>
+	  on the make, then you may need to manually copy this library into the <tt>_build/</tt> directory:<br>
+	  <tt>cp /Users/scott/.opam/4.08.1/lib/z3/libz3.dylib _build/
+	  </tt><br>
 	  (the above paths are from my computer, replace with yours)
 	  </ul>
   <p>
-    For this assignment submit ONLY the file <tt>fbinterp.ml</tt> with your symbolic interpreter code, we will test it with the one changed line in the makeile.
+    For this assignment submit ONLY the file <tt>fbinterp.ml</tt> with your symbolic interpreter code, we will test it with the one changed line in the makefile.
 	
 </section>
 </div>
