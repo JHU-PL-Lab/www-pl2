@@ -8,15 +8,15 @@
 <div id="content" class="container">
 <section>
 <header class="major">
-  <h2>A6: Symbolic Interpreter (DRAFT)</h2>
+  <h2>A6: Symbolic Interpreter</h2>
 </header>
 
 <p>
   For this assignment you will write a symbolic interpreter for Fb.
-  <ol>
+  <ul>
     <li> Your interpreter should closely follow Chapter 3 of the <a href="/pl2/book/book.pdf">PLII book</a>, which serves as the specification.
     </li>
-    <li>For this assignment you will again write all your code in the file <tt>Fb/fbinterp.ml</tt>, constructing an <tt>seval</tt> function there which will in turn invoke your symbolic interpreter.</li>
+    <li>For this assignment you will again write all your code in the file <tt>Fb/fbinterp.ml</tt>.</li>
     <li>Here is a possible symbolic-expression type.  Feel free to use whatever type you want.
       <pre>
 type callsite = int
@@ -36,21 +36,62 @@ type phi =
   | VPlus of phi * phi | VMinus of phi * phi | VEqual of phi * phi
   | VAnd of phi * phi| VOr of phi * phi | VNot of phi | VMap of sident * phi
 </pre>
-    <li>Beyond just implementing the rules in the book there are several things to take into account:<ol>
-	<li>Recall that we are reverting to our old substitution-based method but substituting variables for variables instead of values for variables; these new variables also use the call site stacks (contexts) C to freshen appropriately so we are also borrowing the contexts idea from the context-based interpreter (but, not the closures which make extracting formulae more difficult).</li>
-	<li>Recall also that values may be things like <tt>4 + 3</tt>, by default we are relying on the SMT solver to do all our atomic operations.  The <tt>phi</tt> data type above is one possible type of values and formulae.</li>
+
+	<li>Recall from the book spec that we are reverting to our old substitution-based method but substituting variables for variables instead of values for variables; these new variables also use the call site stacks (contexts) C to freshen appropriately so we are also borrowing the contexts idea from the context-based interpreter (but, not the closures which make extracting formulae more difficult).</li>
+	<li>Recall again from the spec that values may be things like <tt>4 + 3</tt>, by default we are relying on the SMT solver to do all our atomic operations.  The <tt>phi</tt> data type above is one possible type of values and formulae.</li>
 	<li>The above grammar merges the value (v) and formula (phi) grammars of the spec, this is one possible approach which will have fewer coercions at the expense of some "type correctness".  Feel free to do this your own way.</li>
-	<li>The "hard part" of a symbolic interpreter is that conditionals are non-deterministic since either branch could hold.  If your interpreter just tried the two paths in series it could get stuck in an infinitely deep pit on the first one (for example, infinitely looping on a factorial never to hit the base case) and miss the correct result in the second one.  There are many solutions to this problem but the most straightfowward one is to do a "breadth first evaluation": keep a queue of active evaluations in progress, and only do one step of computation and put any needed sub-computations on the back of the queue (at lower priority).  At a conditional there will be two sub-computations queued up, one for each path.</li>
+	<li>For inputs my suggested data type uses a separate <tt>SLetInput</tt> constructor for let-input expressions; the <tt>expr_to_sexpr</tt> function can convert to those. You just need to follow the (input) rule to implement input.</li>
+    <li>Special input variables i^n are created by the input rule, you can just use variables with a special symbol in them, e.g. <tt>SVar("i^1"), SVar("i^2")</tt>, ....
+    <li>The hardest part is running all possible if-then-else branch choices without getting stuck in an infinite regress.  We sugest two approaches in the section below.</li>
+    <li>Lastly you need to hook up the Z3 SMT solver to answer satisfiability questions.  It is not all that hard to use and Shiwei has written a guide below to help you.
+      <li>You simply run your interpreter until it fins a path 
+  </ul>
+
+ 
+
+      <h4>Trying all if branches</h4>
+      <p> The "hard part" of a symbolic interpreter is that conditionals are non-deterministic since either branch could hold.  If your interpreter just tried the two paths in series it could get stuck in an infinitely deep pit on the first one (for example, infinitely looping on factorial recursion case never to hit the base case) and miss the correct result in the second one.  There are many solutions to this problem.  We outline here an easy but inefficient one, and a more efficient one which is a bit harder.  You get extra credit for implementing the latter.
+      <p>
+	
+<b>First method: use an oracle and iterate on it</b>
+<ul>
+  <li>Define the basic evaluation function to pick only ONE choice at each conditional, based on an oracle.  One simple encoding of an oracle is a list of booleans; for example the list <tt>[true; true; false; true]</tt> means at the first conditional take the true branch, false at second, etc.  If you are still computing when the list ends then no answer is returned.  This evaluator is deterministic, the oracle "solves" the nondeterminism problem.</li>
+  <li>This basic evaluator will then be invoked many times; the symbolic evaluator just enumerates through all posssble lists of booleans of length 1,2,3, etc until computation terminates and the final formula phi is satisfiable according to Z3.</li>
+  <li>The downside of this approach is if the list is too short we throw away all the (partial) progress we made and start over.  The upside is it is a lot simpiler than trying to save that work; see method two for how the work can be saved.</li>
+</ul>
+
+<b>Second method: use coroutines</b>
+<ul>
+	<li>Keep a queue of active evaluations in progress, and only do one step of computation and put any needed sub-computations on the back of the queue (at lower priority).  At a conditional there will be two sub-computations queued up, one for each path.</li>
 	<li>Since evaluations are pulled off a queue, recursive calls may pull a computation off the queue different than what the caller was waiting for.  So, queued tasks should include both the expression to evaluate, and a callback function aka continuation to invoke on the value. </li>
 	<li>At the top level the continuation should return the final result value and formula, as well as the queue of any evaluations not yet completed.
-	<li>Use Z3 to evaluate the formula phi to check for validity; if valid the input values inferred can be returned; if not, continue by evaluating the next expression on the queue.</li>
-	<li><a href="http://pl.cs.jhu.edu/z3/index_modules.html">Z3 API Docs</a></li>
-	<li>For inputs my suggested data type uses a separate <tt>SLetInput</tt> constructor for let-input expressions; you just need to follow the (input) rule to implement input.</li>
-	<li>The queue of evaluations should be implementable with a coroutine monad if you would like to try a monadic approach; see Xavier's notes and code.
-  </ol>
-  
+ 	<li>The queue of evaluations should be implementable with a coroutine monad if you would like to try a monadic approach; see Xavier's notes and code.
+</ul>
+
+
+      <h4>Using Z3</h4>
+      Shiwei has written some helpful instructions on how to Z3-ize the FbDK and gives a few examples of how to use the API to check satisfiability.<ol>
+	<li>Install z3 via <tt>opam pin z3 4.8.1</tt> - you need to use this version due to bugs in the latest one</li>
+	<li>Set the z3 path via
+<pre>
+export LD_LIBRARY_PATH=`opam config var z3:lib`
+export DYLD_LIBRARY_PATH=`opam config var z3:lib`
+</pre>
+	<li>To use the Z3 library when compiling change <tt>makefiles/interpreters.make</tt> line 31 to
+	  <pre>ocamlbuild -use-ocamlfind -use-menhir -I $(srcdir) -Is "$(interpreter_dirs)" -r $(BUILD_FLAGS) -pkg z3 $@`</pre></li>
+	<li>Here is an <a href="../code/a6-z3/fbinterp.ml">fbinterp.ml</a> written by Shiwei
+	  which just does a simple test of Z3, start with this one to test your Z3 install and to get an idea of how the API works.</li>
+	<li>The full API docs are here: <a href="https://z3prover.github.io/api/html/ml/index_modules.html">Z3 API</a>
+	<li>To run: <tt>make fb.byte && ./fb.byte</tt></li>
+	<li>There is an obscure bug on Macs which may rear its ugly head for you.  If you get an error like
+	  <pre>Error: Error on dynamically loaded library: /Users/scott/.opam/4.08.1/lib/z3/dllz3ml.so: dlopen(/Users/scott/.opam/4.08.1/lib/z3/dllz3ml.so, 10): Library not loaded: libz3.dylib</pre>
+	  on the make, then you may need to manually copy this library intto the build directory:
+	  <pre>cp /Users/scott/.opam/4.08.1/lib/z3/libz3.dylib _build/
+	  </pre>
+	  (the above paths are from my computer, replace with yours)
+	  </ul>
   <p>
-    For this assignment submit ONLY the file <tt>fbinterp.ml</tt> with your symbolic interpreter code.
+    For this assignment submit ONLY the file <tt>fbinterp.ml</tt> with your symbolic interpreter code, we will test it with the one changed line in the makeile.
 	
 </section>
 </div>
