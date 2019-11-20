@@ -44,6 +44,7 @@ type phi =
 	<li>Since evaluations are pulled off a queue, recursive calls may pull a computation off the queue different than what the caller was waiting for.  So, queued tasks should include both the expression to evaluate, and a callback function aka continuation to invoke on the value. </li>
 	<li>At the top level the continuation should return the final result value and formula, as well as the queue of any evaluations not yet completed.
 	<li>Use Z3 to evaluate the formula phi to check for validity; if valid the input values inferred can be returned; if not, continue by evaluating the next expression on the queue.</li>
+	<li><a href="http://pl.cs.jhu.edu/z3/index_modules.html">Z3 API Docs</a></li>
 	<li>For inputs my suggested data type uses a separate <tt>SLetInput</tt> constructor for let-input expressions; you just need to follow the (input) rule to implement input.</li>
 	<li>The queue of evaluations should be implementable with a coroutine monad if you would like to try a monadic approach; see Xavier's notes and code.
   </ol>
