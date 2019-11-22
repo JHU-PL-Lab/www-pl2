@@ -56,7 +56,7 @@ The rules are mostly unchanged from the previous evaluation system.  For functio
 %
 \oprule{var}{\env(x)=v}{\env, C \vdash \lb x, \store \rb \aevalto \lb v, \store \rb}\newruleline
 %
-\oprule{closure}{\store' = \store \cup \{C \mapsto \env\}}
+\oprule{closure}{\store' = \store \cup \{C \mapsto \{\env\}\}}
 {\env, C \vdash \lb \lambda x.e, \store \rb \aevalto \lb \lb\lambda x.e, C\rb,\store'\rb}\newruleline
 %
 \oprule{number}{e \plin\setofint \oprulespace v \text{ is the sign of } e}{\env, C \vdash \lb e, \store \rb \aevalto \lb v, \store \rb}\newruleline
