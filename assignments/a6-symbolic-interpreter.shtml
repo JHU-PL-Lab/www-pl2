@@ -44,7 +44,6 @@ type phi =
     <li>Special input variables i^n are created by the input rule, you can just use variables with a special symbol in them, e.g. <tt>SVar("i^1"), SVar("i^2")</tt>, ....
     <li>The hardest part is running all possible if-then-else branch choices without getting stuck in an infinite regress.  We sugest two approaches in the section below.</li>
     <li>Lastly you need to hook up the Z3 SMT solver to answer satisfiability questions.  It is not all that hard to use and Shiwei has written a guide below to help you.
-      <li>You simply run your interpreter until it fins a path 
   </ul>
 
  
@@ -55,9 +54,10 @@ type phi =
 	
 <b>First method: use an oracle and iterate on it</b>
 <ul>
-  <li>Define the basic evaluation function to pick only ONE choice at each conditional, based on an oracle.  One simple encoding of an oracle is a list of booleans; for example the list <tt>[true; true; false; true]</tt> means at the first conditional take the true branch, false at second, etc.  If you are still computing when the list ends then no answer is returned.  This evaluator is deterministic, the oracle "solves" the nondeterminism problem.</li>
+  <li>Define the basic evaluation function to pick only ONE choice at each conditional, based on an oracle.  One simple encoding of an oracle is a list of booleans; for example the list <tt>[true; true; false; true]</tt> means at the first conditional take the true branch, false at second, etc.  If you are still computing when the list ends then some failure result is returned.  This evaluator is deterministic, the oracle "solves" the nondeterminism problem.</li>
   <li>This basic evaluator will then be invoked many times; the symbolic evaluator just enumerates through all posssble lists of booleans of length 1,2,3, etc until computation terminates and the final formula phi is satisfiable according to Z3.</li>
   <li>The downside of this approach is if the list is too short we throw away all the (partial) progress we made and start over.  The upside is it is a lot simpiler than trying to save that work; see method two for how the work can be saved.</li>
+  <li>There is also a subtle corner case that a program could in theory loop without hitting any conditionals (e.g. on our favorite diverging lambda-expression); for this case some max-steps count is also needed.  You can leave this issue til the end as it will almost never arise in realistic programs.</li>
 </ul>
 
 <b>Second method: use coroutines</b>
