@@ -34,6 +34,7 @@ type sexpr =
 type phi =
   | VVar of sident | VFunction of ident * sexpr
   | VPlus of phi * phi | VMinus of phi * phi | VEqual of phi * phi
+  | VInt of int | VBool of bool
   | VAnd of phi * phi| VOr of phi * phi | VNot of phi | VMap of sident * phi
 </pre>
 
@@ -89,8 +90,11 @@ export DYLD_LIBRARY_PATH=`opam config var z3:lib`
 	  <tt>cp /Users/scott/.opam/4.08.1/lib/z3/libz3.dylib _build/
 	  </tt><br>
 	  (the above paths are from my computer, replace with yours)
+	<li>One last thing, to test your evaluator in the top loop, put
+	  <tt>#require "z3";;</tt> in the beginning of <tt>debugscript/fb.ml</tt> to enable Z3, OR use <tt>utop -require z3</tt> when launching.
 	  </ul>
-  <p>
+<p>
+  <h4>Submission</h4>
     For this assignment submit ONLY the file <tt>fbinterp.ml</tt> with your symbolic interpreter code, we will test it with the one changed line in the makefile.
 	
 </section>
