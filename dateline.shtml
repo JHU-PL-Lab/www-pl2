@@ -502,7 +502,8 @@
             <div align="center" class="body">Mon</div>
           </td>
           <td width="30%"> 
-            <div align="left" class="body">Constructive Type Theory</div>
+            <div align="left" class="body">Implementing Symbolic Eval; <a href="http://www.cse.chalmers.se/~ulfn/papers/thesis.pdf">
+	      Dependent Types</a> (p.15-16 of this thesis)</div>
           </td>
           <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
@@ -519,7 +520,7 @@
             <div align="center" class="body">Wed</div>
           </td>
           <td width="30%"> 
-            <div align="left" class="body">Theorem Proving in Coq</div>
+            <div align="left" class="body">Curry-Howard Isomorphism; <a href="http://www.cse.chalmers.se/~ulfn/papers/afp08/tutorial.pdf">Agda</a></div>
           </td>
           <td width="30%"> 
             <div align="center" class="body">&nbsp;</div>
