@@ -45,7 +45,7 @@ The formula $\Phi$ must always be \emph{satisfiable}: there must be some assignm
 \oprule{value}{}{C \vdash \lb v, \Phi \rb \evalto \lb v, \Phi \rb}\newruleline
 %
 \oprule{not}{C \vdash \lb e, \Phi \rb \evalto \lb \phi, \Phi' \rb}
-  {C \vdash \lb \Phi, \Fbcode{not } e \rb \evalto \lb \Fbcode{not } \phi,\Phi' \rb}\newruleline
+  {C \vdash \lb \Fbcode{not } e, \Phi \rb \evalto \lb \Fbcode{not } \phi,\Phi' \rb}\newruleline
 %
 \oprule{and}{C \vdash \lb e_1, \Phi \rb \evalto \lb \phi_1, \Phi' \rb \oprulespace C \vdash \lb e_2, \Phi' \rb \evalto \lb \phi_2,\Phi'' \rb}
         {C \vdash \lb e_1 \Fbcode{ and } e_2, \Phi \rb \evalto \lb \phi_1 \Fbcode{ and } \phi_2,\Phi'' \rb}\newruleline
